@@ -5,7 +5,7 @@ Routines to modify MusicXML files with the push of a button.
 [Add a simple Bass Accompaniment](add_bass.htm)
 
 
-[Trim MusicXML file by removing measures](extract_range.htm)
+[Trim MusicXML file by removing measures](add_bass.htm)
 
 [Create right hand voice leading for a leadsheet](url) - not completed yet
 
