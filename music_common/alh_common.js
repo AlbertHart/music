@@ -2,7 +2,7 @@ var error_stack2;
 var self_line2;
 var caller_line2;
 
-console.log("alh_common.js in ../alh_common");
+console.log("Loading alh_common.js");
 
 function get_self(sarg, sarg2, sarg3, sarg4) {
     //console.log("SARG: %s SARG@: %s SARG3: %s", sarg, sarg2, sarg3);

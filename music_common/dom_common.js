@@ -6,6 +6,7 @@ console.log("IN DOM_COMMON.JS");
 function MusicDOM() {
 
     this.show_all = false;
+    this.SKIP_ERROR = true; // use this to skip error messages in DOM calls
 
     this.get_caller = function() {
         error_stack2 = (new Error).stack;
@@ -41,25 +42,26 @@ function MusicDOM() {
         else    
             sparent = "None";
         console.log("**********\nshow_dom_element: %s - %s PARENT: %s %s", parent_element.tagName, what, sparent, this.get_caller());
-        console.log("type: %s is_array: %s", typeof(parent_element), Array.isArray(parent_element));
+        //console.log("type: %s is_array: %s", typeof(parent_element), Array.isArray(parent_element));
         // display first level sub-elements
 
         children = parent_element.children;
         //console.log("CHILDREN: %s", children.length);
         for (ii = 0; ii < children.length; ii++)
         {
-            let child = children[ii];
-            // console.log("CHILD %s: %s", ii, child.tagName);
-            let sname = child.tagName;
+            let child_element = children[ii];
+            // console.log("CHILD %s: %s", ii, child_element.tagName);
+            let sname = child_element.tagName;
             let satt = "";
-            if (child.attributes)
+            if (child_element.attributes)
             {
-                for (let ia = 0; ia < child.attributes.length && ia < 3; ia++)
+                for (let ia = 0; ia < child_element.attributes.length && ia < 3; ia++)
                 {
-                    satt += child.attributes[ia].nodeName + "=\"" + child.attributes[ia].value + "\" ";
+                    satt += child_element.attributes[ia].nodeName + "=\"" + child_element.attributes[ia].value + "\" ";
                 }
             }
-            console.log("- %s %s", sname, satt);
+            let svalue = this.get_element_value(child_element);
+            console.log("- %s SATT: %s VALUE: %s", sname, satt, svalue);
         }
         return;
         let sub_elements = parent_element.querySelectorAll("*");
@@ -158,7 +160,7 @@ function MusicDOM() {
     this.change_dom_element_value = function(parent_element, name, value)
     {
         if (this.show_output)
-            console.log("*** change_dom_element_value: %s %s --> %s", parent_element.tagName, name, value);
+            console.log("*** change_dom_element_value: %s %s --> %s: %s", parent_element.tagName, name, value, this.get_caller());
         let sub_element = parent_element.querySelector(name);
         if (!sub_element)
         {
@@ -170,29 +172,57 @@ function MusicDOM() {
     }
 
     var element;
-    // this.insert_dom_element_after(pitch_elem, "step", "alter", note.transposed.new_alter);
-    this.insert_dom_element_after = function(parent_element, existing, new_mame, value)
+    // this.insert_dom_value_after(pitch_elem, "step", "alter", note.transposed.new_alter);
+    this.insert_dom_value_after = function(parent_element, existing_name, new_name, value)
     {
         if (this.show_output)
-            console.log("*** insert_dom_element_after: parent_element: %s new_mame:  %s existing: %s --> %s", 
-            parent_element.tagName, new_mame, existing, value);
-        let existing_element = parent_element.querySelector(existing);
+            console.log("*** insert_dom_value_after: parent_element: %s new_name:  %s existing_name: %s --> %s", 
+            parent_element.tagName, new_name, existing_name, value);
+    
+        // create new element with value
+        let new_element = document.createElementNS('', new_name);
+        new_element.innerHTML = value;
+
+        //console.log("outerHTML: %s", new_element.outerHTML);
+
+        this.show_dom_element(new_element, "before CALL");
+
+        this.insert_dom_element_after(parent_element, existing_name, new_element);
+    }
+
+    this.insert_dom_element_after = function(parent_element, existing_name, new_element)
+    {
+        if (this.show_output)
+            console.log("*** insert_dom_value_after: parent_element: %s existing_name: %s new_element: %s", 
+            parent_element.tagName, existing_name, new_element.tagName);
+
+        let existing_element = parent_element.querySelector(existing_name);
         if (!existing_element)
         {
-            console.error("Element to insert after not found: %s", existing);
+            console.error("Element to insert after not found: %s", existing_name);
             //this.show_dom_element(parent_element, "PARENT_ELEMENT");
             return;
         }
     
-        let new_element = document.createElementNS('', new_mame);
-        new_element.innerHTML = value;
-        //this.show_dom_element(new_element, "NEW ELEMENT");
-        existing_element.insertAdjacentElement("afterend", new_element);
+        let element_to_insert = this.clone_dom_element(new_element);
+        existing_element.insertAdjacentElement("afterend", element_to_insert);
         //this.show_dom_element(parent_element, "PARENT AFTER INSERT");
-        //console.log("*** innerHTML: '%s'", new_element.innerHTML);
     }
 
-    this.remove_dom_element = function(parent_element, name)
+    this.append_dom_element = function(parent_element, new_element)
+    {
+        if (this.show_output)
+            console.log("*** append_dom_element: parent_element: %s new_element:  %s ", 
+                parent_element.tagName, new_element.tagName);
+        
+        //this.show_dom_element(new_element, "NEW ELEMENT");
+        
+        let element_to_append = this.clone_dom_element(new_element);
+        parent_element.AppendElement(element_to_append);
+        //this.show_dom_element(parent_element, "PARENT AFTER APPEND");
+    }
+
+    this.remove_dom_element_by_name = function(parent_element, name)
     {
         let sub_element = parent_element.querySelector(name);
         if (!sub_element)
@@ -204,6 +234,13 @@ function MusicDOM() {
 
         sub_element.remove();
         
+    }
+
+    this.clone_dom_element = function(element)
+    {
+        new_element = element.cloneNode(true);
+        return (new_element);
+                
     }
 
     this.show_object = function(object, what)

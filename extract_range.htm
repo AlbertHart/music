@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Add Bass 2</title>
+
+    <link rel="stylesheet" href="css.css" />
+    <script src="music_common/alh_sprintf.js?v=2.66"></script>
+    <script src="music_common/music_common.js?v=2.66"></script>
+    <script src="music_common/dom_common.js?v=2.66"></script>
+    <script src="music_common/html_common.js?v=2.66"></script>
+    <script src="add_bass_score.js?v=2.66"></script>
+    <!--  <script src="music-xml-transpose.ts"> -->
+    <!-- this uses the namespace object MDOM to access transpose functions.js -->
+
+    <script>
+        // this gets our DOM functions in a object
+        var MDOM = new MusicDOM(); 
+    </script>
+
+    <style>
+        </style>
+    
+    
+</head>
+
+<body>
+
+          <h2 id=version>Trim Score to a Range of Measures</h2>
+
+
+
+          <table>
+              <tr><td>First Measure: </td><td><input type=number id=first_measure style="width: 4em;" value=2></td></tr>
+              <tr><td>Last Measure: (0 for all)</td><td><input type=number id=last_measure style="width: 4em;" value=3></td></tr>
+              <tr><td>First Note: </td><td><input type=number id=first_note style="width: 4em;" value=1></td></tr>
+              <tr><td>Last Note: (0 for all)</td><td><input type=number id=first_note style="width: 4em;" value=0></td></tr>
+          </table>
+          <br>
+          <br> 
+
+          div id='create_score' style='display:block;'>
+            <button onclick="do_trim();">Trim Score</button>
+        </div>
+
+        <div id='prepare_output_file' style='display:none;'>
+            <button onclick="prepare_output_file();">Prepare Output File</button>
+            <br>Click the Download button after 'Prepare Output File'
+        </div>
+
+        <p></p>
+    </div>
+
+    
+    <div id=download_div style="display:none;">
+        <a id="download_link" target="_blank" download="test.xml" ><button>Click here to Download <span id=download_output></span></button></a>
+
+
+    <p><hr></p>
+
+   
+        <button onclick="show_transposed_score();">Show Trimmed Score</button>
+        <button onclick="copy_transposed_score();">Copy Trimmed Score to Clipboard</button>
+
+    <div id=transposed_score style="display: none;">Trimmed Score</div>
+
+</div>
+
+<script>
+
+
+    var xml_string_in = score1;
+    // xml_string_in = score2; // just one measure for testing
+    var xml_string_out;
+    var show_output = true;
+
+    var parameters = { };
+
+    function do_trim()
+    {
+        parameters.first_measure = Number(document.getElementById("first_measure").value);
+        parameters.last_measure = Number(document.getElementById("first_measure").value);
+        parameters.first_note = Number(document.getElementById("first_note").value);
+        parameters.last_note = Number(document.getElementById("first_note").value);
+        
+        xml_string_out = MDOM.trim_score(parameters, xml_string_in);
+
+        elt = document.getElementById("prepare_output_file");
+        elt.style.display = "block";
+    }
+
+    MDOM.trim_score = function(parameters, xml_string_in)
+    {
+        MDOM.parser = new DOMParser();
+        MDOM.dom_object = MDOM.parser.parseFromString(xml_string_in, 'application/xml');
+
+        let score_partwise_element = MDOM.dom_object.firstElementChild; // score-partwise
+
+        let score_partwise_children = score_partwise_element.children;
+        console.log("score_partwise_element: %s top children: %s", score_partwise_element.tagName, score_partwise_children.length);
+
+       
+
+        // get part-list and part from score-partwise
+        for (let iscore_partwise = 0; iscore_partwise < score_partwise_children.length; iscore_partwise++) 
+        {
+            score_partwise_child = score_partwise_children[iscore_partwise];
+            console.log("  iscore_partwise: %s score_partwise_child: %s", iscore_partwise, score_partwise_child.tagName);
+
+            // looking for 'part-list' and 'part'
+            switch (score_partwise_child.tagName) {
+
+                case "part-list":                   
+                    part_list_element = score_partwise_child;
+
+                    let part_list_children = part_list_element.children;
+                    console.log("part_list_element: %s top children: %s", part_list_element.tagName, part_list_children.length);
+
+                    // get 'score-part' from 'part-list'
+                    for (let ipart_list = 0; ipart_list < part_list_children.length; ipart_list++) {
+                        part_list_child = part_list_children[ipart_list];
+                        console.log("    ipart_list: %s part_list_child: %s", ipart_list, part_list_child.tagName);
+
+                        switch (part_list_child.tagName) {
+                            case "score-part":
+
+                                // <score-part id="P1">
+                                let score_part_element = part_list_child;
+                                let score_part_id = score_part_element.getAttribute("id");
+                                break;
+                        }
+                    }
+                    break;
+
+                case "part":
+                    part_element = score_partwise_child;
+
+                    // <part id="P2">
+                    let part_id = part_element.getAttribute("id");
+
+                    console.log("part_id: %s", part_id);
+
+                    new_measure_number = parameters.first_measure;
+                
+
+
+            // read measures and attributes from part element 
+            let part_element_children = part_element.children;
+            console.log("part_element_children: length: %s", part_element_children.length);
+
+            let measures_to_delete = [];    // delete after we process all measures
+
+            for (let im = 0; im < part_element_children.length; im++)
+            {
+                var measure_element = part_element_children[im];
+                let measure_number = measure_element.getAttribute("number");
+                console.log("%s part_element_child: '%s': %s", im, measure_element.tagName, measure_number);
+
+                first_measure_element = null;
+                if (measure_number == 1 && parameters.first_measure > 1)
+                {
+                    // we need to keep attributes from the first measure, but not the notes
+                    first_measure_element = measure_element
+                }
+                
+                if (measure_number > 1 && measure_number < parameters.first_measure)
+                {
+                    measures_to_delete.push(measure_element);
+                    continue;
+                }
+                if (parameters.last_measure > 0 && measure_number >  parameters.last_measure)
+                {
+                    measures_to_delete.push(measure_element);
+                    continue;
+                }
+                if (measure_number > 1 && measure_number == parameters.first_measure)
+                {
+                    // copy everything to first_measure
+                    // append or change any attrbutes
+                    measure_element_children = measure_element.children;
+                    console.log("measure_element_children: length: %s", measure_element_children.length);
+
+                    for (let ic = 0; ic < measure_element_children.length; ic++)
+                    {
+                        measure_child = measure_element_children[ic];
+
+                        // some children get copied 
+                        // some get replaced
+                        console.log("ic: %s %s", ic, measure_child.tagName);
+
+                        switch (measure_child.tagName)
+                        {
+                            case "attributes":
+                                    if (show_output)
+                                        console.log("CASE: %s", measure_child.tagName);
+
+                                    // get the attributes we want to copy
+                                    let attribute_children = new_attribute_element.children;
+                                    //console.log("CHILDREN: %s", attribute_children.length);
+                                    for (let ii = 0; ii < attribute_children.length; ii++)
+                                    {
+                                        let attribute_child = attribute_children[ii];
+                                        console.log("attribute_child %s: %s", ii, attribute_child.tagName);
+
+                                        let first_measure_child = MDOM.get_dom_element(first_measure, attribute_child.tagName, SKIP_ERROR);
+                                        if (first_measure_child)
+                                        {
+                                            MDOM.change_dom_element_value(first_measure, attribute_child.tagName, attribute_child);
+                                        }
+                                        else
+                                        {
+                                            MDOM.append_dom_element(first_measure, attribute_child);
+                                        }
+
+                                    }
+                                    break;
+                                case "note":
+                                    break;
+
+                                default:
+                                    console.error("measure element not processed: %s", measure_child.tagName);
+                                    break;
+                        }
+                    }
+                    new_measure_number++;
+                    MDOM.show_dom_element(measure_child, "measure_child");
+                    continue;
+                }
+
+                
+
+                // for other measures - just change the measure number
+                MDOM.change_dom_element_value(measure_element, "number", new_measure_number);
+                new_measure_number++;
+            } // end of measures loop
+
+            console.log("Deleting Measures: %s", measures_to_delete.length);
+            for (let im = 0; im < measures_to_delete.length; im++)
+            {
+                measures_to_delete[im].remove();
+            }
+
+
+        } // end of part child loop
+
+        
+
+    } // end of parts loop
+
+    var serializer = new XMLSerializer();
+    xml_string_out = serializer.serializeToString(MDOM.dom_object);
+
+    console.log("XML_STRING_OUT length: %s", xml_string_out.length);
+
+    elt = document.getElementById("prepare_output_file");
+    elt.style.display = "block";
+
+    return (xml_string_out);
+               
+}
+
+
+</script>
