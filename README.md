@@ -1,12 +1,15 @@
 Routines to modify MusicXML files with the push of a button.
 
-[Transpose MusicXML scores](url)
+[Transpose MusicXML scores](transpose_mdom.htm)
 
-[Add a simple Bass Accompaniment](url)
+[Add a simple Bass Accompaniment](add_bass.htm)
 
-[Create right hand voice leading for a leadsheet](url)
 
-[Create right hand chord notes below melody](url)
+[Trim MusicXML file by removing measures](add_bass.htm)
+
+[Create right hand voice leading for a leadsheet](url) - not completed yet
+
+[Create right hand chord notes below melody](url) - not completed yet
 
 
 
