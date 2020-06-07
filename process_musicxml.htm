@@ -106,6 +106,19 @@
                       border: 1px solid #aaa;
                       border-top: none;
                     }
+
+            .info {
+                color: #206080;
+                background-color: #e0f0f7;
+                padding: 10px;
+            }
+            .info img {
+                float: left;
+                padding-left: 10px;
+                padding-right: 10px;
+                padding-bottom: 10px;
+                width: 33vw;
+            }
     
     
        </style>
@@ -114,28 +127,15 @@
     </head>
     
     <body>
+
+    <div style="width:80vw; margin: auto;">
     
-        <h2 id=version>Process Music XML Files/h2>
-              
-        Load the <a href="https://opensheetmusicdisplay.github.io/demo/">OSMD Demonstration for Transpose</a>
+        <h2>Process Music XML Files</h2>
+        <div id=version>Version: </div>
+        <p></p>
+        Load our <a href="https://ice6.github.io/opensheetmusicdisplay/build/">OSMD Demonstration for Transposition</a>
  
-            <p class=font_element>
-                    <label>Song Name:</label>
-                    <input type=text id = "song_name" name="song_name"   onchange="get_parameter_change(this);">
-            </p>
-
-
-            <!DOCTYPE html>
-            <html>
-            <head>
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            <style>
-            body {font-family: Arial;}
-            
-            
-            </style>
-            </head>
-            <body>
+           
 
                 
     
@@ -195,10 +195,21 @@
 
             current_tab = tab_name;
             parameters["open_tab"] = tab_name;
+            save_parameter_changes();
         }
      </script>
                 
     <div id="transpose_tab" class="tabcontent">
+
+
+    
+    <div class=info>
+        <h3>Transpose Score</h3>
+        <img src="images/transpose.png" >
+        Transpose your score, chords and key signatures to any key.
+        <br clear=all>
+    </div>
+    
 
         <p class=font_element>
         <label>Transpose Direction</label>
@@ -236,7 +247,15 @@
     </div> <!-- TAB -->
 
     <div id="add_bass_tab" class="tabcontent">
-
+        <div class=info>
+            <h3>Add Bass Accompaniment</h3>
+            <img src="images/add-bass.png" >
+            Add a simple Accompaniment to your score.
+            <p>
+            For instance, a piano accompaniment for a choral score.
+            </p>
+            <br clear=all>
+        </div>
     
         <h3>Select Accompaniment Format</h3>
         <!--RADIO Images-->
@@ -287,10 +306,19 @@
 </div><!-- TAB -->
                 
 <div id="trim_score_tab" class="tabcontent">
-    <h3>Trim Score</h3>
+    
 
-    <h2 id=version>Trim Score to a Range of Measures</h2>
-
+    
+    
+    
+    <div class=info>
+        <h3>Trim Score</h3>
+        <img src="images/trim-score.png" >
+        Select a portion of the score you want to keep with just the desired measures and notes.
+        <p></p>
+        Create and save a new MusicXML file with just the desired part of the original score.
+        <br clear=all>
+    </div>
 
 
     <table>
@@ -325,8 +353,23 @@
         </div><!-- TAB -->
 
         <div id="voice_leading_tab" class="tabcontent">
-            <h3>Voice Leading Chords is not complete yet.</h3>
+            
+            
+            <div class=info>
+                <h3>Voice Leading Chords is not complete yet.</h3>
+                <img src="images/accompaniment.png" >
 
+                Voice Leading Chords will read a melody from the first part in your score, 
+                and add bass and chords notes to accompany the melody.
+                <p></p>
+                This is designed to be played when aocompianing a singer or soloist.
+                <p></p>
+                One chord is provided for each chord in the leadsheet - using voice leading and inversions to minimize hand movement 
+                while providing accompaniment.
+                <br clear=all>
+            </div>
+
+            
             <p class=font_element>
                 <label>Inversion to start with</label>
                 <select id = "starting_inversion" name="starting_inversion" "   onchange="get_parameter_change(this);">
@@ -339,9 +382,19 @@
 
         </div><!-- TAB -->
 
-        <div id="melody_chords_tab" class="tabcontent">
-            <h3>Melody Chords is not complete yet.</h3>
+        
 
+        <div id="melody_chords_tab" class="tabcontent">
+            
+            
+           
+            <div class=info>
+                <h3>Melody Chords is not complete yet.</h3>
+                <img src="images/piano-jazz.png" >
+                Melody Chords will read a melody from the first part in your score, and add bass and chords notes to accompany the melody.
+                <br clear=all>
+            </div>
+            
             <p class=font_element>
                 <label>Put 7th in Bass or with Melody</label>
                  <select id = "seventh_position" name="seventh_position" "   onchange="get_parameter_change(this);">
@@ -358,6 +411,11 @@
                 <input type='file' id="get_file" accept=".xml,.musicxml" onchange='openFile(event);'>
 
                 <input type=hidden name="load_song" id = "load_song" value=1>
+
+                <p class=font_element>
+                    <label>Song Name:</label>
+                    <input type=text id = "song_name" name="song_name"   onchange="get_parameter_change(this);">
+            </p>
 
 
             <p class=font_element>
@@ -392,6 +450,8 @@
             <div id=transposed_score style="display: none;">Transposed Score</div>
 
         </div>
+    
+    </div>
 
     <script>
     
@@ -424,7 +484,7 @@
         }
         parameters[name] = value;
         console.log("get_parameter_change: type: %s name: %s value: %s", type, name, value);
-        store_parameters();
+        save_parameter_changes();
     }
 
         var song_name;
@@ -445,13 +505,7 @@
             reader.readAsText(input.files[0]);
         };
 
-        // save parameters after every change
-        function save_parameter_change()
-        {
-            console.log("save_parameter_change");
-            store_parameters();
-            return(true);
-        }
+       
     
         
     // these read the latest parameters
@@ -472,42 +526,43 @@
     }
 
  
+     // save parameters after every change
+     function save_parameter_changes()
+    {
+        
+        console.log(get_self());
+        json_string = JSON.stringify(parameters);
+        //console.log("json_string: %s", json_string);
 
-        function store_parameters()
+        storage_key = parameters.song_name;
+        if (!storage_key || storage_key == "")
+            storage_key = "musicxml";
+        //console.log("setItem for storage_key: %s", storage_key);
+        localStorage.setItem(storage_key, json_string);
+
+    }
+    function load_parameters(storage_key)
+    {   
+        if (!storage_key || storage_key == "")
+            storage_key = "musicxml";
+        console.log("load_parameters: %s", storage_key);
+        json_string = localStorage.getItem(storage_key);
+        parameters_parsed = JSON.parse(json_string);
+
+        console.log("parameters_parsed: %s", parameters_parsed);
+
+        for (let key in parameters_parsed)
         {
-            console.log(get_self());
-            json_string = JSON.stringify(parameters);
-            //console.log("json_string: %s", json_string);
-
-            storage_key = parameters.song_name;
-            if (!storage_key || storage_key == "")
-                storage_key = "musicxml";
-            //console.log("setItem for storage_key: %s", storage_key);
-            localStorage.setItem(storage_key, json_string);
-
+            let value = parameters_parsed[key];
+            console.log("load_parameters: key: %s value:  %s", key, value);
+            parameters[key] = value;
+            set_element_value(key, value);
         }
-        function load_parameters(storage_key)
-        {   
-            if (!storage_key || storage_key == "")
-                storage_key = "musicxml";
-            console.log("load_parameters: %s", storage_key);
-            json_string = localStorage.getItem(storage_key);
-            parameters_parsed = JSON.parse(json_string);
+        
 
-            console.log("parameters_parsed: %s", parameters_parsed);
+    }
 
-            for (let key in parameters_parsed)
-            {
-                let value = parameters_parsed[key];
-                console.log("load_parameters: key: %s value:  %s", key, value);
-                parameters[key] = value;
-                set_element_value(key, value);
-            }
-            
-
-        }
-
-        load_parameters();  // load saved parameters
+    load_parameters();  // load saved parameters
         
 
 
@@ -1647,9 +1702,447 @@ var music_xml_kinds = {
         }
 
     
+    // for voice leading inversions
+    function get_chord_notes(chord, inversion_number) 
+    {
+    console.log("GET_CHORD_NOTES(%s right: %s ninth: %s, %s)", chord.root, chord.rigfht, chord.ninth, inversion_number);
+
+    inversion_save = inversion_number;
+    console.log("GET_CHORD_NOTES inversion_save: '%s' %s ==1: %s ==\"1\": %s", 
+        inversion_save, typeof (inversion_save), inversion_save == 1, inversion_save == "1");
+        
+    // apply inverson
+    chord.inversion_notes_array = [];
+    for (ii = 0; ii < chord.notes_array.length; ii++) {
+        new_pos = (chord.notes_array.length + ii + inversion_number) % chord.notes_array.length;
+        new_note = chord.notes_array[new_pos];
+        chord.inversion_notes_array[ii] = new_note;
+        console.log("inversion_number: %s new_pos: %s new_note: %s", inversion_number, new_pos, new_note);
+    }
+    console.log("get_chord_notes: chord.inversion_notes_array: %s", chord.inversion_notes_array.join(" "));
+
+
+    letters_html = "";
+    match_found = false;
+    console.log("chord.inversion_notes_array: %s", chord.inversion_notes_array.join(" "));
+    if (inversion_data.last_chord.inversion_notes_array)
+        console.log("last_chord.inversion_notes_array: %s", inversion_data.last_chord.inversion_notes_array.join(" "));
+
+    for (ii = 0; ii < chord.inversion_notes_array.length; ii++) {
+         // see it there are carried over notes
+        note_letter = chord.inversion_notes_array[ii];
+ 
+    
+        
+        is_duplicate = false;
+        if (inversion_data.last_chord.inversion_notes_array)
+        {
+            for (inote = 0; inote < inversion_data.last_chord.inversion_notes_array.length; inote++) {
+                snote_last = inversion_data.last_chord.inversion_notes_array[inote];
+                half_steps = Math.abs(note_numbers[snote_last] - note_numbers[note_letter]);
+                //console.log("ii: %s inote: %s snote_last: %s note_letter: %s half_steps: %s", ii, inote, snote_last, note_letter, half_steps);
+                if (note_numbers[snote_last] == note_numbers[note_letter]) {
+                    is_duplicate = true;
+                    match_found = true;
+                    if (ii == inote)
+                        letters_html += "<b>" + note_letter + "</b> ";
+                    else {
+                        //letters_html += "<b style='color:red;'>**" + note_letter + "</b> ";
+                        letters_html += note_letter + " ";
+                    }
+                    //console.log("is_duplicate: %s %s ii: %s inote: %s", note_letter, snote_last, ii, inote);
+                    break;
+                }
+            }
+        }
+        
+        if (is_duplicate) {
+        }
+        else
+            letters_html += note_letter + " ";
+            
+
+    }
+        istop++;
+        //if (istop > 2)
+        //   throw("STOP: " + istop);
+
+    //if (chord.is_tritone)
+    //    letters_html += " <b>(T)</b>";
+    //if (chord.is_leading)
+    //    letters_html += " <b>(L)</b>";
+    console.log("USED_LEADING: %s", used_leading);
+    if (used_leading)
+       letters_html += " <b>(L)</b>";
+
+
+    letters_html = sprintf("<span style='font-size: %spx;' >%s</span>&nbsp;",
+       notes_font_size, letters_html);
+
+
+    //throw("STOP");
+    return letters_html;
+}
+
+function get_chord_data(chord_in) {
+    let chord = {};
+    chord.original = chord_in;
+    if (chord.original[1] == 'b' || chord.original[1] == '#') {
+        chord.root = chord.original.substr(0, 2);
+        chord.right = chord.original.substr(2);
+    }
+    else 
+    {
+        chord.root = chord.original.substr(0, 1);
+        chord.right = chord.original.substr(1);
+    }
+    if (!chord.right)
+        chord.right = "";
+    chord.base_note = "";
+    ipos = chord.right.indexOf("/");
+    if (ipos >= 0)
+    {
+        chord.base_note = chord.right.substr(ipos + 1);
+        chord.right = chord.right.substr(0,ipos);
+    }
+
+    schord = sprintf("%s%s", chord.root, chord.right);
+
+    // do substitutions
+    modifier1 = chord.right;
+    if (chord.right != "")
+    {
+        modifier2 = get_substitution(modifier1);
+        
+        
+        // check for substitute chords
+        if (modifier2 != "") {
+            chord.right = modifier2;
+            schord = sprintf("%s%s", chord.root, chord.right);
+            console.log("AFTER SUBSTITUTION: %s chord.right: %s", schord, chord.right);
+        }
+    }
 
 
 
+    chord.is_tritone = false;
+    chord.is_leading = false;
+
+
+    chord_data = null;
+    console.log("CHORD: %s CHORD.RIGHT: %s", chord.original, chord.right);
+    // see if we have the exact chord with chord.right
+    skey = "C" + chord.right;
+    chord_data = c_chord_data[skey];
+
+    if (chord_data)
+        console.log("USE SKEY 1 %s", skey);
+
+    if (!chord_data)
+    {
+        // see if we have it with 7th instead of 9th
+        chord_right2 = get_base_modifier(chord.right);        
+        skey = "C" + chord_right2;
+        chord_data = c_chord_data[skey];
+        if (chord_data)
+            console.log("USE SKEY 2 %s", skey);
+    }
+    
+    if (!chord_data)
+    {
+        // find best fit
+    
+        keys = Object.keys(c_chord_data);
+        for (ii = 0; ii < keys.length; ii++) {
+            skey = keys[ii];
+            modifier = skey.substr(1);
+
+            //console.log("ii: %s modifier: %s substr: %s",
+            //    ii, modifier, chord_right2.substr(0, modifier.length)); // key
+
+            if (chord_right2.substr(0, modifier.length) == modifier) {
+                chord_data = c_chord_data[skey];
+                console.log("ii: %s modifier: %s substr: %s",
+                    ii, modifier, chord_right2.substr(0, modifier.length)); // key
+                if (chord_data)
+                    console.log("USE SKEY 3 %s", skey);
+                break;
+            }
+        }
+    }
+
+    chord_data0 = chord_data;
+    console.log("SKEY: %s make_all_ninths: %s chord_data.ninth_ok: %s chord.original: %s", 
+        skey, parameters.make_all_ninths, chord_data.ninth_ok, chord.original);
+    if (parameters.make_all_ninths && chord_data.ninth_ok && chord.original.indexOf("9") < 0 )
+    {
+        skey2 = skey.replace("7", "9");
+        //chord.original = chord.original.replace("7", "9");
+        chord.right = chord.right.replace("7", "9");
+        chord_data = c_chord_data[skey2];    // use the ninth chord
+        console.log("USE NINTH CHORD: %s --> skeys: %s", skey, skey2);
+        skey = skey2;
+        if (chord_data)
+            console.log("USE SKEY 4 %s", skey);
+    }
+
+
+    if (!chord_data)
+        throw sprintf("CHORD NOT FOUND in c_chord_data: %s chord.right: %s", schord, chord.right);
+    
+
+    chord.modifier_key = skey;
+    chord.is_tritone = chord_data.tritone;
+    chord.is_leading = chord_data.leading;
+    chord.kind = chord_data.chord_kind;
+    chord.degree = chord_data.degree
+    console.log("%s USE chord_data: skey: %s chord_data.notes %s is_tritone: %s", 
+
+        chord.original, skey, chord_data.notes.join(" "), chord.is_tritone);
+
+    chord.ninth = "";
+    if (chord.right.indexOf("add9") >= 0)
+    {
+        chord.ninth = ""; // leave root and 9th in chord
+    }
+    else if (chord.right.indexOf("69") >= 0)
+    {
+        chord.ninth = ""; // leave root and 9th in chord
+    }
+    else if (chord.right.indexOf("+9") >= 0 || chord.right.indexOf("#9") >= 0)
+        chord.ninth = "#9";
+    else if (chord.right.indexOf("-9") >= 0 || chord.right.indexOf("b9") >= 0)
+        chord.ninth = "b9"; 
+    else if (chord.right.indexOf("9") >= 0 || chord.right.indexOf("11") >= 0 || chord.right.indexOf("13") >= 0)
+            chord.ninth = "9"; 
+    console.log("chord.right: %s chord.ninth: %s", chord.right, chord.ninth);
+
+    // offset for chord
+    chord.notes_array = [];
+    for (ii = 0; ii < chord_data.notes.length; ii++) {
+        snote = chord_data.notes[ii];
+
+
+
+        if (parameters.make_all_ninths && chord.ninth != "" && snote == "C")
+        {
+            if (chord.ninth == "#9")
+                snote = "D#";
+            else if (chord.ninth == "b9")
+                snote = "Db";
+            else    
+                snote = "D";
+            console.log("MAKE 9th: chord.ninth: %s snote: %s", chord.ninth, snote);
+        }
+        // transpose_note(what, old_note, old_octave, old_key, new_key)
+        new_note_letter = MDOM.transpose_note("inversions", snote, "C", transpose_key);
+
+        chord.notes_array.push(new_note_letter);
+        console.log("ii: %s snote: %s chord.ninth: %s new_note_letter: %s", 
+            ii, snote, chord.ninth, new_note_letter);
+    }
+    console.log("get_chord_data: chord.notes_array: %s", chord.notes_array.join(" "));
+    
+
+    
+    chord.original_right = chord.right;
+    chord.original_root = chord.root;
+    chord.original_base_note = chord.base_note;
+
+    //show_chord();
+    return(chord);
+}
+
+
+    function get_best_inversion(chord) {
+        console.log(get_self(chord.original));
+
+
+        if (!inversion_data.last_chord.inversion_notes_array || inversion_data.last_chord.inversion_notes_array.length == 0)
+        {
+            console.error("NO last_chord.inversion_notes_array");
+            return (0);
+        }
+
+        new_inversion = -1;
+        used_leading = false;
+
+        console.log("notes_array: %s last_chord.inversion_notes_array: %s", chord.notes_array.join(" "), inversion_data.last_chord.inversion_notes_array.join(" "));
+        console.log("last_chord.is_leading: %s", inversion_data.last_chord.is_leading);
+        // see if we want a leading tone inversion (tritone)
+        if (inversion_data.last_chord.is_leading) {
+            new_inversion = get_leading_inversion();
+            if (new_inversion >= 0)
+            {
+                inversion_data.last_chord.inversion = new_inversion;
+                return(new_inversion);
+            }
+            
+        }
+        
+
+        
+        best_half_steps = 999;
+        for (inversion_number = 0; inversion_number < chord.notes_array.length; inversion_number++) {
+            
+            total_half_steps = 0;
+
+            // see it there are carried over notes
+
+            for (inote = 0; inote < inversion_data.last_chord.inversion_notes_array.length; inote++) {
+                snote_last = inversion_data.last_chord.inversion_notes_array[inote];
+
+                inversion_offset = (inote + inversion_number + chord.notes_array.length) % chord.notes_array.length;
+                snote_new = chord.notes_array[inversion_offset];
+                
+                offset1 = (note_numbers[snote_new] - note_numbers[snote_last] + 12) % 12;
+                offset2 = (note_numbers[snote_last] - note_numbers[snote_new] + 12) % 12;
+                half_steps = Math.min(offset1, offset2);
+                console.log("inversion_number: %s inversion_offset: %s snote_new: %s snote_last: %s offset1: %s offset2: %s HALF STEPS: %s", 
+                    inversion_number, inversion_offset, snote_new, snote_last, offset1, offset2, half_steps);
+                total_half_steps += half_steps;
+
+                if (half_steps == 0)
+                {
+                    // if we find a match, stop
+                    total_half_steps = 0;
+                    break;
+                }
+            }
+
+            console.log("inversion_number: %s total_half_steps: %s", inversion_number, total_half_steps);
+            if (total_half_steps == 0) {
+                console.log("get_best_inversion return: inversion_number from match: %s %s inversion_number: %s inote: %s", inversion_number, snote_last, inversion_number, inote);
+                return (inversion_number);
+            }
+            
+            if (total_half_steps < best_half_steps) {
+                best_half_steps = total_half_steps;
+                new_inversion = inversion_number;
+                console.log("new best_half_steps: %s new_inversion: %s", best_half_steps, new_inversion);
+            }
+                
+
+
+            
+        }
+
+        console.log("best_half_steps: %s ", best_half_steps,);
+
+
+        console.log("get_best_inversion: return new_inversion: %s", new_inversion);
+
+        return (new_inversion);
+    }
+
+    // map alternates to main chord
+    var substitutions = [];
+    substitutions["maj7"] = "M7";
+    substitutions["maj9"] = "M9";
+
+    substitutions["7+9#5"] = "aug7(#9)";
+
+    // Gaug7 can also be written as G+7, G7+ or G7#5
+    substitutions["+7"] = "aug7";
+    substitutions["+"] = "aug";
+    substitutions["7+5"] = "aug7";
+    substitutions["7#5"] = "aug7";
+    substitutions["7+"] = "aug7";
+    substitutions["+7"] = "aug7";
+    substitutions["7aug"] = "aug7";
+    
+    substitutions["79aug"] = "aug9";
+
+    substitutions["9+5"] = "aug9";
+    substitutions["9#5"] = "aug9";
+    substitutions["9+"] = "aug9";
+    substitutions["+9"] = "aug9";
+    substitutions["9aug"] = "aug9";
+
+    substitutions["9sus"] = "9sus4";
+    substitutions["7sus"] = "7sus4";
+   
+    substitutions["sus"] = "sus4";
+
+
+
+
+    substitutions["add6(9)"] = "69";
+    //substitutions["69"] = "6add9";
+
+    substitutions["2"] = "sus2";
+    substitutions["4"] = "sus4";
+
+
+    substitutions["7+9"] = "7(#9)";
+    substitutions["7#9"] = "7(#9)";
+    substitutions["7-9"] = "7(b9)";
+    substitutions["7b9"] = "7(b9)";
+
+    substitutions["7sus+9"] = "7sus4(#9)";
+    substitutions["7sus#9"] = "7sus4(#9)";
+    substitutions["7sus-9"] = "7sus4(b9)";
+    substitutions["7susb9"] = "7sus4(b9)";
+
+    substitutions["7sus4+9"] = "7sus4(#9)";
+    substitutions["7sus4#9"] = "7sus4(#9)";
+    substitutions["7sus4-9"] = "7sus4(b9)";
+    substitutions["7sus4b9"] = "7sus4(b9)";
+
+
+    substitutions["+9"] = "(#9)";
+    substitutions["-9"] = "(b9)";
+
+    substitutions["(add2)"] = "add2";
+    substitutions["(add4)"] = "add4";
+    substitutions["(add6)"] = "add6";
+    substitutions["(add9)"] = "add9";
+
+    function get_substitution(modifier1)
+{
+    ssub = "";
+    if (modifier1.indexOf("13") >= 0)
+    {
+        ssub = "15";
+    }
+    if (modifier1.indexOf("13") >= 0)
+    {
+        ssub = "13";
+    }
+    if (modifier1.indexOf("11") >= 0)
+    {
+        ssub = "11";
+    }
+    if (ssub != "")
+    {
+        modifier1 = modifier1.replace(ssub, "9");
+        console.log("SSUB 1: %s", modifier1);
+    }
+    
+    console.log("get_substitution modifier1: %s: substitutions[modifier1]: %s", modifier1, substitutions[modifier1]);
+    // check for substitute chords
+    if (substitutions[modifier1]) {
+        modifier2 = substitutions[modifier1];
+        
+        console.log("get_substitution: %s --> %s",
+             modifier1, modifier2);
+        if (ssub != "")
+        {
+            modifier2 = modifier2.replace("9", ssub);
+            console.log("SSUB 2: %s", modifier2);
+        }
+        return(modifier2);
+    }
+    
+    return("");
+}
+
+    // for testing inversions
+    parameters.make_all_ninths = false;
+    var inversion_data = {last_chord: ""};
+    let chord = get_chord_data("Eb7");
+    MDOM.show(chord, "chord");
+    chord.inversion_number = get_best_inversion(chord);
  
     
 

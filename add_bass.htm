@@ -3,12 +3,13 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Add Bass 2</title>
+    <title>Music XML</title>
 
     <link rel="stylesheet" href="css.css" />
     <script src="music_common/alh_sprintf.js?v=2.66"></script>
     <script src="music_common/music_common.js?v=2.66"></script>
     <script src="music_common/dom_common.js?v=2.66"></script>
+    <script src="music_common/html_common.js?v=2.66"></script>
     <script src="add_bass_score.js?v=2.66"></script>
     <!--  <script src="music-xml-transpose.ts"> -->
     <!-- this uses the namespace object MDOM to access transpose functions.js -->
@@ -67,6 +68,44 @@
             padding: 4px;
             border: 1px solid #808080;
         }
+
+        /* Style the menu_tab */
+        .menu_tab {
+                      overflow: hidden;
+                      border: 1px solid #444;
+                      background-color: #888;
+                      width: 80vw
+                    }
+                    
+                    /* Style the buttons inside the menu_tab */
+                    .menu_tab button {
+                      background-color: inherit;
+                      float: left;
+                      border: none;
+                      outline: none;
+                      cursor: pointer;
+                      padding: 14px 16px;
+                      transition: 0.3s;
+                      font-size: 17px;
+                    }
+                    
+                    /* Change background color of buttons on hover */
+                    .menu_tab button:hover {
+                      background-color: #666;
+                    }
+                    
+                    /* Create an active/current tablink class */
+                    .menu_tab button.active {
+                      background-color: #444;
+                    }
+                    
+                    /* Style the menu_tab content */
+                    .tabcontent {
+                      display: none;
+                      padding: 6px 12px;
+                      border: 1px solid #aaa;
+                      border-top: none;
+                    }
     
     
        </style>
@@ -76,7 +115,84 @@
     
     <body>
     
-              <h2 id=version>Add Bass Notes</h2>
+        <h2 id=version>Process Music XML Files/h2>
+              
+        Load the <a href="https://opensheetmusicdisplay.github.io/demo/">OSMD Demonstration for Transpose</a>
+ 
+            <p class=font_element>
+                    <label>Song Name:</label>
+                    <input type=text id = "song_name" name="song_name"   onchange="save_parameter_change();">
+            </p>
+
+
+            <!DOCTYPE html>
+            <html>
+            <head>
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <style>
+            body {font-family: Arial;}
+            
+            
+            </style>
+            </head>
+            <body>
+
+                
+    
+    <p><hr></p>
+            
+            <h2>Select Desired MusicXML Function</h2>
+            <p>Click on the buttons inside the tabbed menu:</p>
+            
+            <div class="menu_tab">
+                <button class="tablinks" onclick="open_tab(event, 'transpose_tab')">Transpose XML</button>
+                <button class="tablinks" onclick="open_tab(event, 'add_bass_tab')">Add Bass Notes</button>
+                <button class="tablinks" onclick="open_tab(event, 'trim_score_tab')">Trim Score</button>
+                <button class="tablinks" onclick="open_tab(event, 'voice_leading_tab')">Voice Leading</button>
+                <button class="tablinks" onclick="open_tab(event, 'melody_chords_tab')">Melody Chords</button>
+            </div>
+            
+           
+            
+            
+                    
+                    <script>
+
+                    var current_tab;
+                    function open_tab(evt, tab_name) 
+                    {
+                      var i, tabcontent, tablinks;
+                      tabcontent = document.getElementsByClassName("tabcontent");
+                      for (i = 0; i < tabcontent.length; i++) 
+                      {
+                        tabcontent[i].style.display = "none";
+                      }
+                      tablinks = document.getElementsByClassName("tablinks");
+                      for (i = 0; i < tablinks.length; i++) {
+                        tablinks[i].className = tablinks[i].className.replace(" active", "");
+                      }
+                      document.getElementById(tab_name).style.display = "block";
+                      evt.currentTarget.className += " active";
+
+                      elt = document.getElementById("select_file");
+                      elt.style.display = "block";
+
+                      current_tab = tab_name;
+                    }
+                    </script>
+                       
+            <div id="transpose_tab" class="tabcontent">
+
+            </div> <!-- TAB -->
+
+                <div id="add_bass_tab" class="tabcontent">
+                   
+               
+        
+            
+          
+                    
+
     
         <h3>Select Accompaniment Format</h3>
         <!--RADIO Images-->
@@ -104,16 +220,52 @@
     
         <input type="radio" class="staff_radio_item" value="" name="staff_type" id="grand-staff">
         <label class="label_item" for="grand-staff"> <img class="staff_image" src="images/grand-staff.png"> </label>
+
+
     
     
-    
-    
-    <p><hr></p>
+ <form >
+                
     
                 <div id='create_score' style='display:block;'>
-                    <button onclick="create_new_score(xml_string_in);">Create New Score</button>
+                    <button onclick="create_new_score();">Create New Score</button>
                     <br>Create New Score to create score,
                 </div>
+
+       
+
+        </div><!-- TAB -->
+                
+        <div id="trim_score_tab" class="tabcontent">
+            <h3>Trim Score</h3>
+        </div><!-- TAB -->
+
+        <div id="voice_leading_tab" class="tabcontent">
+            <h3>Voice Leading Chords is not complete yet.</h3>
+
+        </div><!-- TAB -->
+
+        <div id="melody_chords_tab" class="tabcontent">
+            <h3>Melody Chords is not complete yet.</h3>
+
+        </div><!-- TAB -->
+
+        <div id=select_file style='display: none;'>
+        <h3> Select Music XML file for processing</h3>
+                <input type='file' id="get_file" accept=".xml,.musicxml" onchange='openFile(event);'>
+
+                <input type=hidden name="load_song" id = "load_song" value=1>
+            </form>
+
+            <p class=font_element>
+                <label>Show All Debugs in console</label>
+                <select id = "show_output" name="show_output" "   onchange="save_parameter_change();">
+                    <option value = 0 selected >No</option>
+                    <option value = 1 >Yes</option>
+                </select>
+                        </p>  
+                        
+                    </div>
     
                 <div id='prepare_output_file' style='display:none;'>
                     <button onclick="prepare_output_file();">Prepare Output File</button>
@@ -139,6 +291,171 @@
         </div>
 
     <script>
+    var parameters = {};
+
+        var song_name;
+        var openFile = function (event) {
+        	var elt = document.getElementById('get_file'); 
+            song_name = elt.files.item(0).name;             
+	        console.log("(IN OPEN FILE: song_name: %s", song_name);
+            set_element_value("song_name", song_name);
+            parameters.song_name = song_name;
+            
+	        
+	        var input = event.target;  
+           
+            reader = new FileReader();
+            reader.onload = fileLoaded;
+            flag = 1; // reading
+            console.log("SET FLAG: %s READING", flag);
+            reader.readAsText(input.files[0]);
+        };
+
+        // save parameters after every change
+        function save_parameter_change()
+        {
+            console.log("save_parameter_change");
+            get_parameters_from_elements();
+            store_parameters();
+            return(true);
+        }
+    
+        
+    // these read the latest parameters
+    function add_to_parameters(svar)
+    {
+        value = get_element_value(svar);
+        //console.log("add_to_parameters: svar: %s: value: %s", svar, value);
+        parameters[svar] = value;
+
+    }
+
+    function add_to_parameters_number(svar)
+    {
+        value = get_element_value(svar);
+        //console.log("add_to_parameters: svar: %s: value: %s", svar, value);
+        parameters[svar] = Number(value);
+
+    }
+
+    function get_parameters_from_elements()
+    {
+        console.log(get_self());
+        add_to_parameters("song_name");
+        add_to_parameters("transpose_key");
+        add_to_parameters("transpose_direction");
+        add_to_parameters_number("show_output");
+
+
+    }
+
+        function store_parameters()
+        {
+            console.log(get_self());
+            get_parameters_from_elements();
+            json_string = JSON.stringify(parameters);
+            console.log("json_string: %s", json_string);
+
+            storage_key = parameters.song_name;
+            if (!storage_key || storage_key == "")
+                storage_key = "xml_transpose";
+            console.log("setItem for storage_key: %s", storage_key);
+            localStorage.setItem(storage_key, json_string);
+
+        }
+        function load_parameters(storage_key)
+        {   
+            console.log("load_parameters: %s", storage_key);
+            json_string = localStorage.getItem(storage_key);
+            console.log("json_string: %s", json_string);
+            parameters_parsed = JSON.parse(json_string);
+
+            for (var key in parameters_parsed)
+            {
+                var value = parameters_parsed[key];
+                console.log("load_parameters: key: %s value:  %s", key, value);
+                set_element_value(key, value);
+            }
+
+
+        }
+
+
+    
+    var fileLoaded = function (event) {
+        console.log("fileLoaded: event.target.result: %s", event.target.result.substr(0, 100));
+
+        xml_string_loaded = event.target.result;
+        console.log("xml_string_loaded length: %s", xml_string_loaded.length);
+
+     
+        // store xml and name for reload
+        localStorage.setItem('song_data', xml_string_loaded);
+        console.log("localStorage.setItem('song_name',%s);", song_name);
+        localStorage.setItem('song_name', song_name);
+
+        
+
+        //do_transpose();
+
+    
+
+    }
+    
+    
+
+        function set_element_value(sid, value){
+            elt = document.getElementById(sid);
+            if (!elt)
+            {
+                throw("ELT NOT FOUND: " + sid);
+            }
+            
+            if (elt.tagName == "SELECT")
+            {
+                for(var ii=0; ii < elt.options.length; ii++)
+                {
+                    elt_value = elt.options[ii].value;
+                    //console.log("ii: %s %s %s %s == %s", 
+                    //    ii, sid, value, elt_value, (value == elt_value) ? "T" : "F" )
+                    if(elt.options[ii].value == value)
+                    {
+                        elt.selectedIndex = ii;
+                        
+                        //console.log("set_element_value: SELECT: %s value: %s index: %s", sid, ii, value);
+                        return;
+                    }
+                }
+                throw(sid + " - value not found: " + value, sid, value);
+            }
+            else
+            {
+                elt.value = value;
+                //console.log("set_element_value: sid: %s value: %s elt.value: %s", sid, value, elt.value);
+            }
+        }
+
+        function get_element_value(sid)
+        {
+            elt = document.getElementById(sid); 
+            if (!elt)
+                throw("elt not found: " + sid);
+            if (elt.tagName == "SELECT")
+            {
+                value = elt.options[elt.selectedIndex].value;
+            }
+            else
+                value = elt.value;
+            return(value);
+        
+        }
+
+        function get_element_number(sid)
+        {
+            value = get_element_value(sid);
+            value = Number(value);
+            return(value);
+        }
 
 
 // we really want to use this which our c_chord table
@@ -207,8 +524,8 @@ var music_xml_kinds = {
 
 
 
-    var xml_string_in = score1;
-    // xml_string_in = score2; // just one measure for testing
+    var xml_string_loaded = score1;
+    // xml_string_loaded = score2; // just one measure for testing
     var xml_string_out;
     var show_output = true;
 
@@ -237,16 +554,16 @@ var music_xml_kinds = {
 
 
 
-    function create_new_score(xml_string_in)
+    function create_new_score()
     {
 
-        let ipos = xml_string_in.indexOf("<score");
+        let ipos = xml_string_loaded.indexOf("<score");
 
         if (ipos < 0) 
         {
             console.error("<score not found in xml file");
         }
-        let xml_header = xml_string_in.substr(0, ipos);
+        let xml_header = xml_string_loaded.substr(0, ipos);
 
         console.log("XML_HEADER: %s", xml_header);
 
@@ -309,7 +626,7 @@ var music_xml_kinds = {
         attributes = MDOM.attributes;   // use from var
 
         MDOM.parser = new DOMParser();
-        MDOM.dom_object = MDOM.parser.parseFromString(xml_string_in, 'application/xml');
+        MDOM.dom_object = MDOM.parser.parseFromString(xml_string_loaded, 'application/xml');
 
         let score_partwise_element = MDOM.dom_object.firstElementChild; // score-partwise
 
@@ -1174,7 +1491,7 @@ var music_xml_kinds = {
 
 
 
-
+ 
     
 
 

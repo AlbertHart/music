@@ -1,5 +1,5 @@
 
-console.log("IN MUSIC_COMMON.JS");
+console.log("Loading MUSIC_COMMON.JS");
 
 var quarter_duration = 256;
 var divisions = 256;
@@ -306,6 +306,170 @@ var c_chord_data = {
         skey = chord_keys[ii];
         chord0 = c_chord_data[skey];
         chord0.chord = skey;
+    }
+
+    this.transpose_pitch = function(what, old_step, old_alter, old_octave, old_key, new_key) 
+    {
+        let old_note = old_step;
+        if (old_alter == 1)
+            old_note += "#";
+        else if (old_alter == -1)
+            old_note += "b";
+
+        transposed_note = thia.transpose_note(what, old_note, old_octave, old_key, new_key) 
+    }
+
+    // transpose_note(what, old_note, old_octave, old_key, new_key) 
+    this.transpose_note = function(what, old_note, old_octave, old_key, new_key) 
+    {
+        let parameters = this.parameters;
+        let show_output = this.show_output;
+
+        if (show_output)
+            console.log("transpose_pitch: old_key: %s new_key: %s old_note: %s old_octave: %s", 
+                old_key, new_key, old_note, old_octave);
+        
+        
+        if (show_output)
+            console.log("old_key: %s new_key: %s old_note: %s", old_key, new_key, old_note);
+
+        let old_key_number = this.note_numbers[old_key];
+        let new_key_number = this.note_numbers[new_key];
+        let key_offset = new_key_number - old_key_number;
+
+        let up_offset = (key_offset + 12) % 12; // move up
+        let down_offset = (key_offset - 12) % 12; // move down
+
+        if (parameters.transpose_direction == "up")
+            key_offset = up_offset; // move up
+        else if (parameters.transpose_direction == "down")
+            key_offset = down_offset; // move down
+        else    // closest
+        {
+            // get closest offset
+            
+            if (Math.abs(up_offset) <= Math.abs(down_offset))
+                key_offset = up_offset;
+            else
+                key_offset = down_offset;
+        }
+        
+        let new_fifths = this.line_of_fifths_numbers[new_key] - this.line_of_fifths_numbers["C"];
+        if (show_output)
+            console.log("old_key: %s new_key: %s key_offset: %s new_fifths: %s", old_key, new_key, key_offset, new_fifths);
+
+
+        let kpos1 = this.line_of_fifths_numbers[old_key];
+        
+        let kpos2 = this.line_of_fifths_numbers[new_key];
+        
+        let fifths_offset = kpos2 - kpos1;
+        
+        if (show_output)
+            console.log("kpos1: %s kpos2: %s fifths_offset: %s", kpos1, kpos2, fifths_offset);
+        
+        let npos1 = this.line_of_fifths_numbers[old_note]; 
+        
+        let npos2 = npos1 + fifths_offset;
+        let new_note = this.line_of_fifths[npos2];
+        if (show_output)
+            console.log("npos1: %s npos2: %s fifths_offset: %s new_note: %s",
+                npos1, npos2, fifths_offset, new_note);
+        let new_step = new_note.substr(0,1);
+        let new_alter = 0;
+        if (new_note.substr(1,1) == '#')
+            new_alter = "1";
+        else if (new_note.substr(1,1) == 'b')
+            new_alter = "-1";
+
+        // offset octave
+        let old_step_number = this.step_number[old_step];
+        let new_step_number = this.step_number[new_step];
+
+        let new_octave = Number(old_octave);    // ADH - calculate change of octave
+        if (key_offset > 0 && new_step_number < old_step_number)
+            new_octave += 1;
+        else if (key_offset < 0 && new_step_number > old_step_number)
+            new_octave -= 1;
+
+        new_accidental = "";
+        if (new_alter < 0)
+            new_accidental = "flat";
+        else if (new_alter > 0)
+            new_accidental = "sharp";
+
+        //if (show_output)
+            console.log(`transpose_pitch: %s %s \n` +
+                        `     old_note: %s old_octave: %s \n` + 
+                        `     new_note: %s new_octave: %s new_accidental: %s`, 
+                what, this.get_caller(), 
+                old_note, old_octave, 
+                new_note, new_octave, new_accidental);
+                
+        transposed_note = {
+            "new_note": new_note,
+            "new_step": new_step,
+            "new_alter": new_alter,
+            "new_octave": new_octave,
+            "new_accidental": new_accidental,
+        };
+        return (transposed_note);
+    }
+
+    // parameters used:
+    // transpose_key e.g. "Bb"
+    // transpose_direction - "up" or "down" (use closest if not set)
+    // song_name - not currently used
+    // show_output - true to show all console.logs
+
+    this.str_out = "";
+
+    this.attributes = {divisions: 0, 
+        time: {beats: 0, beat_type: 0}, 
+        key: {fifths: 0, mode: null},
+        staves: null, clef: []};
+
+    this.transpose_xml = function(parameters, xml_string_in)
+    {
+        if (parameters.transpose_key == "None") {
+            return(xml_string_in);
+        }
+        this.parameters = parameters;
+        this.show_output = parameters.show_output;
+        let show_output = this.show_output;
+        //console.log("show_output: %s (%s)", show_output, show_output? "T" : "F");
+
+        this.xml_string = xml_string_in;    // input string
+
+        // save the first two lines of the file to put onto output.
+
+        // find line with <score
+        let ipos = this.xml_string.indexOf("<score");
+        if (ipos < 0)
+        {
+            console.error("<score not found in xml file");
+        }
+        let xml_header = this.xml_string.substr(0, ipos);
+
+        console.log("XML_HEADER: %s", xml_header);
+
+        let dom_object;
+
+        const parser = new DOMParser();
+        dom_object = parser.parseFromString(this.xml_string, 'application/xml');
+
+        this.transpose_dom_object(parameters, dom_object);
+
+        xml_transposed = dom_object.firstElementChild.outerHTML;
+        //console.log("BEFORE REPLACE: %s', xml_transposed);
+        xml_transposed = xml_transposed.replace(/></g, ">\n<");
+
+        xml_out = xml_header + xml_transposed;
+
+        //console.log("XML_OUT %s", xml_out);
+
+        return(xml_out);
+
     }
 
 
