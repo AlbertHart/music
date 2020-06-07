@@ -157,7 +157,7 @@
             
                     
      <script>
-        var parameters = {};
+        var parameters = {open_tab: "transpose_tab"};
         var current_tab;
 
         var xml_string_loaded = score1;
@@ -617,7 +617,7 @@
                 {
                     if (tablinks[i].name == value)
                     {
-                        console.log("OPEH TAB: %s", value);
+                        console.log("OPEN TAB: %s", value);
                         open_tab(tablinks[i]);
                         return;
                     }
@@ -2137,13 +2137,14 @@ function get_chord_data(chord_in) {
     return("");
 }
 
+/***
     // for testing inversions
     parameters.make_all_ninths = false;
     var inversion_data = {last_chord: ""};
     let chord = get_chord_data("Eb7");
     MDOM.show(chord, "chord");
     chord.inversion_number = get_best_inversion(chord);
- 
+ ***/
     
 
 
