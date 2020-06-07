@@ -1,0 +1,1585 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Music XML</title>
+
+    <link rel="stylesheet" href="css.css" />
+    <script src="music_common/alh_sprintf.js?v=2.66"></script>
+    <script src="music_common/music_common.js?v=2.66"></script>
+    <script src="music_common/dom_common.js?v=2.66"></script>
+    <script src="music_common/html_common.js?v=2.66"></script>
+    <script src="add_bass_score.js?v=2.66"></script>
+    <!--  <script src="music-xml-transpose.ts"> -->
+    <!-- this uses the namespace object MDOM to access transpose functions.js -->
+
+    <script>
+        var MDOM = new MusicDOM(); 
+    </script>
+
+    <style>
+
+
+        .bass_radio_item{
+            display: none !important;
+            }
+    
+            .label_item {
+            opacity: 0.5;
+            }
+            
+            .bass_radio_item:checked + label {
+            opacity: 1;
+            }
+    
+        label {
+        cursor: pointer;   
+        }
+
+        .staff_radio_item{
+            display: none !important;
+            }
+    
+            .label_item {
+            opacity: 0.5;
+            }
+            
+            .staff_radio_item:checked + label {
+            opacity: 1;
+            }
+    
+        label {
+        cursor: pointer;   
+        }
+    
+        .bass_image {
+    
+            width: 120px;
+            height: 75px;
+            padding: 4px;
+            border: 1px solid #808080;
+        }
+
+        .staff_image {
+    
+            width: 200px;
+            height: 145px;
+            padding: 4px;
+            border: 1px solid #808080;
+        }
+
+        /* Style the menu_tab */
+        .menu_tab {
+                      overflow: hidden;
+                      border: 1px solid #444;
+                      background-color: #888;
+                      width: 80vw
+                    }
+                    
+                    /* Style the buttons inside the menu_tab */
+                    .menu_tab button {
+                      background-color: inherit;
+                      float: left;
+                      border: none;
+                      outline: none;
+                      cursor: pointer;
+                      padding: 14px 16px;
+                      transition: 0.3s;
+                      font-size: 17px;
+                    }
+                    
+                    /* Change background color of buttons on hover */
+                    .menu_tab button:hover {
+                      background-color: #666;
+                    }
+                    
+                    /* Create an active/current tablink class */
+                    .menu_tab button.active {
+                      background-color: #444;
+                    }
+                    
+                    /* Style the menu_tab content */
+                    .tabcontent {
+                      display: none;
+                      padding: 6px 12px;
+                      border: 1px solid #aaa;
+                      border-top: none;
+                    }
+    
+    
+       </style>
+    
+    
+    </head>
+    
+    <body>
+    
+        <h2 id=version>Process Music XML Files/h2>
+              
+        Load the <a href="https://opensheetmusicdisplay.github.io/demo/">OSMD Demonstration for Transpose</a>
+ 
+            <p class=font_element>
+                    <label>Song Name:</label>
+                    <input type=text id = "song_name" name="song_name"   onchange="save_parameter_change();">
+            </p>
+
+
+            <!DOCTYPE html>
+            <html>
+            <head>
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <style>
+            body {font-family: Arial;}
+            
+            
+            </style>
+            </head>
+            <body>
+
+                
+    
+    <p><hr></p>
+            
+            <h2>Select Desired MusicXML Function</h2>
+            <p>Click on the buttons inside the tabbed menu:</p>
+            
+            <div class="menu_tab">
+                <button class="tablinks" onclick="open_tab(event, 'transpose_tab')">Transpose XML</button>
+                <button class="tablinks" onclick="open_tab(event, 'add_bass_tab')">Add Bass Notes</button>
+                <button class="tablinks" onclick="open_tab(event, 'trim_score_tab')">Trim Score</button>
+                <button class="tablinks" onclick="open_tab(event, 'voice_leading_tab')">Voice Leading</button>
+                <button class="tablinks" onclick="open_tab(event, 'melody_chords_tab')">Melody Chords</button>
+            </div>
+            
+           
+            
+            
+                    
+                    <script>
+
+                    var current_tab;
+                    function open_tab(evt, tab_name) 
+                    {
+                      var i, tabcontent, tablinks;
+                      tabcontent = document.getElementsByClassName("tabcontent");
+                      for (i = 0; i < tabcontent.length; i++) 
+                      {
+                        tabcontent[i].style.display = "none";
+                      }
+                      tablinks = document.getElementsByClassName("tablinks");
+                      for (i = 0; i < tablinks.length; i++) {
+                        tablinks[i].className = tablinks[i].className.replace(" active", "");
+                      }
+                      document.getElementById(tab_name).style.display = "block";
+                      evt.currentTarget.className += " active";
+
+                      elt = document.getElementById("select_file");
+                      elt.style.display = "block";
+
+                      current_tab = tab_name;
+                    }
+                    </script>
+                       
+            <div id="transpose_tab" class="tabcontent">
+
+                <p class=font_element>
+                    <label>Transpose Direction</label>
+                    <select id = "starting_inversion" name="starting_inversion" "   onchange="save_parameter_change();">
+                        <option value = "closest" selected>Closest</option>
+                        <option value = "up">Move Notes Up</option>
+                        <option value = "down">Move Notes Down</option>
+                    </select>
+                            </p>
+
+            <p class=font_element>
+                    <label>Transpose to key</label>
+                    <select id = "transpose_key" name="transpose_key"  onchange="save_parameter_change();">
+                        <option value = "None" selected>None</option>
+                        <option value = "Ab">Ab / Fm</option>
+                        <option value = "A">A / F#m</option>
+                            <!-- <option value = "A#">A#</option> -->
+                        <option value = "Bb" >Bb / Gm</option>
+                        <option value = "B">B / G#m</option>
+                        <option value = "Cb">Cb / Abm</option>
+                        <option value = "C">C / Am</option>
+                        <option value = "C#">C# / A#m</option>
+                        <option value = "Db">Db / Bbm</option>
+                        <option value = "D">D / Bm</option>
+                            <!-- <option value = "D#">D#</option> -->
+                        <option value = "Eb">Eb / Cm</option>
+                        <option value = "E">E / C#m</option>
+                        <option value = "F">F / Dm</option>
+                        <option value = "F#">F# / D#m</option>
+                        <option value = "Gb">Gb / Ebm</option>
+                        <option value = "G">G / Em</option>
+                            <!-- <option value = "G#">G#</option> -->
+                    </select>
+
+            </div> <!-- TAB -->
+
+                <div id="add_bass_tab" class="tabcontent">
+                   
+               
+        
+            
+          
+                    
+
+    
+        <h3>Select Accompaniment Format</h3>
+        <!--RADIO Images-->
+        <input type="radio" class="bass_radio_item" value="" name="bass_format" id="radio_chords" checked>
+            <label class="label_item" for="radio_chords"> <img class="bass_image" src="images/chords.png"> </label>
+        
+    
+        <input type="radio" class="bass_radio_item" value="" name="bass_format" id="radio_oompah">
+        <label class="label_item" for="radio_oompah"> <img class="bass_image" src="images/oompah.png"> </label>
+    
+        <input type="radio" class="bass_radio_item" value="" name="bass_format" id="radio_oompapah">
+        <label class="label_item" for="radio_oompapah"> <img class="bass_image" src="images/oompapah.png"> </label>
+
+        <input type="radio" class="bass_radio_item" value="" name="bass_format" id="radio_longshort">
+        <label class="label_item" for="radio_longshort"> <img class="bass_image" src="images/longshort.png"> </label>
+    
+        <input type="radio" class="bass_radio_item" value="" name="bass_format" id="radio_arpeggio">
+        <label class="label_item" for="radio_arpeggio"> <img class="bass_image" src="images/arpeggio.png"> </label>
+
+        <h3>Select Staffs</h3>
+        <!--RADIO Images-->
+        <input type="radio" class="staff_radio_item" value="" name="staff_type" id="bass-clef" checked>
+            <label class="label_item" for="bass-clef"> <img class="staff_image" src="images/bass-clef.png"> </label>
+        
+    
+        <input type="radio" class="staff_radio_item" value="" name="staff_type" id="grand-staff">
+        <label class="label_item" for="grand-staff"> <img class="staff_image" src="images/grand-staff.png"> </label>
+
+
+    
+    
+ <form >
+                
+    
+                <div id='create_score' style='display:block;'>
+                    <button onclick="create_new_score();">Create New Score</button>
+                    <br>Create New Score to create score,
+                </div>
+
+       
+
+        </div><!-- TAB -->
+                
+        <div id="trim_score_tab" class="tabcontent">
+            <h3>Trim Score</h3>
+
+            <h2 id=version>Trim Score to a Range of Measures</h2>
+
+
+
+          <table>
+              <tr><td>First Measure: </td><td><input type=number id=first_measure style="width: 4em;" value=2></td></tr>
+              <tr><td>Last Measure: (0 for all)</td><td><input type=number id=last_measure style="width: 4em;" value=3></td></tr>
+              <tr><td>First Note: </td><td><input type=number id=first_note style="width: 4em;" value=1></td></tr>
+              <tr><td>Last Note: (0 for all)</td><td><input type=number id=first_note style="width: 4em;" value=0></td></tr>
+          </table>
+          <br>
+          <br> 
+
+          div id='create_score' style='display:block;'>
+            <button onclick="do_trim();">Trim Score</button>
+        </div>
+
+        <div id='prepare_output_file' style='display:none;'>
+            <button onclick="prepare_output_file();">Prepare Output File</button>
+            <br>Click the Download button after 'Prepare Output File'
+        </div>
+
+        <p></p>
+    </div>
+
+    
+    <div id=download_div style="display:none;">
+        <a id="download_link" target="_blank" download="test.xml" ><button>Click here to Download <span id=download_output></span></button></a>
+
+
+        </div><!-- TAB -->
+
+        <div id="voice_leading_tab" class="tabcontent">
+            <h3>Voice Leading Chords is not complete yet.</h3>
+
+            <p class=font_element>
+                <label>Inversion to start with</label>
+                <select id = "starting_inversion" name="starting_inversion" "   onchange="save_parameter_change();">
+                    <option value = "0" selected>Root</option>
+                    <option value = "1">First</option>
+                    <option value = "2">2nd</option>
+                    <option value = "3">3rd if available</option>
+                </select>
+                        </p>
+
+        </div><!-- TAB -->
+
+        <div id="melody_chords_tab" class="tabcontent">
+            <h3>Melody Chords is not complete yet.</h3>
+
+            <p class=font_element>
+                <label>Put 7th in Bass or with Melody</label>
+                 <select id = "seventh_position" name="seventh_position" "   onchange="save_parameter_change();">
+                <option value = "treble" selected>In chord</option>
+                <option value = "bass">With Bass note</option>
+            </select>
+        </p>
+
+
+        </div><!-- TAB -->
+
+        <div id=select_file style='display: none;'>
+        <h3> Select Music XML file for processing</h3>
+                <input type='file' id="get_file" accept=".xml,.musicxml" onchange='openFile(event);'>
+
+                <input type=hidden name="load_song" id = "load_song" value=1>
+            </form>
+
+            <p class=font_element>
+                <label>Show All Debugs in console</label>
+                <select id = "show_output" name="show_output" "   onchange="save_parameter_change();">
+                    <option value = 0 selected >No</option>
+                    <option value = 1 >Yes</option>
+                </select>
+                        </p>  
+                        
+                    </div>
+    
+                <div id='prepare_output_file' style='display:none;'>
+                    <button onclick="prepare_output_file();">Prepare Output File</button>
+                    <br>Click the Download button after 'Prepare Output File'
+                </div>
+    
+                <p></p>
+            </div>
+    
+            
+            <div id=download_div style="display:none;">
+                <a id="download_link" target="_blank" download="test.xml" ><button>Click here to Download <span id=download_output></span></button></a>
+       
+    
+            <p><hr></p>
+    
+           
+                <button onclick="show_transposed_score();">Show Transposed Score</button>
+                <button onclick="copy_transposed_score();">Copy Transposed Score to Clipboard</button>
+      
+            <div id=transposed_score style="display: none;">Transposed Score</div>
+
+        </div>
+
+    <script>
+    var parameters = {};
+
+        var song_name;
+        var openFile = function (event) {
+        	var elt = document.getElementById('get_file'); 
+            song_name = elt.files.item(0).name;             
+	        console.log("(IN OPEN FILE: song_name: %s", song_name);
+            set_element_value("song_name", song_name);
+            parameters.song_name = song_name;
+            
+	        
+	        var input = event.target;  
+           
+            reader = new FileReader();
+            reader.onload = fileLoaded;
+            flag = 1; // reading
+            console.log("SET FLAG: %s READING", flag);
+            reader.readAsText(input.files[0]);
+        };
+
+        // save parameters after every change
+        function save_parameter_change()
+        {
+            console.log("save_parameter_change");
+            get_parameters_from_elements();
+            store_parameters();
+            return(true);
+        }
+    
+        
+    // these read the latest parameters
+    function add_to_parameters(svar)
+    {
+        value = get_element_value(svar);
+        //console.log("add_to_parameters: svar: %s: value: %s", svar, value);
+        parameters[svar] = value;
+
+    }
+
+    function add_to_parameters_number(svar)
+    {
+        value = get_element_value(svar);
+        //console.log("add_to_parameters: svar: %s: value: %s", svar, value);
+        parameters[svar] = Number(value);
+
+    }
+
+    function get_parameters_from_elements()
+    {
+        console.log(get_self());
+        add_to_parameters("song_name");
+        add_to_parameters("transpose_key");
+        add_to_parameters("starting_inversion");
+        add_to_parameters_number("show_output");
+
+
+    }
+
+        function store_parameters()
+        {
+            console.log(get_self());
+            get_parameters_from_elements();
+            json_string = JSON.stringify(parameters);
+            console.log("json_string: %s", json_string);
+
+            storage_key = parameters.song_name;
+            if (!storage_key || storage_key == "")
+                storage_key = "xml_transpose";
+            console.log("setItem for storage_key: %s", storage_key);
+            localStorage.setItem(storage_key, json_string);
+
+        }
+        function load_parameters(storage_key)
+        {   
+            console.log("load_parameters: %s", storage_key);
+            json_string = localStorage.getItem(storage_key);
+            console.log("json_string: %s", json_string);
+            parameters_parsed = JSON.parse(json_string);
+
+            for (var key in parameters_parsed)
+            {
+                var value = parameters_parsed[key];
+                console.log("load_parameters: key: %s value:  %s", key, value);
+                set_element_value(key, value);
+            }
+
+
+        }
+
+
+    
+    var fileLoaded = function (event) {
+        console.log("fileLoaded: event.target.result: %s", event.target.result.substr(0, 100));
+
+        xml_string_loaded = event.target.result;
+        console.log("xml_string_loaded length: %s", xml_string_loaded.length);
+
+     
+        // store xml and name for reload
+        localStorage.setItem('song_data', xml_string_loaded);
+        console.log("localStorage.setItem('song_name',%s);", song_name);
+        localStorage.setItem('song_name', song_name);
+
+        
+
+        //do_transpose();
+
+    
+
+    }
+    
+    
+
+        function set_element_value(sid, value){
+            elt = document.getElementById(sid);
+            if (!elt)
+            {
+                throw("ELT NOT FOUND: " + sid);
+            }
+            
+            if (elt.tagName == "SELECT")
+            {
+                for(var ii=0; ii < elt.options.length; ii++)
+                {
+                    elt_value = elt.options[ii].value;
+                    //console.log("ii: %s %s %s %s == %s", 
+                    //    ii, sid, value, elt_value, (value == elt_value) ? "T" : "F" )
+                    if(elt.options[ii].value == value)
+                    {
+                        elt.selectedIndex = ii;
+                        
+                        //console.log("set_element_value: SELECT: %s value: %s index: %s", sid, ii, value);
+                        return;
+                    }
+                }
+                throw(sid + " - value not found: " + value, sid, value);
+            }
+            else
+            {
+                elt.value = value;
+                //console.log("set_element_value: sid: %s value: %s elt.value: %s", sid, value, elt.value);
+            }
+        }
+
+        function get_element_value(sid)
+        {
+            elt = document.getElementById(sid); 
+            if (!elt)
+                throw("elt not found: " + sid);
+            if (elt.tagName == "SELECT")
+            {
+                value = elt.options[elt.selectedIndex].value;
+            }
+            else
+                value = elt.value;
+            return(value);
+        
+        }
+
+        function get_element_number(sid)
+        {
+            value = get_element_value(sid);
+            value = Number(value);
+            return(value);
+        }
+
+
+// we really want to use this which our c_chord table
+var music_xml_kinds = {
+         "major": {short: "maj"},
+         "minor": {short: "m"},
+
+         "augmented": {short: "aug"},
+         "diminished": {short: "dim"},
+         "dominant": {short: "7"},
+         "major-seventh": {short: "maj7"},
+         "minor-seventh": {short: "m7"},
+         "diminished-seventh": {short: "dim7"},
+         "augmented-seventh": {short: "aug7"},
+         "half-diminished": {short: "m7b5"},
+         "major-minor": {short: "min(maj7)"},
+         "majorsixth": {short: "maj6"},
+         "minor-sixth": {short: "m6"},
+         "dominant-ninth": {short: "9"},
+         "major-ninth": {short: "maj9"},
+         "minor-ninth": {short: "m9"},
+         "dominant-11th": {short: "11"},
+         "major-11th": {short: "maj11"},
+         "minor--11th": {short: "m11"},
+         "dominant-13th": {short: "13"},
+         "major-13th": {short: "maj13"},
+         "minor-13th": {short: "m13"},
+         "suspended-second": {short: "sus2"},
+         "suspended-fourth": {short: "sus4"},
+
+         "pedal": {short: "ped"},
+         "power": {short: "5"},
+         "Neapolitan": {short: "neop"},
+         "Italian": {short: "ital"},
+         "French": {short: "fren"},
+         "German": {short: "germ"},
+         "Tristan": {short: "trist"},
+    };
+
+    // index c_chord_data by musicxml chord_kind
+    var musicxml_chords = {};
+    var  chord_keys = Object.keys(c_chord_data);
+    for (let ii = 0; ii < chord_keys.length; ii++) {
+        skey = chord_keys[ii];
+        chord_data = c_chord_data[skey];
+        chord_kind = chord_data.chord_kind;
+        //stext = get_text_from_chord_kind(chord_kind);
+        stext = "";
+        //console.log("KEY: %s chord_kind: %s stext: %s", skey, chord_kind, stext);
+        if (musicxml_chords[chord_kind])
+        {
+            //console.log("SKIP");
+        }
+        else
+        {
+            musicxml_chords[chord_kind] = skey;
+        }
+    }
+
+    for (let ii = 0; ii < music_xml_kinds.length; ii++)
+    {
+        kind = music_xml_kinds[ii].kind;
+        short = music_xml_kinds[ii].short;
+        console.log("kind : %s short: %s chord: %s", kind, short, musicxml_chords[kind]);
+    }
+
+
+
+    var xml_string_loaded = score1;
+    // xml_string_loaded = score2; // just one measure for testing
+    var xml_string_out;
+    var show_output = true;
+
+    var parameters = {individual_notes: 0,    // notes before rest of chord
+        repeat_last: false,
+        staffs:  1};
+
+    
+
+        // <score-partwise version="3.1">
+    //     <part-list>
+    //         <score-part id="P1">
+    //              <part-name print-object="no">MusicXML Part</part-name>
+    //         </score-part>
+    //     </part-list>
+    //     <part id="P1">
+    //         <measure number="1" width="208.51">
+    //     </part>
+    // </score-partwise>
+    
+    var part_elements = [];
+
+    var score_part_elements = [];
+
+    const SKIP_ERROR = true;    // skip error in called functions
+
+
+
+    function create_new_score()
+    {
+
+        let ipos = xml_string_loaded.indexOf("<score");
+
+        if (ipos < 0) 
+        {
+            console.error("<score not found in xml file");
+        }
+        let xml_header = xml_string_loaded.substr(0, ipos);
+
+        console.log("XML_HEADER: %s", xml_header);
+
+        let bass_format_id;
+        let bass_elts = document.getElementsByName("bass_format");
+        for (ii = 0; ii < bass_elts.length; ii++)
+        {
+            if (bass_elts[ii].checked)
+            {
+                bass_format_id = bass_elts[ii].id;
+                console.log("ii: %s %s", ii, bass_format_id);
+                break;
+            }
+        }
+        
+       
+        switch (bass_format_id)
+        {
+            case "radio_chords":
+                parameters.bass_format = "chords";   
+                break;
+            case "radio_oompah":
+                parameters.bass_format = "oompah";     
+                break;
+            case "radio_oompapah":
+                parameters.bass_format = "oompapah";     
+                break;
+            case "radio_longshort":
+                parameters.bass_format = "longshort";     
+                break;
+            case "radio_arpeggio":
+                parameters.bass_format = "arpeggio";     
+                break;
+            detault:
+                throw("Bass Format not found: " + bass_format_id)
+        }
+
+        let staff_elts = document.getElementsByName("staff_type");
+        for (ii = 0; ii < staff_elts.length; ii++)
+        {
+            if (staff_elts[ii].checked)
+            {
+                parameters.staff_format = staff_elts[ii].id;
+                console.log("ii: %s %s", ii, parameters.staff_format);
+                break;
+            }
+        }
+
+
+        console.log("bass_format: %s staff_format: %s individual_notes: %s repeat_last: %s staffs: %s", 
+            parameters.bass_format, parameters.staff_format, parameters.individual_notes, parameters.repeat_last, parameters.staffs);
+
+
+
+
+        MDOM.attributes = {divisions: 0, 
+            time: {beats: 0, beat_type: 0}, 
+            key: {fifths: 0, mode: null},
+            staves: null, clef: []};
+        attributes = MDOM.attributes;   // use from var
+
+        MDOM.parser = new DOMParser();
+        MDOM.dom_object = MDOM.parser.parseFromString(xml_string_loaded, 'application/xml');
+
+        let score_partwise_element = MDOM.dom_object.firstElementChild; // score-partwise
+
+        let score_partwise_children = score_partwise_element.children;
+        console.log("score_partwise_element: %s top children: %s", score_partwise_element.tagName, score_partwise_children.length);
+
+       
+
+        // get part-list and part from score-partwise
+        for (let iscore_partwise = 0; iscore_partwise < score_partwise_children.length; iscore_partwise++) 
+        {
+            score_partwise_child = score_partwise_children[iscore_partwise];
+            console.log("  iscore_partwise: %s score_partwise_child: %s", iscore_partwise, score_partwise_child.tagName);
+
+            
+
+            // looking for 'part-list' and 'part'
+            switch (score_partwise_child.tagName) {
+
+                case "part-list":
+                    part_list_element = score_partwise_child;
+
+                    let part_list_children = part_list_element.children;
+                    console.log("part_list_element: %s top children: %s", part_list_element.tagName, part_list_children.length);
+
+                    // get 'score-part' from 'part-list'
+                    for (let ipart_list = 0; ipart_list < part_list_children.length; ipart_list++) {
+                        part_list_child = part_list_children[ipart_list];
+                        console.log("    ipart_list: %s part_list_child: %s", ipart_list, part_list_child.tagName);
+
+                        switch (part_list_child.tagName) {
+                            case "score-part":
+
+                                // <score-part id="P1">
+                                let score_part_element = part_list_child;
+                                let score_part_id = score_part_element.getAttribute("id");
+
+                                console.log("score_part_id: %s", score_part_id);
+                                score_part_elements.push(score_part_element);
+                                break;
+                        }
+                    }
+                    break;
+
+                case "part":
+                    part_element = score_partwise_child;
+
+                    // <part id="P2">
+                    let part_id = part_element.getAttribute("id");
+
+                    console.log("part_id: %s", part_id);
+                    part_elements.push(part_element);
+                    break;
+            }
+        }
+
+        if (parameters.staff_format == "bass-clef")
+            starting_staff = 2;
+        else
+            starting_staff = 1; // make two staffs - grand-staff
+
+        let new_part_index = score_part_elements.length;
+
+        for (let istaff = starting_staff; istaff <= 2; istaff++)
+        {
+
+            // add a new score_part_element
+
+            new_part_index++;
+            
+            console.log("\n *****Add score_part to part_list element");
+            let score_part_element = document.createElementNS('', "score-part");
+            score_part_element.setAttribute("id", "P" + new_part_index);
+
+            score_part_element.innerHTML = sprintf(`<part-name>Piano</part-name>
+    <part-abbreviation>Pno.</part-abbreviation>
+    <score-instrument id="P%s-I1">
+        <instrument-name>Piano</instrument-name>
+        </score-instrument>
+    <midi-device id="P%s-I1" port="1" />
+    <midi-instrument id="P%s-I1">
+        <midi-channel>2</midi-channel>
+        <midi-program>1</midi-program>
+        <volume>78.7402</volume>
+        <pan>0</pan>
+        </midi-instrument>\n`, new_part_index, new_part_index, new_part_index);
+
+            part_list_element.appendChild(score_part_element);
+            MDOM.show_dom_element(part_list_element);
+
+
+
+            console.log("\n***** Add part%s to score_partwise", new_part_index);
+            // <part id="P1">
+            let new_part_element = document.createElementNS('', "part");
+            new_part_element.setAttribute("id", "P" + new_part_index);
+            score_partwise_element.appendChild(new_part_element);
+            console.log("create new_part_element in score_partwise");
+
+            // read from part element 1
+            let part_element1 = part_elements[0];
+            let part_element1_children = part_element1.children;
+            console.log("part_element1_children: length: %s", part_element1_children.length);
+
+            for (let im = 0; im < part_element1_children.length; im++)
+            {
+                var measure_element = part_element1_children[im];
+                let measure_number = measure_element.getAttribute("number");
+                console.log("%s part_element_child: '%s': %s", im, measure_element.tagName, measure_number);
+
+
+
+                //if (measure_element.tagName != "measure_element");
+                //    continue;
+
+                
+                
+                
+
+                var new_measure_element = document.createElementNS('', "measure");
+                new_measure_element.setAttribute("number", measure_number);
+                new_part_element.appendChild(new_measure_element);
+
+                new_measure_html = "";
+                new_notes_html = "";
+                let first_harmony = true;
+                let first_note = true;
+
+                measure_element_children = measure_element.children;
+                console.log("measure_element_children: length: %s", measure_element_children.length);
+
+                
+
+                    for (let ic = 0; ic < measure_element_children.length; ic++)
+                    {
+                        measure_child = measure_element_children[ic];
+
+                        // some children get copied 
+                        // some get replaced
+                        console.log("ic: %s %s", ic, measure_child.tagName);
+
+                        switch (measure_child.tagName)
+                        {
+                            case "attributes":
+                                    if (show_output)
+                                        console.log("CASE: %s", measure_child.tagName);
+
+                                
+
+                                    // clone to make a new copy
+                                    new_attribute_element = measure_child.cloneNode(true);
+                                    if (show_output)
+                                        MDOM.show_dom_element(new_attribute_element);
+
+                                    
+
+                                    //let attributes = MDOM.attributes;   // access in this scope
+
+                                    // get the attributes we want to remember
+                                    let attribute_children = new_attribute_element.children;
+                                    //console.log("CHILDREN: %s", attribute_children.length);
+                                    for (let ii = 0; ii < attribute_children.length; ii++)
+                                    {
+                                        let attribute_child = attribute_children[ii];
+                                        console.log("attribute_child %s: %s", ii, attribute_child.tagName);
+
+                                        switch (attribute_child.tagName) 
+                                        {
+                                            case "clef":
+                                                clef_element = attribute_child;
+                                                if (istaff == 1)
+                                                {
+                                                    // new treble staff
+                                                    MDOM.change_dom_element_value(clef_element, "sign", "G");
+                                                    MDOM.change_dom_element_value(clef_element, "line", 2);
+                                                }
+                                                else
+                                                {
+                                                    // new bass staff
+                                                    // <clef>
+                                                    // <sign>F</sign>
+                                                    // <line>4</line>
+                                                    // </clef>
+                                                    MDOM.change_dom_element_value(clef_element, "sign", "F");
+                                                    MDOM.change_dom_element_value(clef_element, "line", 4);
+                                                }
+
+                                                break;
+
+                                            case "divisions":
+                                                attributes.divisions = MDOM.get_element_value_numeric(attribute_child);
+                                                break;
+
+                                            case "instruments":
+                                                    break;
+                                            
+                                            case "key":
+                                                // ADH - test key change in the middle of a measure
+                                                if (show_output)
+                                                    console.log("CASE: %s", attribute_child.tagName);
+
+                                                let key_element = attribute_child
+
+                                                //MDOM.show_dom_element(key_element);
+                                                attributes.key.fifths = MDOM.get_dom_element_value_numeric(key_element, "fifths");
+                                                if (show_output)
+                                                    console.log("fifths: %s typeof: %s", attributes.key.fifths, typeof(attributes.key.fifths) );
+                                                attributes.key.mode = MDOM.get_dom_element_value_numeric(key_element, "mode", SKIP_ERROR);
+
+                                                
+                                                break;
+
+                                            case "staff-details":
+                                                break;
+
+                                            case "staves":
+                                                attributes.staves = MDOM.get_element_value_numeric(attribute_child);
+                                                break;
+                                            
+                                            case "time":
+                                                //if (show_output)
+                                                    console.log("CASE: %s", attribute_child.tagName);
+                                                // beats per measure
+                                                attributes.time.beats = MDOM.get_dom_element_value_numeric(attribute_child, "beats");
+                                                // 4=quarter notes, 8=eighth notes, etc.
+                                                attributes.time.beat_type = MDOM.get_dom_element_value_numeric(attribute_child, "beat-type");
+                                                console.log("TIME: %s / %s", attributes.time.beats, attributes.time.beat_type);
+                                                break;
+
+                                            default:
+                                                console.error("Attribute Element not processed: %s", attribute_child.tagName);
+                                                break;
+            
+                                        }
+                                    }
+                                    //console.log("new_attribute_element.outerHTML: %s", new_attribute_element.outerHTML);
+                                    new_measure_html += new_attribute_element.outerHTML;
+
+                                break;
+                            case "note":
+                                if (show_output)
+                                    console.log("CASE: %s first_note: %s", measure_child.tagName, first_note);
+                                if (!first_note)
+                                    continue;
+
+                                first_note = false;
+
+                                // put new notes here
+                                //console.log("new_notes_html: %s", new_notes_html);
+                                new_measure_html += new_notes_html;
+                                break;
+
+                            case "harmony":
+                                if (show_output)
+                                    console.log("CASE: %s first_harmony: %s", measure_child.tagName, first_harmony);
+                                if (!first_harmony)
+                                    continue;
+                                first_harmony = false;
+
+                                
+
+                                harmony_element = measure_child;
+
+                                root_step = MDOM.get_dom_element_value(harmony_element, "root-step", SKIP_ERROR);
+                                //console.log("root-step: %s", root_step);
+                                root_alter = MDOM.get_dom_element_value(harmony_element, "root-alter", SKIP_ERROR);
+                                //console.log("root-alter: %s", root_alter);
+                                bass_step = MDOM.get_dom_element_value(harmony_element, "bass-step", SKIP_ERROR);
+                                //console.log("bass-step: %s", bass_step);
+                                bass_alter = MDOM.get_dom_element_value(harmony_element, "bass-alter", SKIP_ERROR);
+                                //console.log("bass-alter: %s", bass_alter);
+                                kind = MDOM.get_dom_element_value(harmony_element, "kind", SKIP_ERROR);
+                                kind2 = music_xml_kinds[kind].short;
+                                //console.log("kind: %s", kind);
+
+                                sroot = root_step + sharp_flat_from_alter(root_alter);
+                                if (bass_step != "")
+                                    sbass = "/" + bass_step + sharp_flat_from_alter(bass_alter);
+                                else   
+                                    sbass = "";
+                                console.log("CHORD: %s%s%s kind: %s", sroot, kind2, sbass, kind);
+
+
+
+                                // repeat chords in new staffs
+                                if ((parameters.staff_format == "grand-staff" && istaff == 1) ||
+                                    (parameters.staff_format != "grand-staff" && istaff == 2))
+                                {
+                                    console.log("harmomy COPY format: %s istaff: %s\n%s", 
+                                        parameters.staff_format, istaff, harmony_element.outerHTML);
+                                    new_measure_html += "\n    ";
+                                    new_measure_html += harmony_element.outerHTML;
+                                }
+
+                                if (bass_step)
+                                {
+                                    first_step = bass_step;
+                                    first_alter = bass_alter;
+                                }
+                                else
+                                {
+                                    first_step = root_step;
+                                    first_alter = root_alter;
+
+                                }
+
+                                // give octave of bass note
+                                if (root_step >= "C" && root_step <= "F")
+                                    octave = 3;
+                                else    
+                                    octave = 2;
+
+                                // make new_notes_html from chord
+                                // get_note(step, alter, octave, duration, type, accidental, stem)
+                                //new_notes_html += "\n";
+                                //new_notes_html += get_note(first_step, first_alter, octave, attributes.divisions, "quarter", "", "up");
+
+                                // get notes of chord
+                                schord = root_step;
+                                if (root_alter > 0)
+                                    schord += "#";
+                                if (root_alter < 0)
+                                    schord += "b";
+
+                                sbass = "";
+                                if (bass_step)
+                                {
+                                    // get notes of chord
+                                    sbass = bass_step;
+                                    if (bass_alter > 0)
+                                        schord += "#";
+                                    if (bass_alter < 0)
+                                        schord += "b";
+                                }
+                                schord += music_xml_kinds[kind].short;
+;
+
+                                if (istaff == 1)
+                                    octave = octave + 1;
+  
+
+                                new_notes_html += "\n";
+
+                                let one_beat_duration = (attributes.divisions * 4)  / attributes.time.beat_type;
+                                chord_data = {schord: schord, sbass: sbass, octave: octave, one_note: false, start_at: 1, duration: one_beat_duration};
+                                
+                                let beats_remaining = attributes.time.beats;
+                                
+                                console.log("parameters.staff_format: %s", parameters.staff_format);
+                                if (parameters.staff_format == "grand-staff")
+                                {
+                                    if (parameters.bass_format == "longshort")
+                                    {
+                                        if (istaff == 1)
+                                        {
+                                            // treble clef  - output one rest
+                                            new_notes_html += get_rest(one_beat_duration * 2);
+                                            beats_remaining--;  // one beat already out
+                                            beats_remaining--;  // second beat already out
+                                            chord_data.start_at = 2;
+                                        }
+                                        else
+                                        {
+                                            // bass clef
+                                            // play just one note in bass clef
+                                            chord_data.start_at = 1;
+                                            chord_data.one_note = true;
+                                            chord_data.duration = 2 * one_beat_duration;
+                                            new_notes_html += add_chord_notes(chord_data);
+                                            new_notes_html += get_rest((attributes.time.beats - 2) * attributes.divisions);
+                                            break;  // only one note and rest in staff 1
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (istaff == 1)
+                                        {
+                                            // treble clef  - output one rest
+                                            new_notes_html += get_rest(chord_data.duration);
+                                            beats_remaining--;  // one beat already out
+                                            chord_data.start_at = 2;
+                                        }
+                                        else
+                                        {
+                                            // bass clef
+                                            // play just one note in bass clef
+                                            chord_data.start_at = 1;
+                                            chord_data.one_note = true;
+                                            new_notes_html += add_chord_notes(chord_data);
+                                            new_notes_html += get_rest((attributes.time.beats - 1) * attributes.divisions);
+                                            break;  // only one note and rest in staff 1
+                                        }
+                                    }
+
+                                    
+                                }
+
+                                // one beat
+                                chord_data.duration = one_beat_duration;
+
+                                console.log("parameters.bass_format: %s", parameters.bass_format);
+                                switch (parameters.bass_format)
+                                {
+                                    case "chords":
+                                        new_notes_html += add_chord_notes(chord_data);
+                                        beats_remaining--;  // one beat already out
+                                        if (beats_remaining > 0)
+                                        {
+                                            new_notes_html += get_rest(one_beat_duration * beats_remaining);
+                                        }
+                                        break;
+                                    case "longshort":
+                                        if (parameters.staff_format != "grand-staff")
+                                        {
+                                            chord_data.duration = 2 * one_beat_duration;
+                                            new_notes_html += add_chord_notes(chord_data);
+                                            beats_remaining--;  // one beat already out
+                                            beats_remaining--;  // one beat already out
+                                        }
+                                        if (beats_remaining > 0)
+                                        {
+                                            // short chord
+                                            chord_data.duration = 1 * one_beat_duration;
+                                            new_notes_html += add_chord_notes(chord_data);
+                                            beats_remaining--;  // one beat already out
+                                        }
+                                        if (beats_remaining > 0)
+                                        {
+                                            new_notes_html += get_rest(one_beat_duration * beats_remaining);
+                                        }
+                                        break;
+
+                                    case "oompah":
+                                        if (parameters.staff_format != "grand-staff")
+                                        {
+                                            // play the first note if not grand staff
+                                            chord_data.one_note = true;
+                                            new_notes_html += add_chord_notes(chord_data);
+                                            beats_remaining--;  // one beat already out
+                                        }
+
+                                        chord_data.start_at = 2;
+                                        chord_data.one_note = false;
+                                        new_notes_html += add_chord_notes(chord_data);
+                                        beats_remaining--;  // one beat already out
+                                        if (beats_remaining > 0)
+                                        {
+                                            new_notes_html += get_rest(one_beat_duration * beats_remaining);
+                                        }
+                                        break;
+                                    case "oompapah":
+                                        if (parameters.staff_format != "grand-staff")
+                                        {
+                                            // play the first note if not grand staff
+                                            chord_data.one_note = true;
+                                            new_notes_html += add_chord_notes(chord_data);
+                                            beats_remaining--;  // one beat already out
+                                        }
+
+                                        
+                                        chord_data.start_at = 2;
+                                        chord_data.one_note = false;
+                                        new_notes_html += add_chord_notes(chord_data);
+                                        beats_remaining--;  // one beat already out
+
+                                        if (beats_remaining > 0)
+                                        {
+                                            chord_data.start_at = 2;
+                                            chord_data.one_note = false;
+                                            new_notes_html += add_chord_notes(chord_data);
+                                            beats_remaining--;  // one beat already out
+                                        }
+
+                                        if (beats_remaining > 0)
+                                        {
+                                            new_notes_html += get_rest(one_beat_duration * beats_remaining);
+                                        }
+
+                                        break;
+
+                                    
+
+                                    case "arpeggio":
+                                        console.log("beats remaining: A: %s", beats_remaining);
+                                        if (parameters.staff_format != "grand-staff")
+                                        {
+                                            // play the first note if not grand staff
+                                            chord_data.one_note = true;
+                                            new_notes_html += add_chord_notes(chord_data);
+                                            beats_remaining--;  // one beat already out
+                                        }
+                                        console.log("beats remaining: B: %s", beats_remaining);
+                                        chord_data.start_at = 2;
+                                        if (beats_remaining > 1)
+                                        {                                         
+                                            chord_data.one_note = true;
+                                            new_notes_html += add_chord_notes(chord_data);
+                                            beats_remaining--;  // one beat already out
+                                            chord_data.start_at++;
+                                        }
+                                        // play final notes
+                                        console.log("beats remaining: C: %s", beats_remaining);
+                                        if (beats_remaining > 0)
+                                        {                                       
+                                            chord_data.one_note = false; // play all reamining notes
+                                            new_notes_html += add_chord_notes(chord_data);
+                                            beats_remaining--;  // one beat already out
+                                        }
+                                        console.log("beats remaining: D: %s", beats_remaining);
+                                        if (beats_remaining > 0)
+                                        {          
+                                            new_notes_html += get_rest(one_beat_duration * beats_remaining);
+                                        }
+
+                                        break;
+                                }
+                                
+                                
+                                break;
+                    
+
+
+                            default:
+                                if (show_output)
+                                    console.log("DEFAULT: %s", measure_child.tagName);
+                                if (measure_child.tagName == "print" ||
+                                    measure_child.tagName == "direction")
+                                {
+                                    console.log("SKIP COPY: %s", measure_child.tagName);
+                                    break;
+                                }
+                                // if not processed, clone into new measure
+                                console.log("default COPY: %s\n%s",  measure_child.tagName, measure_child.outerHTML);
+                                new_measure_html += "\n    ";
+                                new_measure_html += measure_child.outerHTML;
+                                break;
+                        }
+                    }
+                    new_measure_element.innerHTML = new_measure_html + "\n";
+                    console.log("new_measure_element.outerHTML:\n%s", new_measure_element.outerHTML);
+                } // end of measures
+
+    
+            
+            } // end of staffs
+
+
+        var serializer = new XMLSerializer();
+        xml_string_out = serializer.serializeToString(MDOM.dom_object);
+
+        elt = document.getElementById("prepare_output_file");
+        elt.style.display = "block";
+
+    }   // end of create_new_score
+
+    
+     function add_chord_notes(chord_data)
+    {
+        // chord_data = {schord: schord, sbass: sbass, octave; octave, one_note: false, start_at: 1, duration: one_beat_duration};
+
+        console.log("add_chord_notes: %s", MDOM.get_caller());
+        MDOM.show_object(chord_data, "chord_data");
+
+
+        chord_step = schord.substr(0,1);  // single letter for chord
+        if (schord.substr(1,1) == "#")
+        {
+            sroot = schord.substr(0,2);
+            chord_alter = 1;
+            accidental = "#";
+            ssub = schord.substr(2);
+        }
+        else if (schord.substr(2,1) == "#")
+        {
+            sroot = schord.substr(0,3);
+            chord_alter = 1;
+            accidental = "#";
+            ssub = schord.substr(3);
+        }
+        else if (schord.substr(1,1) == "b")
+        {
+            sroot = schord.substr(0,2);
+            chord_alter = -1;
+            accidental = "b";
+            ssub = schord.substr(2);
+        }
+        else if (schord.substr(2,1) == "b")
+        {
+            sroot = schord.substr(0,3);
+            chord_alter = -1;
+            accidental = "b";
+            ssub = schord.substr(3);
+        }
+        else
+        {
+            sroot = schord.substr(0,1)
+            chord_alter = 0;
+            accidental = "";
+            ssub = schord.substr(1);
+        }
+        
+        console.log("schord: %s chord_step: %s sroot: %s chord_alter: %s accidental: %s ssub: %s",
+           schord, chord_step, sroot, chord_alter, accidental, ssub);
+
+        schord_in_c = "C" + ssub;
+        let c_chord = c_chord_data[schord_in_c];
+        if (!c_chord)
+        {
+            console.log("CHORD NOT FOUND: %s", c_chord);
+
+            return("");s
+        }
+        chord_kind = c_chord.chord_kind;
+        notes_array = c_chord.notes;
+        console.log("schord: %s notes_array: %s", schord, notes_array.join("  "));
+
+        
+
+
+        // get inversion based on bass note
+        inversion = 0;  // none
+        console.log("SROOT: %s SBASS: %s ", sroot, sbass);
+        if (sbass != "" && sbass != sroot)
+        {
+            // find first note at or above the bass note
+            // chord offset from C
+            let root_note_number = note_numbers[sroot];
+            let root_note_offset = (root_note_number - note_numbers["C"] + 12) % 12;
+            console.log("sroot: %s root_note_number: %s root_note_offset: %s", sroot, root_note_number, root_note_offset);
+
+            let bass_note_number = note_numbers[sbass];
+            let bass_note_offset = (bass_note_number - root_note_number + 12) % 12;
+            console.log("sbass: %s bass_note_number: %s bass_note_offset: %s", sbass, bass_note_number, bass_note_offset);
+
+            for (let inote = 0; inote < notes_array.length; inote++)
+            {
+                let chord_note = notes_array[inote];
+                let chord_note_number = note_numbers[chord_note];
+                let chord_note_offset = (chord_note_number - note_numbers["C"] + 12) % 12;
+                console.log("chord_note: %s chord_note_number: %s bass_note_offset: %s chord_note_offset: %s", 
+                    chord_note, chord_note_number, bass_note_offset, chord_note_offset);
+                if (chord_note_offset >= bass_note_offset)
+                {
+                    inversion = inote;
+                    console.log("SET INVERSION: %s", inversion);
+                    break;
+                }
+            }
+            console.log("INVERSION: %s", inversion);
+            //throw("INVERSION");
+        }
+        chord_xml = "";
+        chord_last = "";
+        
+        /*
+                xml_score += sprintf(`<harmony color="#000000" default-y="25">
+                    <root>
+                    <root-step>%s</root-step>
+                    <root-alter>%s</root-alter>
+                    </root>
+                    <kind>%s</kind>
+                </harmony>\n`, chord_step, chord_alter, chord_kind); 
+        */
+
+
+
+        snote_last = "C";
+        half_steps_array = [];
+        last_note_number = 1;
+
+        half_steps = 0;
+
+        let new_chord = true;   // first note of chord
+
+        console.log("chord_data.one_note: %s ", chord_data.one_note);
+
+        for (ii = 0; ii < notes_array.length; ii++) {
+            // see it there are carried over notes
+            inote = (ii + inversion + notes_array.length) % notes_array.length;
+            note_letter = notes_array[inote];
+            note_number = note_numbers[note_letter];
+            console.log("ii: %s inversion: %s inote: %s note_letter: %s note_number: %s last_note_number: %s", 
+                ii, inversion, inote, note_letter, note_number, last_note_number);
+
+
+            
+            half_steps_offset = note_number - last_note_number;
+            if (half_steps_offset < 0)
+                half_steps_offset += 12;
+            half_steps = half_steps + half_steps_offset;
+            
+            last_note_number = note_number;
+
+            
+
+
+            console.log("ii: %s individual_notes: %s beats: %s new_chord: %s", ii, parameters.individual_notes, attributes.time.beats,  new_chord);
+
+            console.log("ii: %s note_letter: %s half_steps: %s new last_note_number: %s half_steps: %s", 
+                ii, note_letter, half_steps, last_note_number, half_steps);
+
+            
+
+            last_note_number = note_number;
+
+            if (ii < chord_data.start_at - 1)
+                continue;   // skip notes alread out
+            
+            // add first note or rest of notes
+            chord_note_xml = add_note_to_chord(sroot, octave, half_steps, chord_data.duration, new_chord); 
+            chord_xml += chord_note_xml;
+            console.log("chord_note_xml: %s", chord_note_xml);
+
+            new_chord = false;
+  
+            
+            if (chord_data.one_note)
+                break;  // output just one note
+
+        }
+        
+        return(chord_xml);
+
+
+    }
+
+    // sbase = Bb, D, F#
+    function add_note_to_chord(sbase, octave, half_steps, duration, new_chord)
+    {
+        console.log("add_note_to_chord: sbase: %s octave: %s half_steps: %s new_chord: %s  %s",
+            sbase, octave, half_steps, new_chord, MDOM.get_caller() );
+        base_number = note_numbers[sbase];
+
+        sharp_flat = sharp_flat_from_note[sbase];
+        //console.log("sbase: %s base_number: %s sharp_flat: %s", sbase, base_number, sharp_flat);
+        new_number = base_number + half_steps;
+        new_octave = octave;
+        while (new_number > 12)
+        {
+            new_number -= 12;
+            new_octave++;
+        }
+        if (sharp_flat == "#")
+            new_note = note_letters_sharp[new_number];
+        else 
+            new_note = note_letters_flat[new_number];
+
+        new_note_step = new_note.substr(0,1);
+        new_note_alter = get_alter(new_note);
+        new_note_accidental = get_accidental(new_note);
+        //console.log("add_note_to_chord: half_steps: %s new_number: %s new_note: %s new_note_step: %s new_note_alter: %s accidental: %s", 
+        //    half_steps, new_number, new_note, new_note_step, new_note_alter, new_note_accidental);
+
+        if (duration == attributes.divisions)
+        {
+            stype = "quarter";
+        }
+        else if (duration == attributes.divisions / 2)
+        {
+            stype = "eighth";
+        }
+        else if (duration == attributes.divisions * 2)
+        {
+            stype = "half";
+        }
+        else if (duration == attributes.divisions * 4)
+        {
+            stype = "whole";
+        }
+        
+        
+        note_html = `<note default-x="26">\n`;
+        if (!new_chord)
+        {
+            // <chord is in the second note of the chord
+            note_html += `<chord />\n`;
+        }
+        note_html += sprintf(`<pitch>
+            <step>%s</step>
+            <alter>%s</alter>
+            <octave>%s</octave>
+            </pitch>
+            <duration>%s</duration>
+            <instrument id="P1-I1" />
+            <type>%s</type>\n`, new_note_step, new_note_alter, new_octave, chord_data.duration, stype);
+            
+        //note_html += `<lyric default-y="-80" number="part1verse1" >
+        //    <syllabic>single</syllabic>
+        //    <text>. . . .</text>
+        //</lyric>\n`;
+        if (new_note_accidental != "")
+            note_html += sprintf(`<accidental>%s</accidental>\n`, new_note_accidental)
+      
+        note_html += `</note>\n`;
+        return(note_html);
+
+       
+
+    }
+
+
+ 
+
+
+
+     function get_note(step, alter, octave, duration, type, accidental, stem)
+     {
+         if (alter != "" && alter != 0)
+            salter =sprintf("<alter>%s</alter>", alter);
+        else   
+            salter = "";
+
+        if (accidental)
+            saccidental = "        <accidental>" + accidental + "</accidental>";
+        else   
+            saccidental = "";
+
+        note = sprintf(`    <note default-x="22.43" default-y="-277.97">
+        <pitch>
+        <step>%s</step>
+        <octave>%s</octave>%s
+        </pitch>
+        <duration>%s</duration>
+        <voice>1</voice>
+        <type>%s</type>%s
+        <stem>%s</stem>
+    </note>`, step, octave, salter, duration, type, saccidental, stem); 
+
+        return(note)
+     }
+
+     function get_rest(duration)
+     {
+         console.log("get_rest: duration: %s %s", duration, MDOM.get_caller());
+         rest = sprintf(`    <note>
+        <rest/>
+        <duration>%s</duration>
+        <voice>1</voice>
+    </note>`, duration);
+        return(rest);
+     }
+
+
+
+        function add_element(parent_element, name, value) {
+            new_element = document.createElementNS('', name);
+            new_element.innerHTML = value;
+            parent_element.appendChild(new_element);
+            return (new_element);
+        }
+
+        function sharp_flat_from_alter(alter)
+        {
+            if (alter > 0)
+                return("#");
+            if (alter < 0)
+                return("b");
+            return("");
+        }
+
+    
+
+
+
+ 
+    
+
+
+
+        </script>
+    
+    </body >
+</html >
