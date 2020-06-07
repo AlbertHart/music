@@ -121,7 +121,7 @@
  
             <p class=font_element>
                     <label>Song Name:</label>
-                    <input type=text id = "song_name" name="song_name"   onchange="save_parameter_change();">
+                    <input type=text id = "song_name" name="song_name"   onchange="get_parameter_change(this);">
             </p>
 
 
@@ -145,157 +145,177 @@
             <p>Click on the buttons inside the tabbed menu:</p>
             
             <div class="menu_tab">
-                <button class="tablinks" onclick="open_tab(event, 'transpose_tab')">Transpose XML</button>
-                <button class="tablinks" onclick="open_tab(event, 'add_bass_tab')">Add Bass Notes</button>
-                <button class="tablinks" onclick="open_tab(event, 'trim_score_tab')">Trim Score</button>
-                <button class="tablinks" onclick="open_tab(event, 'voice_leading_tab')">Voice Leading</button>
-                <button class="tablinks" onclick="open_tab(event, 'melody_chords_tab')">Melody Chords</button>
+                <button class="tablinks" name='transpose_tab' onclick="open_tab(this)">Transpose XML</button>
+                <button class="tablinks" name='add_bass_tab' onclick="open_tab(this)">Add Bass Notes</button>
+                <button class="tablinks" name='trim_score_tab' onclick="open_tab(this)">Trim Score</button>
+                <button class="tablinks" name='voice_leading_tab' onclick="open_tab(this)">Voice Leading</button>
+                <button class="tablinks" name='melody_chords_tab' onclick="open_tab(this)">Melody Chords</button>
             </div>
             
            
             
             
                     
-                    <script>
+     <script>
+        var parameters = {};
+        var current_tab;
 
-                    var current_tab;
-                    function open_tab(evt, tab_name) 
-                    {
-                      var i, tabcontent, tablinks;
-                      tabcontent = document.getElementsByClassName("tabcontent");
-                      for (i = 0; i < tabcontent.length; i++) 
-                      {
-                        tabcontent[i].style.display = "none";
-                      }
-                      tablinks = document.getElementsByClassName("tablinks");
-                      for (i = 0; i < tablinks.length; i++) {
-                        tablinks[i].className = tablinks[i].className.replace(" active", "");
-                      }
-                      document.getElementById(tab_name).style.display = "block";
-                      evt.currentTarget.className += " active";
+        var xml_string_loaded = score1;
+        // xml_string_loaded = score2; // just one measure for testing
+        var xml_string_out;
+        var show_output = true;
 
-                      elt = document.getElementById("select_file");
-                      elt.style.display = "block";
 
-                      current_tab = tab_name;
-                    }
-                    </script>
-                       
-            <div id="transpose_tab" class="tabcontent">
+        var event0;
+        var item0;
+        function open_tab(item) 
+        {
+            console.log(get_self(item.id, item.name));
+            item0 = item;
+            tab_name = item.name;   // tab to open
 
-                <p class=font_element>
-                    <label>Transpose Direction</label>
-                    <select id = "starting_inversion" name="starting_inversion" "   onchange="save_parameter_change();">
-                        <option value = "closest" selected>Closest</option>
-                        <option value = "up">Move Notes Up</option>
-                        <option value = "down">Move Notes Down</option>
-                    </select>
-                            </p>
+            let i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (let i = 0; i < tabcontent.length; i++) 
+            {
+                tabcontent[i].style.display = "none";
+            }
 
-            <p class=font_element>
-                    <label>Transpose to key</label>
-                    <select id = "transpose_key" name="transpose_key"  onchange="save_parameter_change();">
-                        <option value = "None" selected>None</option>
-                        <option value = "Ab">Ab / Fm</option>
-                        <option value = "A">A / F#m</option>
-                            <!-- <option value = "A#">A#</option> -->
-                        <option value = "Bb" >Bb / Gm</option>
-                        <option value = "B">B / G#m</option>
-                        <option value = "Cb">Cb / Abm</option>
-                        <option value = "C">C / Am</option>
-                        <option value = "C#">C# / A#m</option>
-                        <option value = "Db">Db / Bbm</option>
-                        <option value = "D">D / Bm</option>
-                            <!-- <option value = "D#">D#</option> -->
-                        <option value = "Eb">Eb / Cm</option>
-                        <option value = "E">E / C#m</option>
-                        <option value = "F">F / Dm</option>
-                        <option value = "F#">F# / D#m</option>
-                        <option value = "Gb">Gb / Ebm</option>
-                        <option value = "G">G / Em</option>
-                            <!-- <option value = "G#">G#</option> -->
-                    </select>
+            // remove 'active' from other tabs
+            tablinks = document.getElementsByClassName("tablinks");
+            for (let i = 0; i < tablinks.length; i++) 
+            {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tab_name).style.display = "block";
+            item.className += " active";
 
-            </div> <!-- TAB -->
+            elt = document.getElementById("select_file");
+            elt.style.display = "block";
 
-                <div id="add_bass_tab" class="tabcontent">
-                   
-               
-        
-            
-          
-                    
+            current_tab = tab_name;
+            parameters["open_tab"] = tab_name;
+        }
+     </script>
+                
+    <div id="transpose_tab" class="tabcontent">
+
+        <p class=font_element>
+        <label>Transpose Direction</label>
+        <select id = "transpose_direction" name="transpose_direction" "   onchange="get_parameter_change(this);">
+            <option value = "closest" selected>Closest</option>
+            <option value = "up">Move Notes Up</option>
+            <option value = "down">Move Notes Down</option>
+        </select>
+        </p>
+
+        <p class=font_element>
+        <label>Transpose to key</label>
+        <select id = "transpose_key" name="transpose_key"  onchange="get_parameter_change(this);">
+            <option value = "None" selected>None</option>
+            <option value = "Ab">Ab / Fm</option>
+            <option value = "A">A / F#m</option>
+                <!-- <option value = "A#">A#</option> -->
+            <option value = "Bb" >Bb / Gm</option>
+            <option value = "B">B / G#m</option>
+            <option value = "Cb">Cb / Abm</option>
+            <option value = "C">C / Am</option>
+            <option value = "C#">C# / A#m</option>
+            <option value = "Db">Db / Bbm</option>
+            <option value = "D">D / Bm</option>
+                <!-- <option value = "D#">D#</option> -->
+            <option value = "Eb">Eb / Cm</option>
+            <option value = "E">E / C#m</option>
+            <option value = "F">F / Dm</option>
+            <option value = "F#">F# / D#m</option>
+            <option value = "Gb">Gb / Ebm</option>
+            <option value = "G">G / Em</option>
+                <!-- <option value = "G#">G#</option> -->
+        </select>
+
+    </div> <!-- TAB -->
+
+    <div id="add_bass_tab" class="tabcontent">
 
     
         <h3>Select Accompaniment Format</h3>
         <!--RADIO Images-->
-        <input type="radio" class="bass_radio_item" value="" name="bass_format" id="radio_chords" checked>
+        <input type="radio" class="bass_radio_item" value="" name="bass_format" id="radio_chords" checked
+            onchange="get_parameter_change(this);">
             <label class="label_item" for="radio_chords"> <img class="bass_image" src="images/chords.png"> </label>
         
     
-        <input type="radio" class="bass_radio_item" value="" name="bass_format" id="radio_oompah">
+        <input type="radio" class="bass_radio_item" value="" name="bass_format" id="radio_oompah"
+            onchange="get_parameter_change(this);">
         <label class="label_item" for="radio_oompah"> <img class="bass_image" src="images/oompah.png"> </label>
     
-        <input type="radio" class="bass_radio_item" value="" name="bass_format" id="radio_oompapah">
+        <input type="radio" class="bass_radio_item" value="" name="bass_format" id="radio_oompapah"
+            onchange="get_parameter_change(this);">
         <label class="label_item" for="radio_oompapah"> <img class="bass_image" src="images/oompapah.png"> </label>
 
-        <input type="radio" class="bass_radio_item" value="" name="bass_format" id="radio_longshort">
+        <input type="radio" class="bass_radio_item" value="" name="bass_format" id="radio_longshort"
+            onchange="get_parameter_change(this);">
         <label class="label_item" for="radio_longshort"> <img class="bass_image" src="images/longshort.png"> </label>
     
-        <input type="radio" class="bass_radio_item" value="" name="bass_format" id="radio_arpeggio">
+        <input type="radio" class="bass_radio_item" value="" name="bass_format" id="radio_arpeggio"
+            onchange="get_parameter_change(this);">
         <label class="label_item" for="radio_arpeggio"> <img class="bass_image" src="images/arpeggio.png"> </label>
 
         <h3>Select Staffs</h3>
         <!--RADIO Images-->
-        <input type="radio" class="staff_radio_item" value="" name="staff_type" id="bass-clef" checked>
+        <input type="radio" class="staff_radio_item" value="" name="staff_type" id="bass-clef" checked
+            onchange="get_parameter_change(this);">
             <label class="label_item" for="bass-clef"> <img class="staff_image" src="images/bass-clef.png"> </label>
         
     
-        <input type="radio" class="staff_radio_item" value="" name="staff_type" id="grand-staff">
+        <input type="radio" class="staff_radio_item" value="" name="staff_type" id="grand-staff"
+            onchange="get_parameter_change(this);">
         <label class="label_item" for="grand-staff"> <img class="staff_image" src="images/grand-staff.png"> </label>
 
 
     
-    
- <form >
+
                 
     
-                <div id='create_score' style='display:block;'>
-                    <button onclick="create_new_score();">Create New Score</button>
-                    <br>Create New Score to create score,
-                </div>
+    <div id='create_score1' style='display:block;'>
+        <button onclick="create_new_score();">Create New Score</button>
+        <br>Create New Score to create score,
+    </div>
 
        
 
-        </div><!-- TAB -->
+</div><!-- TAB -->
                 
-        <div id="trim_score_tab" class="tabcontent">
-            <h3>Trim Score</h3>
+<div id="trim_score_tab" class="tabcontent">
+    <h3>Trim Score</h3>
 
-            <h2 id=version>Trim Score to a Range of Measures</h2>
+    <h2 id=version>Trim Score to a Range of Measures</h2>
 
 
 
-          <table>
-              <tr><td>First Measure: </td><td><input type=number id=first_measure style="width: 4em;" value=2></td></tr>
-              <tr><td>Last Measure: (0 for all)</td><td><input type=number id=last_measure style="width: 4em;" value=3></td></tr>
-              <tr><td>First Note: </td><td><input type=number id=first_note style="width: 4em;" value=1></td></tr>
-              <tr><td>Last Note: (0 for all)</td><td><input type=number id=first_note style="width: 4em;" value=0></td></tr>
-          </table>
-          <br>
-          <br> 
+    <table>
+        <tr><td>First Measure: </td><td><input type=number id=first_measure style="width: 4em;" value=2
+        onchange="get_parameter_change(this);"></td></tr>
+        <tr><td>Last Measure: (0 for all)</td><td><input type=number id=last_measure style="width: 4em;" value=3
+        onchange="get_parameter_change(this);"></td></tr>
+        <tr><td>First Note: </td><td><input type=number id=first_note style="width: 4em;" value=1
+        onchange="get_parameter_change(this);"></td></tr>
+        <tr><td>Last Note: (0 for all)</td><td><input type=number id=last_note style="width: 4em;" value=0></td></tr>
+    </table>
+    <br>
+    <br> 
 
-          div id='create_score' style='display:block;'>
-            <button onclick="do_trim();">Trim Score</button>
-        </div>
-
-        <div id='prepare_output_file' style='display:none;'>
-            <button onclick="prepare_output_file();">Prepare Output File</button>
-            <br>Click the Download button after 'Prepare Output File'
-        </div>
-
-        <p></p>
+    <div id='create_score' style='display:block;'>
+        <button onclick="do_trim();">Trim Score</button>
     </div>
+
+    <div id='prepare_output_file' style='display:none;'>
+        <button onclick="prepare_output_file();">Prepare Output File</button>
+        <br>Click the Download button after 'Prepare Output File'
+    </div>
+
+    <p></p>
+</div>
 
     
     <div id=download_div style="display:none;">
@@ -309,11 +329,11 @@
 
             <p class=font_element>
                 <label>Inversion to start with</label>
-                <select id = "starting_inversion" name="starting_inversion" "   onchange="save_parameter_change();">
-                    <option value = "0" selected>Root</option>
-                    <option value = "1">First</option>
-                    <option value = "2">2nd</option>
-                    <option value = "3">3rd if available</option>
+                <select id = "starting_inversion" name="starting_inversion" "   onchange="get_parameter_change(this);">
+                    <option value = "root" selected>Root</option>
+                    <option value = "1st">First</option>
+                    <option value = "2nd">2nd</option>
+                    <option value = "3rd">3rd if available</option>
                 </select>
                         </p>
 
@@ -324,9 +344,9 @@
 
             <p class=font_element>
                 <label>Put 7th in Bass or with Melody</label>
-                 <select id = "seventh_position" name="seventh_position" "   onchange="save_parameter_change();">
-                <option value = "treble" selected>In chord</option>
-                <option value = "bass">With Bass note</option>
+                 <select id = "seventh_position" name="seventh_position" "   onchange="get_parameter_change(this);">
+                <option value = "treble" selected>In Melody Chord</option>
+                <option value = "bass">With Bass Note</option>
             </select>
         </p>
 
@@ -338,11 +358,11 @@
                 <input type='file' id="get_file" accept=".xml,.musicxml" onchange='openFile(event);'>
 
                 <input type=hidden name="load_song" id = "load_song" value=1>
-            </form>
+
 
             <p class=font_element>
                 <label>Show All Debugs in console</label>
-                <select id = "show_output" name="show_output" "   onchange="save_parameter_change();">
+                <select id = "show_output" name="show_output" "   onchange="get_parameter_change(this);">
                     <option value = 0 selected >No</option>
                     <option value = 1 >Yes</option>
                 </select>
@@ -374,18 +394,49 @@
         </div>
 
     <script>
-    var parameters = {};
+    
+
+
+    function get_parameter_change(element)
+    {
+        console.log(get_self(element.id, element.name));
+ 
+        let name;
+        let value;
+        let type = element.type;
+        if (element.tagName == "SELECT")
+        {
+            type = "SELECT";
+            name = element.id;
+            let index = element.selectedIndex;
+            //console.log("NAME: %s index: %s", name, index);
+            value = element.options[index].value;
+        }
+        else if (element.type == "radio")
+        {
+            name = element.name;
+            value = element.id;
+        }
+        else if (element.type == "number" || element_type == "text")
+        {
+            name = element.id;
+            value = element.value;
+        }
+        parameters[name] = value;
+        console.log("get_parameter_change: type: %s name: %s value: %s", type, name, value);
+        store_parameters();
+    }
 
         var song_name;
         var openFile = function (event) {
-        	var elt = document.getElementById('get_file'); 
+        	let elt = document.getElementById('get_file'); 
             song_name = elt.files.item(0).name;             
 	        console.log("(IN OPEN FILE: song_name: %s", song_name);
             set_element_value("song_name", song_name);
             parameters.song_name = song_name;
             
 	        
-	        var input = event.target;  
+	        let input = event.target;  
            
             reader = new FileReader();
             reader.onload = fileLoaded;
@@ -398,7 +449,6 @@
         function save_parameter_change()
         {
             console.log("save_parameter_change");
-            get_parameters_from_elements();
             store_parameters();
             return(true);
         }
@@ -421,47 +471,46 @@
 
     }
 
-    function get_parameters_from_elements()
-    {
-        console.log(get_self());
-        add_to_parameters("song_name");
-        add_to_parameters("transpose_key");
-        add_to_parameters("starting_inversion");
-        add_to_parameters_number("show_output");
-
-
-    }
+ 
 
         function store_parameters()
         {
             console.log(get_self());
-            get_parameters_from_elements();
             json_string = JSON.stringify(parameters);
-            console.log("json_string: %s", json_string);
+            //console.log("json_string: %s", json_string);
 
             storage_key = parameters.song_name;
             if (!storage_key || storage_key == "")
-                storage_key = "xml_transpose";
-            console.log("setItem for storage_key: %s", storage_key);
+                storage_key = "musicxml";
+            //console.log("setItem for storage_key: %s", storage_key);
             localStorage.setItem(storage_key, json_string);
 
         }
         function load_parameters(storage_key)
         {   
+            if (!storage_key || storage_key == "")
+                storage_key = "musicxml";
             console.log("load_parameters: %s", storage_key);
             json_string = localStorage.getItem(storage_key);
-            console.log("json_string: %s", json_string);
             parameters_parsed = JSON.parse(json_string);
 
-            for (var key in parameters_parsed)
+            console.log("parameters_parsed: %s", parameters_parsed);
+
+            for (let key in parameters_parsed)
             {
-                var value = parameters_parsed[key];
+                let value = parameters_parsed[key];
                 console.log("load_parameters: key: %s value:  %s", key, value);
+                parameters[key] = value;
                 set_element_value(key, value);
             }
-
+            
 
         }
+
+        load_parameters();  // load saved parameters
+        
+
+
 
 
     
@@ -487,34 +536,66 @@
     
     
 
-        function set_element_value(sid, value){
+        function set_element_value(sid, value)
+        {
+            console.log(get_self(sid, value));
             elt = document.getElementById(sid);
             if (!elt)
             {
-                throw("ELT NOT FOUND: " + sid);
+                // see if this is a radio group - by class of elements
+                elts = document.getElementsByName(sid);
+                for (let ii = 0; ii < elts.length; ii++)
+                {
+                    elt = elts[ii]
+                    //console.log("elt id: %s name: %s", elt.id, elt.name);
+                    if (elts[ii].id == value)
+                    {
+                        elt.checked = true;
+                        console.log("ii: %s set check: %s", ii, elts[ii].id);
+                        return;
+                    }
+                }
+
+                // see if this is a tab to open
+                tablinks = document.getElementsByClassName("tablinks");
+                for (let i = 0; i < tablinks.length; i++) 
+                {
+                    if (tablinks[i].name == value)
+                    {
+                        console.log("OPEH TAB: %s", value);
+                        open_tab(tablinks[i]);
+                        return;
+                    }
+                }
+                
+            }
+            if (!elt)
+            {
+                console.error("set_element_value: ELT NOT FOUND: %s", sid);
+                return;
             }
             
             if (elt.tagName == "SELECT")
             {
-                for(var ii=0; ii < elt.options.length; ii++)
+                for(let ii=0; ii < elt.options.length; ii++)
                 {
                     elt_value = elt.options[ii].value;
-                    //console.log("ii: %s %s %s %s == %s", 
-                    //    ii, sid, value, elt_value, (value == elt_value) ? "T" : "F" )
-                    if(elt.options[ii].value == value)
+                    console.log("ii: %s sid: %s value: %s (value == elt_value): %s", 
+                        ii, sid, elt_value, (value == elt_value) ? "T" : "F" );
+                    if (elt_value == value)
                     {
                         elt.selectedIndex = ii;
                         
-                        //console.log("set_element_value: SELECT: %s value: %s index: %s", sid, ii, value);
+                        console.log("set_element_value: SELECT: %s value: %s index: %s", sid, ii, value);
                         return;
                     }
                 }
-                throw(sid + " - value not found: " + value, sid, value);
+                console.error(sid + " - SELECT value not found: " + value, sid, value);
             }
             else
             {
                 elt.value = value;
-                //console.log("set_element_value: sid: %s value: %s elt.value: %s", sid, value, elt.value);
+                console.log("set_element_value: sid: %s value: %s elt.value: %s", sid, value, elt.value);
             }
         }
 
@@ -522,7 +603,7 @@
         {
             elt = document.getElementById(sid); 
             if (!elt)
-                throw("elt not found: " + sid);
+                console.error("elt not found: " + sid);
             if (elt.tagName == "SELECT")
             {
                 value = elt.options[elt.selectedIndex].value;
@@ -607,14 +688,9 @@ var music_xml_kinds = {
 
 
 
-    var xml_string_loaded = score1;
-    // xml_string_loaded = score2; // just one measure for testing
-    var xml_string_out;
-    var show_output = true;
+ 
 
-    var parameters = {individual_notes: 0,    // notes before rest of chord
-        repeat_last: false,
-        staffs:  1};
+
 
     
 
@@ -652,7 +728,7 @@ var music_xml_kinds = {
 
         let bass_format_id;
         let bass_elts = document.getElementsByName("bass_format");
-        for (ii = 0; ii < bass_elts.length; ii++)
+        for (let ii = 0; ii < bass_elts.length; ii++)
         {
             if (bass_elts[ii].checked)
             {
@@ -681,11 +757,11 @@ var music_xml_kinds = {
                 parameters.bass_format = "arpeggio";     
                 break;
             detault:
-                throw("Bass Format not found: " + bass_format_id)
+                console.error("Bass Format not found: " + bass_format_id)
         }
 
         let staff_elts = document.getElementsByName("staff_type");
-        for (ii = 0; ii < staff_elts.length; ii++)
+        for (let ii = 0; ii < staff_elts.length; ii++)
         {
             if (staff_elts[ii].checked)
             {
@@ -816,7 +892,7 @@ var music_xml_kinds = {
 
             for (let im = 0; im < part_element1_children.length; im++)
             {
-                var measure_element = part_element1_children[im];
+                let measure_element = part_element1_children[im];
                 let measure_number = measure_element.getAttribute("number");
                 console.log("%s part_element_child: '%s': %s", im, measure_element.tagName, measure_number);
 
@@ -829,14 +905,14 @@ var music_xml_kinds = {
                 
                 
 
-                var new_measure_element = document.createElementNS('', "measure");
+                let new_measure_element = document.createElementNS('', "measure");
                 new_measure_element.setAttribute("number", measure_number);
                 new_part_element.appendChild(new_measure_element);
 
                 new_measure_html = "";
                 new_notes_html = "";
                 let first_harmony = true;
-                let first_note = true;
+                let first_note_in_measure = true;
 
                 measure_element_children = measure_element.children;
                 console.log("measure_element_children: length: %s", measure_element_children.length);
@@ -951,11 +1027,11 @@ var music_xml_kinds = {
                                 break;
                             case "note":
                                 if (show_output)
-                                    console.log("CASE: %s first_note: %s", measure_child.tagName, first_note);
-                                if (!first_note)
+                                    console.log("CASE: %s first_note_in_measure: %s", measure_child.tagName, first_note_in_measure);
+                                if (!first_note_in_measure)
                                     continue;
 
-                                first_note = false;
+                                first_note_in_measure = false;
 
                                 // put new notes here
                                 //console.log("new_notes_html: %s", new_notes_html);
@@ -1257,7 +1333,7 @@ var music_xml_kinds = {
             } // end of staffs
 
 
-        var serializer = new XMLSerializer();
+        let serializer = new XMLSerializer();
         xml_string_out = serializer.serializeToString(MDOM.dom_object);
 
         elt = document.getElementById("prepare_output_file");
@@ -1359,7 +1435,7 @@ var music_xml_kinds = {
                 }
             }
             console.log("INVERSION: %s", inversion);
-            //throw("INVERSION");
+
         }
         chord_xml = "";
         chord_last = "";
@@ -1386,7 +1462,7 @@ var music_xml_kinds = {
 
         console.log("chord_data.one_note: %s ", chord_data.one_note);
 
-        for (ii = 0; ii < notes_array.length; ii++) {
+        for (let ii = 0; ii < notes_array.length; ii++) {
             // see it there are carried over notes
             inote = (ii + inversion + notes_array.length) % notes_array.length;
             note_letter = notes_array[inote];
