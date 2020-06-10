@@ -12,11 +12,11 @@
     <script src="music_common/html_common.js?v=2.66"></script>
     <script src="add_bass_score.js?v=2.66"></script>
     <!--  <script src="music-xml-transpose.ts"> -->
-    <!-- this uses the namespace object MDOM to access transpose functions.js -->
+    <!-- this uses the namespace object MLIB to access transpose functions.js -->
 
     <script>
         // this gets our DOM functions in a object
-        var MDOM = new MusicDOM(); 
+        var MLIB = new MusicDOM(); 
     </script>
 
     <style>
@@ -44,7 +44,7 @@
             <button onclick="do_trim();">Trim Score</button>
         </div>
 
-        <div id='prepare_output_file' style='display:none;'>
+        <div id='prepare_output' style='display:none;'>
             <button onclick="prepare_output_file();">Prepare Output File</button>
             <br>Click the Download button after 'Prepare Output File'
         </div>
@@ -84,18 +84,19 @@
         parameters.first_note = Number(document.getElementById("first_note").value);
         parameters.last_note = Number(document.getElementById("first_note").value);
         
-        xml_string_out = MDOM.trim_score(parameters, xml_string_in);
+        xml_string_out = MLIB.trim_score(parameters, xml_string_in);
 
-        elt = document.getElementById("prepare_output_file");
+        elt = document.getElementById("prepare_output");
         elt.style.display = "block";
     }
 
-    MDOM.trim_score = function(parameters, xml_string_in)
+    MLIB.trim_score = function(parameters, xml_string)
     {
-        MDOM.parser = new DOMParser();
-        MDOM.dom_object = MDOM.parser.parseFromString(xml_string_in, 'application/xml');
+        this.parameters = parameters;  // save in prototype
+        MLIB.parser = new DOMParser();
+        MLIB.dom_object = MLIB.parser.parseFromString(xml_string, 'application/xml');
 
-        let score_partwise_element = MDOM.dom_object.firstElementChild; // score-partwise
+        let score_partwise_element = MLIB.dom_object.firstElementChild; // score-partwise
 
         let score_partwise_children = score_partwise_element.children;
         console.log("score_partwise_element: %s top children: %s", score_partwise_element.tagName, score_partwise_children.length);
@@ -203,14 +204,14 @@
                                         let attribute_child = attribute_children[ii];
                                         console.log("attribute_child %s: %s", ii, attribute_child.tagName);
 
-                                        let first_measure_child = MDOM.get_dom_element(first_measure, attribute_child.tagName, SKIP_ERROR);
+                                        let first_measure_child = MLIB.get_dom_element(first_measure, attribute_child.tagName, MLIB.SKIP_ERROR);
                                         if (first_measure_child)
                                         {
-                                            MDOM.change_dom_element_value(first_measure, attribute_child.tagName, attribute_child);
+                                            MLIB.change_dom_element_value(first_measure, attribute_child.tagName, attribute_child);
                                         }
                                         else
                                         {
-                                            MDOM.append_dom_element(first_measure, attribute_child);
+                                            MLIB.append_dom_element(first_measure, attribute_child);
                                         }
 
                                     }
@@ -224,14 +225,14 @@
                         }
                     }
                     new_measure_number++;
-                    MDOM.show_dom_element(measure_child, "measure_child");
+                    MLIB.show_dom_element(measure_child, "measure_child");
                     continue;
                 }
 
                 
 
                 // for other measures - just change the measure number
-                MDOM.change_dom_element_value(measure_element, "number", new_measure_number);
+                MLIB.change_dom_element_value(measure_element, "number", new_measure_number);
                 new_measure_number++;
             } // end of measures loop
 
@@ -249,11 +250,11 @@
     } // end of parts loop
 
     var serializer = new XMLSerializer();
-    xml_string_out = serializer.serializeToString(MDOM.dom_object);
+    xml_string_out = serializer.serializeToString(MLIB.dom_object);
 
     console.log("XML_STRING_OUT length: %s", xml_string_out.length);
 
-    elt = document.getElementById("prepare_output_file");
+    elt = document.getElementById("prepare_output");
     elt.style.display = "block";
 
     return (xml_string_out);
