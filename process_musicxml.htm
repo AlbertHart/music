@@ -226,18 +226,17 @@
             item0 = item;
             tab_name = item.name;   // tab to open
 
-            let i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("tabcontent");
-            for (let i = 0; i < tabcontent.length; i++) 
+            let tabcontent = document.getElementsByClassName("tabcontent");
+            for (let ii = 0; ii < tabcontent.length; ii++) 
             {
-                tabcontent[i].style.display = "none";
+                tabcontent[ii].style.display = "none";
             }
 
             // remove 'active' from other tabs
-            tablinks = document.getElementsByClassName("tablinks");
-            for (let i = 0; i < tablinks.length; i++) 
+            let tablinks = document.getElementsByClassName("tablinks");
+            for (let ii = 0; ii < tablinks.length; ii++) 
             {
-                tablinks[i].className = tablinks[i].className.replace(" active", "");
+                tablinks[ii].className = tablinks[ii].className.replace(" active", "");
             }
             document.getElementById(tab_name).style.display = "block";
             item.className += " active";
@@ -820,7 +819,35 @@ function prepare_output_file(output_string, output_file_name)
 
     }
 
-    load_parameters();  // load saved parameters
+    
+
+    window.onload = function() 
+    {
+        load_parameters();  // load saved parameters
+        //dom not only ready, but everything is loaded
+        let tab = MLIB.get_url_var("tab");
+        if (tab !== "")
+            open_tab_by_name(tab + "_tab");
+    };
+
+
+    function open_tab_by_name(tab_name)
+    {
+        console.log(MLIB.get_self(tab_name));
+         // see if this is a tab to open
+         tablinks = document.getElementsByClassName("tablinks");
+        for (let ii = 0; ii < tablinks.length; ii++) 
+        {
+            //console.log("I: %s tablinks[ii].name: %s tab_name: %s ", ii, tablinks[ii].name, tab_name);
+            if (tablinks[ii].name == tab_name)
+            {
+                //console.log("OPEN TAB: %s", tab_name);
+                open_tab(tablinks[ii]);
+                return;
+            }
+        }
+        console.error("TAB NOT FOUND: %s", tab_name);
+    }
         
     function process_xml(xml_string_in)
     {
@@ -949,15 +976,9 @@ function prepare_output_file(output_string, output_file_name)
         console.log("localStorage.setItem('song_name',%s);", song_name);
         localStorage.setItem('song_name', song_name);
 
-        
-
         process_xml(xml_string_loaded);
 
-    
-
     }
-    
-    
 
         function set_element_value(sid, value)
         {
@@ -979,18 +1000,9 @@ function prepare_output_file(output_string, output_file_name)
                     }
                 }
 
-                // see if this is a tab to open
-                tablinks = document.getElementsByClassName("tablinks");
-                for (let i = 0; i < tablinks.length; i++) 
-                {
-                    if (tablinks[i].name == value)
-                    {
-                        console.log("OPEN TAB: %s", value);
-                        open_tab(tablinks[i]);
-                        return;
-                    }
-                }
-                
+                open_tab_by_name(value);
+
+
             }
             if (!elt)
             {

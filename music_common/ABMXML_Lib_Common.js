@@ -1060,34 +1060,38 @@ this.get_base_url = function()
 
 };
 
-    let url_vars;
+
 this.get_url_vars = function()
 {
-        console.log(this.get_self());
-        if (url_vars)
-            throw("url_vars alreay defined");
-    let url_vars = [];
+        //console.log(this.get_self());
+        if (this.url_vars)
+            console.error("url_vars already defined");
+
     let url_string = window.location.href;
     let ipos = url_string.indexOf("#");
     if (ipos >= 0)
-        url_string = url_string.substr(0, ipos);
+        {
+        	url_string = url_string.substr(0, ipos);
+        }
+        let url_vars = [];
     url_string.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) 
     {
             url_vars[key] = unescape(value);
-            console.log("KEY: %s url_vars[key]: %s", key, url_vars[key]);
     });
-        return url_vars;
+
+        this.url_vars = url_vars;
+        return this.url_vars;
     };
 
     this.get_url_var = function(svar)
     {
         console.log(this.get_self(svar));
-        if (!url_vars)
+        if (!this.url_vars)
         {
             console.log("getting url_vars");
             this.get_url_vars();
         }
-        let sval = url_vars[svar];
+        let sval = this.url_vars[svar];
         if (!sval)
             sval = "";
         return(sval);
@@ -1462,7 +1466,6 @@ this.get_chord_notes = function(chord, inversion_number)
        notes_font_size, letters_html);
 
 
-    //throw("STOP");
     return letters_html;
 };
 
@@ -1570,7 +1573,10 @@ this.get_chord_data = function(chord_in)
 
 
     if (!chord_data)
-        throw sprintf("CHORD NOT FOUND in c_chord_data: %s chord.right: %s", schord, chord.right);
+    {
+        console.error("CHORD NOT FOUND in c_chord_data: %s chord.right: %s", schord, chord.right);
+        return;
+    }
     
 
     chord.modifier_key = skey;
