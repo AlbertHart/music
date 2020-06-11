@@ -64,17 +64,33 @@ MusicDOM.prototype.lib_Transpose = "loaded";
         //console.log("show_output: %s (%s)", show_output, show_output? "T" : "F");
 
     // 'var' is for debugging, we will but it into a different type later
-    this.attributes = {divisions: 0, 
-        time: {beats: 0, beat_type: 0}, 
-        key: {fifths: 0, mode: null},
-        staves: null, clef: []};
-
+	this.attributes = {
+		divisions: 0,
+		time: {
+			beats: 0,
+			beat_type: 0
+		},
+		key: {
+			fifths: 0,
+			mode: null
+		},
+		staves: null,
+		clef: []
+	};
     this.str_out = "";
 
     // what type of element are we in?
-    let in_type = {measure: false, clef: false, note: false, rest: false, 
-        pitch: false, root: false , bass: false, notations: false, lyric: false};
-
+	let in_type = {
+		measure: false,
+		clef: false,
+		note: false,
+		rest: false,
+		pitch: false,
+		root: false,
+		bass: false,
+		notations: false,
+		lyric: false
+	};
     let clef_number = null;
 
     let clef = {};
@@ -419,11 +435,28 @@ MusicDOM.prototype.lib_Transpose = "loaded";
                             if (show_output)
                                 this.show_dom_element(note_element);
 
-                            note = {index: note_index, rest: null, chord: null,  chord_index: null, first_chord_note: false,
-                                pitch: null, duration: null, 
-                                instrument: null, voice: 0, type: null, dot: null, accidental: null, stem: null, staff: 0,
-                                notations: null, lyric: null, beam_index: null, beam_status: null, 
-                                note_element: note_element, pitch_element: null };
+                            	note = {
+											index: note_index,
+											rest: null,
+											chord: null,
+											chord_index: null,
+											first_chord_note: false,
+											pitch: null,
+											duration: null,
+											instrument: null,
+											voice: 0,
+											type: null,
+											dot: null,
+											accidental: null,
+											stem: null,
+											staff: 0,
+											notations: null,
+											lyric: null,
+											beam_index: null,
+											beam_status: null,
+											note_element: note_element,
+											pitch_element: null
+										};
 
                             
 
@@ -456,8 +489,13 @@ MusicDOM.prototype.lib_Transpose = "loaded";
                                         {
                                             beam_index++;
 
-                                            measure_data.beam_data_array[beam_index] = {first_note: note.index, last_note: note.index,
-                                                above_count: 0, below_count: 0, beam_stem_direction: null};
+                                            measure_data.beam_data_array[beam_index] = {
+															first_note: note.index,
+															last_note: note.index,
+															above_count: 0,
+															below_count: 0,
+															beam_stem_direction: null
+														};
                                             if (show_output)
                                                 console.log("BEGIN beam_index: %s", beam_index);
 
@@ -482,9 +520,15 @@ MusicDOM.prototype.lib_Transpose = "loaded";
                                         {
                                             
                                             chord_index++; 
-                                            chord_data = {index: chord_index, first_note: note_index - 1, last_note: note_index,
-                                                notes: 0, max_offset: null, min_offset: null, 
-                                                chord_stem_direction: null};
+                                            chord_data = {
+															index: chord_index,
+															first_note: note_index - 1,
+															last_note: note_index,
+															notes: 0,
+															max_offset: null,
+															min_offset: null,
+															chord_stem_direction: null
+														};
                                             measure_data.chord_data_array[chord_index] = chord_data;
                                             measure_data.note_data_array[note_index - 1].chord = true;
                                             measure_data.note_data_array[note_index - 1].chord_index = chord_index;
@@ -543,7 +587,13 @@ MusicDOM.prototype.lib_Transpose = "loaded";
                                             console.log("REST: note_index: %s ", note_index)
                                         let rest_element = note_child;
                                         // see if these is a position for the rest
-                                        note.rest = {set: true, display_step: null, display_step: null, transposed: null};
+													note.rest = {
+														set: true,
+														display_step: null,
+														display_step: null,
+														transposed: null
+													};
+													
                                         note.rest.display_step = this.get_dom_element_value(rest_element, "display-step", this.SKIP_ERROR);
                                         if (note.rest.display_step)
                                         {
