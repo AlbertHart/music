@@ -1,11 +1,11 @@
 
-
 /* jslint esversion: 6,  maxerr: 100 */
 /* jshint eqeqeq: false */
 console.log("IN ABMXMLLib_COMMON.JS");
 
 // the routine which uses this needs something like:
 // var MLIB = new MusicDOM(); 
+// to declare an instance of this object
 
 function MusicDOM() 
 {
@@ -986,26 +986,26 @@ this.copyToClipboard = function(text) {
 
 this.get_self = function(sarg, sarg2, sarg3, sarg4) {
     //console.log("SARG: %s SARG@: %s SARG3: %s", sarg, sarg2, sarg3);
-    if (sarg === null)
+    if (sarg  == undefined)
         sarg = "";
     else if (isNaN(sarg))
         sarg = "'" + sarg + "'";
 
-    if (sarg2 === null)
+    if (sarg2  == undefined)
         sarg2 = "";
     else if (isNaN(sarg2))
         sarg2 = ", '" + sarg2 + "'";
     else
         sarg2 = ", " + sarg2;
 
-    if (sarg3 === null)
+    if (sarg3  == undefined)
         sarg3 = "";
     else if (isNaN(sarg3))
         sarg3 = ", '" + sarg3 + "'";
     else
         sarg3 = ", " + sarg3;
 
-    if (sarg4 === null)
+    if (sarg4  == undefined)
         sarg4 = "";
     else if (isNaN(sarg4))
         sarg4 = ", '" + sarg4 + "'";
@@ -1061,23 +1061,23 @@ this.get_base_url = function()
 };
 
 
-this.get_url_vars = function()
-{
+    this.get_url_vars = function()
+    {
         //console.log(this.get_self());
         if (this.url_vars)
             console.error("url_vars already defined");
 
-    let url_string = window.location.href;
-    let ipos = url_string.indexOf("#");
-    if (ipos >= 0)
+        let url_string = window.location.href;
+        let ipos = url_string.indexOf("#");
+        if (ipos >= 0)
         {
-        	url_string = url_string.substr(0, ipos);
+            url_string = url_string.substr(0, ipos);
         }
         let url_vars = [];
-    url_string.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) 
-    {
-            url_vars[key] = unescape(value);
-    });
+        url_string.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key,value) 
+        {
+                url_vars[key] = unescape(value);
+        });
 
         this.url_vars = url_vars;
         return this.url_vars;

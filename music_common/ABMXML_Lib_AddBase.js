@@ -1,5 +1,8 @@
 
+/* jslint esversion: 6,  maxerr: 100 */
+/* jshint eqeqeq: false */
 console.log("IN ABMXML_Lib_AddBase.js");
+
 MusicDOM.prototype.lib_AddBase = "loaded";
 
 // we really want to use this which our c_chord table

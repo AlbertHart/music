@@ -10,7 +10,9 @@
     <script src="music_common/alh_sprintf.js?v=2.66"></script>
     <script src="music_common/ABMXML_Lib_Common.js?v=2.66"></script>
 
-    // individual files for each process
+    <script src="process_musicxml.js?v=2.66"></script>
+
+    <!--  individual files for each process -->
     <script src="music_common/ABMXML_Lib_Transpose.js?v=2.66"></script>
     <script src="music_common/ABMXML_Lib_AddBase.js?v=2.66"></script>
     <!--  <script src="music-xml-transpose.ts"> -->
@@ -18,12 +20,13 @@
 
    <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-152244338-2"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
 
-    gtag('config', 'UA-152244338-2');
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-152244338-2');
     </script>
 
     
@@ -45,131 +48,10 @@
 
     </script>
 
-        <script src="scores/amazing_grace_score.js?v=2.66"></script>
-        <script src="scores/every_time_score.js?v=2.66"></script>
+    <script src="scores/amazing_grace_score.js?v=2.66"></script>
+    <script src="scores/every_time_score.js?v=2.66"></script>
 
 
-    
-    <style>
-
-
-        .bass_radio_item{
-            display: none !important;
-            border: 1px solid #808080;
-            }
-
-            .bass_radio_item:checked {
-            border: 2px solid #0000ff;
-
-            }
-    
-            .label_item {
-            opacity: 0.5;
-            }
-            
-            .bass_radio_item:checked + label {
-            opacity: 1;
-            }
-    
-        label {
-        cursor: pointer;   
-        }
-
-        .staff_radio_item{
-            display: none !important;
-            border: 1px solid #808080;
-            }
-
-            .bass_radio_item:checked {
-            border: 2px solid #0000ff;
-
-            }
-    
-            .label_item {
-            opacity: 0.5;
-            }
-            
-            .staff_radio_item:checked + label {
-            opacity: 1;
-            }
-    
-        label {
-        cursor: pointer;   
-        }
-    
-        .bass_image {
-    
-            width: 120px;
-            height: 75px;
-            padding: 4px;
-            border: 1px solid #808080;
-        }
-
-        .staff_image {
-    
-            width: 200px;
-            height: 145px;
-            padding: 4px;
-            border: 1px solid #808080;
-        }
-
-        /* Style the menu_tab */
-        .menu_tab {
-                      overflow: hidden;
-                      border: 1px solid #444;
-                      background-color: #888;
-                      width: 80vw
-                    }
-                    
-                    /* Style the buttons inside the menu_tab */
-                    .menu_tab button {
-                      background-color: inherit;
-                      float: left;
-                      border: none;
-                      outline: none;
-                      cursor: pointer;
-                      padding: 14px 16px;
-                      transition: 0.3s;
-                      font-size: 17px;
-                    }
-                    
-                    /* Change background color of buttons on hover */
-                    .menu_tab button:hover {
-                      background-color: #666;
-                    }
-                    
-                    /* Create an active/current tablink class */
-                    .menu_tab button.active {
-                      background-color: #444;
-                    }
-                    
-                    /* Style the menu_tab content */
-                    .tabcontent {
-                      display: none;
-                      padding: 6px 12px;
-                      border: 1px solid #aaa;
-                      border-top: none;
-                    }
-
-            .info {
-                color: #206080;
-                background-color: #e0f0f7;
-                padding: 10px;
-
-                width: 80%;
-            }
-            .info img {
-                float: left;
-                padding-left: 10px;
-                padding-right: 10px;
-                padding-bottom: 10px;
-                width: 33vw;
-            }
-    
-    
-       </style>
-    
-    
     </head>
     
     <body>
@@ -292,16 +174,16 @@
         }
      </script>
                 
+    <!-- START TAB -->
     <div id="transpose_tab" class="tabcontent">
 
+    <div id="transpose_header"> </div>
 
+    <script>
+        do_transpose_header("transpose_header", false);
+    </script>
     
-    <div class=info>
-        <h3>Transpose Score</h3>
-        <img src="images/transpose.png" >
-        Transpose your score, chords and key signatures to any key.
-        <br clear=all>
-    </div>
+    
     
 
         <p class=font_element>
@@ -339,18 +221,17 @@
                 <!-- <option value = "G#">G#</option> -->
         </select>
 
-    </div> <!-- TAB -->
+    </div> <!-- END TAB -->
 
+    <!-- START TAB -->
     <div id="add_bass_tab" class="tabcontent">
-        <div class=info>
-            <h3>Add Bass Accompaniment</h3>
-            <img src="images/add-bass.png" >
-            Add a simple Accompaniment to your score.
-            <p>
-            For instance, a piano accompaniment for a choral score.
-            </p>
-            <br clear=all>
-        </div>
+
+    <div id="add_bass_header"> </div>
+
+    <script>
+        do_add_bass_header("add_bass_header", false);
+    </script>
+        
     
         <h3>Select Accompaniment Format</h3>
         <!--RADIO Images-->
@@ -395,23 +276,18 @@
 
        
 
-</div><!-- TAB -->
+</div><!-- END TAB -->
                 
-<div id="trim_score_tab" class="tabcontent">
+    <!-- START TAB -->
+    <div id="trim_score_tab" class="tabcontent">
+    <div id="trim_score_header"> </div>
     
 
+    <script>
+        do_trim_score_header("trim_score_header", false);
+    </script>
     
     
-    
-    <div class=info>
-        <h3>Trim Score</h3>
-        <img src="images/trim-score.png" >
-        Select a portion of the score you want to keep with just the desired measures and notes.
-        <p></p>
-        Create and save a new MusicXML file with just the desired part of the original score.
-        <br clear=all>
-    </div>
-
 
     <table>
         <tr><td>First Measure: </td><td><input type=number id=first_measure style="width: 4em;" value=2
@@ -430,28 +306,21 @@
     
 
     <p></p>
-</div>
+
 
     
 
-        </div><!-- TAB -->
+</div> <!-- END TAB -->
 
+        <!-- START TAB -->
         <div id="voice_leading_tab" class="tabcontent">
+        <div id="voice_leading_header"> </div>
+            
+            <script>
+                do_voice_leading_header("voice_leading_header", false);
+            </script>
             
             
-            <div class=info>
-                <h3>Voice Leading Chords is not complete yet.</h3>
-                <img src="images/accompaniment.png" >
-
-                Voice Leading Chords will read a melody from the first part in your score, 
-                and add bass and chords notes to accompany the melody.
-                <p></p>
-                This is designed to be played when aocompianing a singer or soloist.
-                <p></p>
-                One chord is provided for each chord in the leadsheet - using voice leading and inversions to minimize hand movement 
-                while providing accompaniment.
-                <br clear=all>
-            </div>
 
             
             <p class=font_element>
@@ -476,20 +345,19 @@
             </select>
         </p>
 
-        </div><!-- TAB -->
+        </div><!-- END TAB -->
 
         
 
+        <!-- START TAB -->
         <div id="melody_chords_tab" class="tabcontent">
+            <div id="melody_chords_header"> </div>
+            
+            <script>
+                do_melody_chords_header("melody_chords_tab", false);
+            </script>
             
             
-           
-            <div class=info>
-                <h3>Melody Chords is not complete yet.</h3>
-                <img src="images/piano-jazz.png" >
-                Melody Chords will read a melody from the first part in your score, and add bass and chords notes to accompany the melody.
-                <br clear=all>
-            </div>
 
             <p class=font_element>
                 <label>Max Number of Notes in Chord - including any melody note</label>
@@ -512,7 +380,7 @@
         </p>
 
 
-        </div><!-- TAB -->
+        </div><!-- END TAB -->
        
 
         <div id=select_file style='display: none;'>
@@ -786,24 +654,21 @@ function prepare_output_file(output_string, output_file_name)
      // save parameters after every change
      function save_parameter_changes()
     {
-        
         console.log(MLIB.get_self());
         json_string = JSON.stringify(parameters);
         //console.log("json_string: %s", json_string);
 
-        storage_key = parameters.song_name;
-        if (!storage_key || storage_key == "")
-            storage_key = "musicxml";
-        //console.log("setItem for storage_key: %s", storage_key);
+        let storage_key = "musicxml";
+        console.log("setItem for storage_key: %s\n%s", storage_key, json_string);
         localStorage.setItem(storage_key, json_string);
 
     }
-    function load_parameters(storage_key)
+    function load_parameters()
     {   
-        if (!storage_key || storage_key == "")
-            storage_key = "musicxml";
-        console.log("load_parameters: %s", storage_key);
+        console.log(MLIB.get_self());
+        let storage_key = "musicxml";
         json_string = localStorage.getItem(storage_key);
+        console.log("load_parameters: %s\n%s", storage_key, json_string);
         parameters_parsed = JSON.parse(json_string);
 
         console.log("parameters_parsed: %s", parameters_parsed);

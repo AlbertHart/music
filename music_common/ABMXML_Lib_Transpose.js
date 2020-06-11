@@ -1,6 +1,9 @@
+
+/* jslint esversion: 6,  maxerr: 100 */
+/* jshint eqeqeq: false */
 console.log("IN ABMXML_Lib_Transpose.js");
 
-
+MusicDOM.prototype.lib_Transpose = "loaded";
 
 
     // all measures
