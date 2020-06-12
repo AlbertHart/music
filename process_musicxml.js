@@ -4,6 +4,7 @@
 
     function do_load_tab(stab, sfunction)
     {
+        stab = stab.replace("_tab", "");    
         let shtml = sprintf(`<p></p><a href='process_musicxml.htm?tab=%s'>
             <button>%s MusicXML File</button>
             </a><br>
@@ -20,7 +21,7 @@
         let shtml = `<div class=info>
             <h3>Transpose Score</h3>
             <img src="images/transpose.png" >
-            Transpose your score, chords and key signatures to any key.\n`;
+            Transpose your MusicXML score, chords and key signatures to any key.\n`;
 
             if (add_link)
                 shtml += do_load_tab("transpose", "Transpose");
@@ -44,7 +45,7 @@
         let shtml = `<div class=info>
                 <h3>Add Bass Accompaniment</h3>
                 <img src="images/add-bass.png" >
-                Add a simple Accompaniment to your score.
+                Add a simple Accompaniment to your MusicXML score.
                 <p>
                 For instance, a piano accompaniment for a choral score.
                 </p>\n`;
@@ -68,13 +69,13 @@
             let shtml = `<div class=info>
             <h3>Trim Score</h3>
             <img src="images/trim-score.png" >
-            Select a portion of the score you want to keep with just the desired measures and notes.
+            Select a portion of a MusicXML score you want to keep with just the desired measures and notes.
             <p></p>
             Create and save a new MusicXML file with just the desired part of the original score.
             \n`;
 
             if (add_link)
-            shtml += do_load_tab("trim_score", "Trim Score");
+                shtml += do_load_tab("trim_score", "Trim Score");
 
 
                 shtml +=`<br clear=all>
@@ -95,7 +96,7 @@
             <h3>Voice Leading Chords is not complete yet.</h3>
             <img src="images/accompaniment.png" >
 
-            Voice Leading Chords will read a melody from the first part in your score, 
+            Voice Leading Chords will read a melody from the first part in your MusicXML score, 
             and add bass and chords notes to accompany the melody.
             <p></p>
             This is designed to be played when aocompianing a singer or soloist.
@@ -125,7 +126,7 @@
             let shtml = `<div class=info>
             <h3>Melody Chords is not complete yet.</h3>
             <img src="images/piano-jazz.png" >
-            Melody Chords will read a melody from the first part in your score, and add bass and chords notes to accompany the melody.
+            Melody Chords will read a melody from the first part in your MusicXML score, and add bass and chords notes to accompany the melody.
             \n`;
 
         if (add_link)
@@ -174,6 +175,17 @@
          <p>&nbsp;</p>
          <h2>About Process MusicXML Files</h2>
          <img src="images/GitHub-Mark-120px-plus.png" style="width: 120px;">
+
+         <p>You can use the <strong>Process MusicXML Files</strong> Library Routines to create stand-alone MusicXML modification applications. 
+        Reading a musicxml file, transposing or modifying it, and re-writing the file for use in OSMD or other tools which can read MUsicXML file.</p>
+
+
+
+
+        <p>If you would like to make suggestions, participate in development, etc. make a post on our GitHUB issues tab:</p>
+        <p><a href="https://github.com/AlbertHart/ahlbapps/issues">https://github.com/AlbertHart/ahlbapps/issues</a></p>
+
+
          <b>Process MusicXML Files</b> is free software and any developer can contribute to the project. 
          Everything you need is in the 
          <a href=https://github.com/AlbertHart/music>GitHub repository</a>. 

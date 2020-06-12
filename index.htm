@@ -43,7 +43,16 @@
         </script>  
     </div>
 
+    <div class=info>
 
+    <b>Process MusicXML Files</b> is a MusicXML Application to automatically make changes to MusicXML scores.
+
+    <p>You can use the functions below to modify your MusicXML files. 
+        You can also use our library routines for the MusicXML Functions in your own applications.</p>
+
+</div>
+
+<p></p>
 <div id=headers>
 
 </div>
@@ -53,6 +62,7 @@
     function open_tab(item)
     {
         tab_name = item.name;   // tab to open
+        tab_name = tab_name.replace("_tab", "");
         window.location.href = "process_musicxml.htm?tab=" + tab_name;
 
     }
