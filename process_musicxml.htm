@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
 
 <head>
     <meta charset="utf-8" />
     <link rel="shortcut icon" type="image/png" href="favicon.png">
+    
     <title>Music XML</title>
 
     <link rel="stylesheet" href="css.css" />
@@ -61,10 +62,21 @@
         <img src=images/ice-logo.png style="float: left; width: 150px">
         <p>&nbsp;</p>
 
-    
-        <h2>Process MusicXML Files</h2>
-        <div id=version>Version: </div>
-        <br clear=all>
+        
+    <h2>Process MusicXML Files</h2>
+    <div id=version>Version: </div>
+    <br clear=all>
+        
+    <div class="menu_tab" id=top_menu>
+        <script>
+            do_menu("top_menu");
+        </script>  
+    </div>
+
+
+
+        <h2>Select Desired MusicXML Function</h2>
+        <p>Click on the buttons inside the tabbed menu:</p>
     
         Load our <a href="https://ice6.github.io/opensheetmusicdisplay/build/">OSMD Demonstration for Transposition</a>
  
@@ -74,16 +86,7 @@
     
     <p><hr></p>
             
-            <h2>Select Desired MusicXML Function</h2>
-            <p>Click on the buttons inside the tabbed menu:</p>
-            
-            <div class="menu_tab">
-                <button class="tablinks" name='transpose_tab' onclick="open_tab(this)">Transpose XML</button>
-                <button class="tablinks" name='add_bass_tab' onclick="open_tab(this)">Add Bass Notes</button>
-                <button class="tablinks" name='trim_score_tab' onclick="open_tab(this)">Trim Score</button>
-                <button class="tablinks" name='voice_leading_tab' onclick="open_tab(this)">Voice Leading</button>
-                <button class="tablinks" name='melody_chords_tab' onclick="open_tab(this)">Melody Chords</button>
-            </div>
+           
             
            
             
@@ -98,6 +101,11 @@
         var output_file_name;
 
         var show_output = true;
+
+        function do_home()
+        {
+            window.location.href = "index.htm";
+        }
 
 
         var event0;
@@ -472,26 +480,12 @@
         <hr>
         <button onclick="set_default_parameters()">Reset Settings</button>
         <button onclick="clear_score()">Clear Current Score</button>
-        <hr>
-        <div class=info>
-            <p>&nbsp;</p>
-            <p>&nbsp;</p>
-            <h2>About Process MusicXML Files</h2>
-            <img src="images/GitHub-Mark-120px-plus.png" style="width: 120px;">
-            <b>Process MusicXML Files</b> is free software and any developer can contribute to the project. 
-            Everything you need is in the 
-            <a href=https://github.com/AlbertHart/music>GitHub repository</a>. 
-            <p></p>
-            Please make sure to read and follow the development process described 
-            in the README, as well as to provide good quality code and respect all guidelines.
-            <p></p>
-            Development discussion takes place on GitHub in the Issues tab.
-            <p></p>
-            Let us know about any ideas you have for new functions or improvements.
-            <p></p>
-            And let us know if you would like to help with the development efforts.
-
-            <br clear=all>
+        
+        <div class=info id=footer>
+            <script>
+                do_footer("footer");
+            </script>
+            
         
         </div>
 

@@ -104,85 +104,162 @@ this.octave_numbers = {
 
     // Recognized chords in the key of C
     // changed to o
-    this.c_chord_data = 
-    {
-        "Cmaj": { notes: ["C", "E", "G"], 
-        chord_kind: "major", tritone: false, leading: false },
-        "CM": { notes: ["C", "E", "G"], 
-        chord_kind: "major", tritone: false, leading: false },
-
-        "CM7": {chord: "", notes: ["C", "E", "G", "B"], 
-            chord_kind: "major-seventh", tritone: false, leading: false, ninth_ok: true },
-        "Cmaj7": {chord: "", notes: ["C", "E", "G", "B"], 
-                chord_kind: "major-seventh", tritone: false, leading: false, ninth_ok: true },
-
-    
-
-        "C7": {chord: "", notes: ["C", "E", "G", "Bb"], 
-            chord_kind: "dominant", tritone: true, leading: true, ninth_ok: true },
-
-        "C9": {chord: "", notes: ["C", "E", "G", "Bb"], // 9th:, "D"], 
-            chord_kind: "dominant-ninth", tritone: true, leading: true, ninth_ok: false },
-
-        
-        "Cm7b5": {chord: "", notes: ["C", "Eb", "Gb", "Bb"], 
-            chord_kind: "half-diminished", tritone: true, leading: true, ninth_ok: false },
-
-        "C7b5": {chord: "", notes: ["C", "E", "Gb", "Bb"], 
-            chord_kind: "dominant", tritone: true, leading: true, ninth_ok: true ,
+	this.c_chord_data = {
+		"Cmaj": {
+			notes: ["C", "E", "G"],
+			chord_kind: "major",
+			tritone: false,
+			leading: false
+		},
+		"CM": {
+			notes: ["C", "E", "G"],
+			chord_kind: "major",
+			tritone: false,
+			leading: false
+		},
+		"CM7": {
+			chord: "",
+			notes: ["C", "E", "G", "B"],
+			chord_kind: "major-seventh",
+			tritone: false,
+			leading: false,
+			ninth_ok: true
+		},
+		"Cmaj7": {
+			chord: "",
+			notes: ["C", "E", "G", "B"],
+			chord_kind: "major-seventh",
+			tritone: false,
+			leading: false,
+			ninth_ok: true
+		},
+		"C7": {
+			chord: "",
+			notes: ["C", "E", "G", "Bb"],
+			chord_kind: "dominant",
+			tritone: true,
+			leading: true,
+			ninth_ok: true
+		},
+		"C9": {
+			chord: "",
+			notes: ["C", "E", "G", "Bb"], // 9th:, "D"], 
+			chord_kind: "dominant-ninth",
+			tritone: true,
+			leading: true,
+			ninth_ok: false
+		},
+		"Cm7b5": {
+			chord: "",
+			notes: ["C", "Eb", "Gb", "Bb"],
+			chord_kind: "half-diminished",
+			tritone: true,
+			leading: true,
+			ninth_ok: false
+		},
+		"C7b5": {
+			chord: "",
+			notes: ["C", "E", "Gb", "Bb"],
+			chord_kind: "dominant",
+			tritone: true,
+			leading: true,
+			ninth_ok: true,
             degree:`ac
                 <degree>
                 <degree-value>5</degree-value>
                 <degree-alter>-1</degree-alter>
                 <degree-type>alter</degree-type>
-            </degree>`},
-
-
-        "Cm7": {chord: "", notes: ["C", "Eb", "G", "Bb"], 
-            chord_kind: "minor-seventh", tritone: false, leading: false, ninth_ok: true },
-        "Cmmaj7": {chord: "", notes: ["C", "Eb", "G", "B"], 
-            chord_kind: "major-minor", tritone: false, leading: false, ninth_ok: true },
-        "Cm6": {chord: "", notes: ["C", "Eb", "G", "A"], 
-            chord_kind: "minor-sixth", tritone: false, leading: false },
-        "C6": {chord: "", notes: ["C", "E", "G", "A"], 
-            chord_kind: "major-sixth", tritone: false, leading: false },
-            
-        "Cmaj6": {chord: "", notes: ["C", "E", "G", "A"], 
-                chord_kind: "major-sixth", tritone: false, leading: false },
-
+            </degree>`
+		},
+		"Cm7": {
+			chord: "",
+			notes: ["C", "Eb", "G", "Bb"],
+			chord_kind: "minor-seventh",
+			tritone: false,
+			leading: false,
+			ninth_ok: true
+		},
+		"Cmmaj7": {
+			chord: "",
+			notes: ["C", "Eb", "G", "B"],
+			chord_kind: "major-minor",
+			tritone: false,
+			leading: false,
+			ninth_ok: true
+		},
+		"Cm6": {
+			chord: "",
+			notes: ["C", "Eb", "G", "A"],
+			chord_kind: "minor-sixth",
+			tritone: false,
+			leading: false
+		},
+		"C6": {
+			chord: "",
+			notes: ["C", "E", "G", "A"],
+			chord_kind: "major-sixth",
+			tritone: false,
+			leading: false
+		},
+		"Cmaj6": {
+			chord: "",
+			notes: ["C", "E", "G", "A"],
+			chord_kind: "major-sixth",
+			tritone: false,
+			leading: false
+		},
         // C69
-        "C69": {chord: "", notes: ["C", "D", "E", "A"],
-            chord_kind: "major-sixth", tritone: true, leading: false, ninth_ok: false,
+		"C69": {
+			chord: "",
+			notes: ["C", "D", "E", "A"],
+			chord_kind: "major-sixth",
+			tritone: true,
+			leading: false,
+			ninth_ok: false,
             degree: `
                 <degree>
                     <degree-value>9</degree-value>
                     <degree-alter>0</degree-alter>
                     <degree-type>add</degree-type>
-                    </degree>` },
+                    </degree>`
+		},
         //Bb69 - Bb F D G C F (Bb D F G C) 5th = F
-
-        "Cm": { notes: ["C", "Eb", "G"], 
-            chord_kind: "minor", tritone: false, leading: false },
-
+		"Cm": {
+			notes: ["C", "Eb", "G"],
+			chord_kind: "minor",
+			tritone: false,
+			leading: false
+		},
         // if we put D last, we get strange inversions
-        "Cadd9": { notes: ["C", "D", "E", "G"],
-            chord_kind: "major", tritone: false, leading: false, ninth_ok: false },
-        
-        
-        "C9b5": {chord: "", notes: ["C", "E", "Gb", "Bb"], 
-            chord_kind: "dominant-ninth", tritone: true, leading: true, ninth_ok: true ,
+		"Cadd9": {
+			notes: ["C", "D", "E", "G"],
+			chord_kind: "major",
+			tritone: false,
+			leading: false,
+			ninth_ok: false
+		},
+		"C9b5": {
+			chord: "",
+			notes: ["C", "E", "Gb", "Bb"],
+			chord_kind: "dominant-ninth",
+			tritone: true,
+			leading: true,
+			ninth_ok: true,
             degree:`
                 <degree>
                 <degree-value>5</degree-value>
                 <degree-alter>-1</degree-alter>
                 <degree-type>alter</degree-type>
-            </degree>`},
-            
-        
-
+            </degree>`
+		},
         // need to mark as dominant and add supended with degree    
-        "C7sus4": {chord: "", notes: ["C", "F", "G", "Bb"], 
-                    chord_kind: "dominant", tritone: false, leading: false, ninth_ok: true ,
+		"C7sus4": {
+			chord: "",
+			notes: ["C", "F", "G", "Bb"],
+			chord_kind: "dominant",
+			tritone: false,
+			leading: false,
+			ninth_ok: true,
                     degree: `
                         <degree>
                         <degree-value>4</degree-value>
@@ -193,94 +270,179 @@ this.octave_numbers = {
                         <degree-value>3</degree-value>
                         <degree-alter>0</degree-alter>
                         <degree-type>subtract</degree-type>
-                        </degree>` },
-
+                        </degree>`
+		},
         // drop 5th for 6/9 chord
-        "C7add6": {chord: "", notes: ["C", "E", "A", "Bb"],
-            chord_kind: "dominant", tritone: true, leading: true, ninth_ok: true },
-        
-            
-        
-
+		"C7add6": {
+			chord: "",
+			notes: ["C", "E", "A", "Bb"],
+			chord_kind: "dominant",
+			tritone: true,
+			leading: true,
+			ninth_ok: true
+		},
         // will this get found here?
-        "C7(#9)": {chord: "", notes: ["C", "E", "G", "Bb"], 
-            chord_kind: "dominant", tritone: true, leading: true, ninth_ok: false,
+		"C7(#9)": {
+			chord: "",
+			notes: ["C", "E", "G", "Bb"],
+			chord_kind: "dominant",
+			tritone: true,
+			leading: true,
+			ninth_ok: false,
             degree: `
                 <degree>
                     <degree-value>9</degree-value>
                     <degree-alter>1</degree-alter>
                     <degree-type>add</degree-type>
-                    </degree>`},
-
-
-        "C7(b9)": {chord: "", notes: ["C", "E", "G", "Bb"], 
-                    chord_kind: "dominant", tritone: true, leading: true, ninth_ok: false,
+                    </degree>`
+		},
+		"C7(b9)": {
+			chord: "",
+			notes: ["C", "E", "G", "Bb"],
+			chord_kind: "dominant",
+			tritone: true,
+			leading: true,
+			ninth_ok: false,
                     degree: `
                         <degree>
                             <degree-value>9</degree-value>
                             <degree-alter>-1</degree-alter>
                             <degree-type>add</degree-type>
-                            </degree>`},
-
-
-        "CM9": {chord: "", notes: ["C", "E", "G", "B"], // 9th:, "D"], 
-            chord_kind: "major-ninth", tritone: true, leading: false, ninth_ok: false },
-        "Cmaj9": {chord: "", notes: ["C", "E", "G", "B"], // 9th:, "D"], 
-                chord_kind: "major-ninth", tritone: true, leading: false, ninth_ok: false },
-        "Cm9": {chord: "", notes: ["C", "Eb", "G", "Bb"], // 9th:, "D"], 
-            chord_kind: "minor-ninth", tritone: true, leading: false, ninth_ok: false },
-
-        "C11": {chord: "", notes: ["C", "E", "G", "Bb"], // 9th:, "D", "F"], 
-            chord_kind: "dominant-11th", tritone: true, leading: true },
-        "CM11": {chord: "", notes: ["C", "E", "G", "B"], // 9th:, "D", "F"], 
-            chord_kind: "major-11th", tritone: true, leading: true },
-        "Cmaj11": {chord: "", notes: ["C", "E", "G", "B"], // 9th:, "D", "F"], 
-                chord_kind: "major-11th", tritone: true, leading: true },
-        "Cm11": {chord: "", notes: ["C", "Eb", "G", "Bb"], // 9th:, "D", "F"], 
-            chord_kind: "minor-11th", tritone: false, leading: false },
-
-
-        "Cdim7": {chord: "", notes: ["C", "Eb", "Gb", "A"], 
-            chord_kind: "diminished-seventh", tritone: true, leading: false, ninth_ok: false },
-        "Cdim": {chord: "", notes: ["C", "Eb", "Gb"], 
-            chord_kind: "diminished", tritone: false, leading: false },
+                            </degree>`
+		},
+		"CM9": {
+			chord: "",
+			notes: ["C", "E", "G", "B"], // 9th:, "D"], 
+			chord_kind: "major-ninth",
+			tritone: true,
+			leading: false,
+			ninth_ok: false
+		},
+		"Cmaj9": {
+			chord: "",
+			notes: ["C", "E", "G", "B"], // 9th:, "D"], 
+			chord_kind: "major-ninth",
+			tritone: true,
+			leading: false,
+			ninth_ok: false
+		},
+		"Cm9": {
+			chord: "",
+			notes: ["C", "Eb", "G", "Bb"], // 9th:, "D"], 
+			chord_kind: "minor-ninth",
+			tritone: true,
+			leading: false,
+			ninth_ok: false
+		},
+		"C11": {
+			chord: "",
+			notes: ["C", "E", "G", "Bb"], // 9th:, "D", "F"], 
+			chord_kind: "dominant-11th",
+			tritone: true,
+			leading: true
+		},
+		"CM11": {
+			chord: "",
+			notes: ["C", "E", "G", "B"], // 9th:, "D", "F"], 
+			chord_kind: "major-11th",
+			tritone: true,
+			leading: true
+		},
+		"Cmaj11": {
+			chord: "",
+			notes: ["C", "E", "G", "B"], // 9th:, "D", "F"], 
+			chord_kind: "major-11th",
+			tritone: true,
+			leading: true
+		},
+		"Cm11": {
+			chord: "",
+			notes: ["C", "Eb", "G", "Bb"], // 9th:, "D", "F"], 
+			chord_kind: "minor-11th",
+			tritone: false,
+			leading: false
+		},
+		"Cdim7": {
+			chord: "",
+			notes: ["C", "Eb", "Gb", "A"],
+			chord_kind: "diminished-seventh",
+			tritone: true,
+			leading: false,
+			ninth_ok: false
+		},
+		"Cdim": {
+			chord: "",
+			notes: ["C", "Eb", "Gb"],
+			chord_kind: "diminished",
+			tritone: false,
+			leading: false
+		},
         // sibelius likes this marked as dominant, and add sharp 5
         // musicxml allows augmented-seventh
-        "Caug7": {chord: "", notes: ["C", "E", "G#", "Bb"], 
-                    chord_kind: "dominant", tritone: false, leading: false, ninth_ok: true ,
+		"Caug7": {
+			chord: "",
+			notes: ["C", "E", "G#", "Bb"],
+			chord_kind: "dominant",
+			tritone: false,
+			leading: false,
+			ninth_ok: true,
                     degree:`
                         <degree>
                         <degree-value>5</degree-value>
                         <degree-alter>1</degree-alter>
                         <degree-type>alter</degree-type>
-                    </degree>`},
-
+                    </degree>`
+		},
         // 9 will get added later
-        "Caug9": {chord: "", notes: ["C", "E", "G#", "Bb"],
-                    chord_kind: "dominant-ninth", tritone: false, leading: false, ninth_ok: false,
+		"Caug9": {
+			chord: "",
+			notes: ["C", "E", "G#", "Bb"],
+			chord_kind: "dominant-ninth",
+			tritone: false,
+			leading: false,
+			ninth_ok: false,
                     degree: `
                     <degree>
                     <degree-value>5</degree-value>
                     <degree-alter>1</degree-alter>
                     <degree-type>alter</degree-type>
-                    </degree>`},
-
-        "Caug": {chord: "", notes: ["C", "E", "G#"], 
-            chord_kind: "augmented",tritone: false, leading: false },
-
-    
-        
-        "Csus2": {chord: "", notes: ["C", "D", "G"], 
-            chord_kind: "suspended-second", tritone: false, leading: false, },
-
-        "Csus4": {chord: "", notes: ["C", "F", "G"], 
-            chord_kind: "suspended-fourth", tritone: false, leading: false },
-
-        "Csus": {chord: "", notes: ["C", "F", "G"], 
-            chord_kind: "suspended-fourth", tritone: false, leading: false },
-
-        "C7sus2": {chord: "", notes: ["C", "D", "G", "Bb"], 
-            chord_kind: "dominant", tritone: false, leading: false, ninth_ok: false,
+                    </degree>`
+		},
+		"Caug": {
+			chord: "",
+			notes: ["C", "E", "G#"],
+			chord_kind: "augmented",
+			tritone: false,
+			leading: false
+		},
+		"Csus2": {
+			chord: "",
+			notes: ["C", "D", "G"],
+			chord_kind: "suspended-second",
+			tritone: false,
+			leading: false,
+		},
+		"Csus4": {
+			chord: "",
+			notes: ["C", "F", "G"],
+			chord_kind: "suspended-fourth",
+			tritone: false,
+			leading: false
+		},
+		"Csus": {
+			chord: "",
+			notes: ["C", "F", "G"],
+			chord_kind: "suspended-fourth",
+			tritone: false,
+			leading: false
+		},
+		"C7sus2": {
+			chord: "",
+			notes: ["C", "D", "G", "Bb"],
+			chord_kind: "dominant",
+			tritone: false,
+			leading: false,
+			ninth_ok: false,
             degree: `
                 <degree>
                 <degree-value>2</degree-value>
@@ -291,10 +453,15 @@ this.octave_numbers = {
                 <degree-value>3</degree-value>
                 <degree-alter>0</degree-alter>
                 <degree-type>subtract</degree-type>
-                </degree>`},
-
-        "C9sus4": {chord: "", notes: ["C", "F", "G", "Bb"], 
-                chord_kind: "dominant-ninth", tritone: false, leading: false, ninth_ok: false ,
+                </degree>`
+		},
+		"C9sus4": {
+			chord: "",
+			notes: ["C", "F", "G", "Bb"],
+			chord_kind: "dominant-ninth",
+			tritone: false,
+			leading: false,
+			ninth_ok: false,
                 degree: `
                     <degree>
                     <degree-value>4</degree-value>
@@ -305,37 +472,18 @@ this.octave_numbers = {
                     <degree-value>3</degree-value>
                     <degree-alter>0</degree-alter>
                     <degree-type>subtract</degree-type>
-                    </degree>`},
-        
-        "C": {chord: "", notes: ["C", "E", "G"], 
-            chord_kind: "major", tritone: false, leading: false },
+                    </degree>`
+		},
+		"C": {
+			chord: "",
+			notes: ["C", "E", "G"],
+			chord_kind: "major",
+			tritone: false,
+			leading: false
+		},
     };
 
-    // ADH - I don't think we need this any more (6/2020)
-    /*** 
-    this.musicxml_chords = {};
-
-    let chord_keys = Object.keys(this.c_chord_data);
-    for (let ii = 0; ii < chord_keys.length; ii++) {
-        let skey = chord_keys[ii];
-        chord_data = this.c_chord_data[skey];
-        chord_data.chord = skey;
-
-        chord_kind = chord_data.chord_kind;
-        //stext = get_text_from_chord_kind(chord_kind);
-        stext = "";
-        //console.log("KEY: %s chord_kind: %s stext: %s", skey, chord_kind, stext);
-        if (this.musicxml_chords[chord_kind])
-        {
-            //console.log("SKIP");
-        }
-        else
-        {
-            this.musicxml_chords[chord_kind] = skey;
-        }
-
-    }
-    */
+   
 
     // map alternates to main chord
     // these are ways the chord might be written
@@ -415,27 +563,160 @@ this.octave_numbers = {
 
      // ## and bb do not work yet
      this.accidentals_in_key = {
-        "C": {"C": "", "D": "", "E": "", "F": "", "G": "", "A": "", "B": ""},
-        "F": {"C": "", "D": "", "E": "", "F": "", "G": "", "A": "", "B": "flat"},
-        "Bb": {"C": "", "D": "", "E": "flat", "F": "", "G": "", "A": "", "B": "flat"},
-        "Eb": {"C": "", "D": "", "E": "flat", "F": "", "G": "", "A": "flat", "B": "flat"},
-        "Ab": {"C": "", "D": "flat", "E": "flat", "F": "", "G": "", "A": "flat", "B": "flat"},
-        "Db": {"C": "", "D": "flat", "E": "flat", "F": "", "G": "flat", "A": "flat", "B": "flat"},
-        "Gb": {"C": "", "D": "flat", "E": "flat", "F": "flat", "G": "flat", "A": "flat", "B": "flat"},
-        "Cb": {"C": "flat", "D": "flat", "E": "flat", "F": "flat", "G": "flat", "A": "flat", "B": "flat"},
-
-        "G": {"C": "", "D": "", "E": "", "F": "sharp", "G": "", "A": "", "B": ""},
-        "D": {"C": "sharp", "D": "", "E": "", "F": "sharp", "G": "", "A": "", "B": ""},
-        "A": {"C": "sharp", "D": "", "E": "", "F": "sharp", "G": "sharp", "A": "", "B": ""},
-        "E": {"C": "sharp", "D": "sharp", "E": "", "F": "sharp", "G": "sharp", "A": "", "B": ""},
-        "B": {"C": "sharp", "D": "sharp", "E": "", "F": "sharp", "G": "sharp", "A": "sharp", "B": ""},
-        "F#": {"C": "sharp", "D": "", "E": "sharp", "F": "sharp", "G": "sharp", "A": "sharp", "B": ""},
-        "C#": {"C": "sharp", "D": "", "E": "sharp", "F": "sharp", "G": "sharp", "A": "sharp", "B": "sharp"},
-
+		"C": {
+			"C": "",
+			"D": "",
+			"E": "",
+			"F": "",
+			"G": "",
+			"A": "",
+			"B": ""
+		},
+		"F": {
+			"C": "",
+			"D": "",
+			"E": "",
+			"F": "",
+			"G": "",
+			"A": "",
+			"B": "flat"
+		},
+		"Bb": {
+			"C": "",
+			"D": "",
+			"E": "flat",
+			"F": "",
+			"G": "",
+			"A": "",
+			"B": "flat"
+		},
+		"Eb": {
+			"C": "",
+			"D": "",
+			"E": "flat",
+			"F": "",
+			"G": "",
+			"A": "flat",
+			"B": "flat"
+		},
+		"Ab": {
+			"C": "",
+			"D": "flat",
+			"E": "flat",
+			"F": "",
+			"G": "",
+			"A": "flat",
+			"B": "flat"
+		},
+		"Db": {
+			"C": "",
+			"D": "flat",
+			"E": "flat",
+			"F": "",
+			"G": "flat",
+			"A": "flat",
+			"B": "flat"
+		},
+		"Gb": {
+			"C": "",
+			"D": "flat",
+			"E": "flat",
+			"F": "flat",
+			"G": "flat",
+			"A": "flat",
+			"B": "flat"
+		},
+		"Cb": {
+			"C": "flat",
+			"D": "flat",
+			"E": "flat",
+			"F": "flat",
+			"G": "flat",
+			"A": "flat",
+			"B": "flat"
+		},
+		"G": {
+			"C": "",
+			"D": "",
+			"E": "",
+			"F": "sharp",
+			"G": "",
+			"A": "",
+			"B": ""
+		},
+		"D": {
+			"C": "sharp",
+			"D": "",
+			"E": "",
+			"F": "sharp",
+			"G": "",
+			"A": "",
+			"B": ""
+		},
+		"A": {
+			"C": "sharp",
+			"D": "",
+			"E": "",
+			"F": "sharp",
+			"G": "sharp",
+			"A": "",
+			"B": ""
+		},
+		"E": {
+			"C": "sharp",
+			"D": "sharp",
+			"E": "",
+			"F": "sharp",
+			"G": "sharp",
+			"A": "",
+			"B": ""
+		},
+		"B": {
+			"C": "sharp",
+			"D": "sharp",
+			"E": "",
+			"F": "sharp",
+			"G": "sharp",
+			"A": "sharp",
+			"B": ""
+		},
+		"F#": {
+			"C": "sharp",
+			"D": "",
+			"E": "sharp",
+			"F": "sharp",
+			"G": "sharp",
+			"A": "sharp",
+			"B": ""
+		},
+		"C#": {
+			"C": "sharp",
+			"D": "",
+			"E": "sharp",
+			"F": "sharp",
+			"G": "sharp",
+			"A": "sharp",
+			"B": "sharp"
+		},
         // We don't transpose to G#, D# or A#
-        "G#": {"C": "sharp", "D": "", "E": "sharp", "F": "##", "G": "sharp", "A": "sharp", "B": "sharp"},
-        "D#": {"C": "##", "D": "sharp", "E": "sharp", "F": "##", "G": "sharp", "A": "sharp", "B": "sharp"},
-
+		"G#": {
+			"C": "sharp",
+			"D": "",
+			"E": "sharp",
+			"F": "##",
+			"G": "sharp",
+			"A": "sharp",
+			"B": "sharp"
+		},
+		"D#": {
+			"C": "##",
+			"D": "sharp",
+			"E": "sharp",
+			"F": "##",
+			"G": "sharp",
+			"A": "sharp",
+			"B": "sharp"
+		},
     };
 
 
@@ -467,13 +748,17 @@ this.octave_numbers = {
         "Ab": 25,
         "Eb": 26, 
         "Bb": 27,
-        "F": 28, "E#": 41,
-        "C": 29, "B#": 42,
+		"F": 28,
+		"E#": 41,
+		"C": 29,
+		"B#": 42,
         "G": 30,
         "D": 31,
         "A": 32,
-        "E": 33, "Fb": 21,
-        "B": 34, "Cb": 22,
+		"E": 33,
+		"Fb": 21,
+		"B": 34,
+		"Cb": 22,
         "F#": 35,
         "C#": 36,
         "G#": 37,
@@ -485,31 +770,84 @@ this.octave_numbers = {
         this.clef_positions = [];
         //                   Sign Line
         this.clef_positions["G"] = [];
-        this.clef_positions["G"][1] = {middle_letter: "D", middle_octave: 5, middle_number: 1};
-        this.clef_positions["G"][2] = {middle_letter: "B", middle_octave: 4, middle_number: 6};
-        this.clef_positions["G"][3] = {middle_letter: "G", middle_octave: 4, middle_number: 4};
-        this.clef_positions["G"][4] = {middle_letter: "E", middle_octave: 4, middle_number: 2};
-        this.clef_positions["G"][5] = {middle_letter: "C", middle_octave: 4, middle_number: 0};
-    
+	this.clef_positions["G"][1] = {
+		middle_letter: "D",
+		middle_octave: 5,
+		middle_number: 1
+	};
+	this.clef_positions["G"][2] = {
+		middle_letter: "B",
+		middle_octave: 4,
+		middle_number: 6
+	};
+	this.clef_positions["G"][3] = {
+		middle_letter: "G",
+		middle_octave: 4,
+		middle_number: 4
+	};
+	this.clef_positions["G"][4] = {
+		middle_letter: "E",
+		middle_octave: 4,
+		middle_number: 2
+	};
+	this.clef_positions["G"][5] = {
+		middle_letter: "C",
+		middle_octave: 4,
+		middle_number: 0
+	};
         this.clef_positions["F"] = [];
-        this.clef_positions["F"][1] = {middle_letter: "C", middle_octave: 3, middle_number: 0};
-        this.clef_positions["F"][2] = {middle_letter: "A", middle_octave: 3, middle_number: 5};
-        this.clef_positions["F"][3] = {middle_letter: "F", middle_octave: 3, middle_number: 3};
-        this.clef_positions["F"][4] = {middle_letter: "D", middle_octave: 3, middle_number: 1};
-        this.clef_positions["F"][5] = {middle_letter: "B", middle_octave: 2, middle_number: 6};
-    
+	this.clef_positions["F"][1] = {
+		middle_letter: "C",
+		middle_octave: 3,
+		middle_number: 0
+	};
+	this.clef_positions["F"][2] = {
+		middle_letter: "A",
+		middle_octave: 3,
+		middle_number: 5
+	};
+	this.clef_positions["F"][3] = {
+		middle_letter: "F",
+		middle_octave: 3,
+		middle_number: 3
+	};
+	this.clef_positions["F"][4] = {
+		middle_letter: "D",
+		middle_octave: 3,
+		middle_number: 1
+	};
+	this.clef_positions["F"][5] = {
+		middle_letter: "B",
+		middle_octave: 2,
+		middle_number: 6
+	};
         this.clef_positions["C"] = [];
-        this.clef_positions["C"][1] = {middle_letter: "G", middle_octave: 4, middle_number: 4};
-        this.clef_positions["C"][2] = {middle_letter: "E", middle_octave: 4, middle_number: 2};
-        this.clef_positions["C"][3] = {middle_letter: "C", middle_octave: 4, middle_number: 0};
-        this.clef_positions["C"][4] = {middle_letter: "A", middle_octave: 3, middle_number: 5};
-        this.clef_positions["C"][5] = {middle_letter: "F", middle_octave: 3, middle_number: 3};
-    
-
-
-
-    this.transpose_pitch = function(what, old_step, old_alter, old_octave, old_key, new_key) 
-    {
+	this.clef_positions["C"][1] = {
+		middle_letter: "G",
+		middle_octave: 4,
+		middle_number: 4
+	};
+	this.clef_positions["C"][2] = {
+		middle_letter: "E",
+		middle_octave: 4,
+		middle_number: 2
+	};
+	this.clef_positions["C"][3] = {
+		middle_letter: "C",
+		middle_octave: 4,
+		middle_number: 0
+	};
+	this.clef_positions["C"][4] = {
+		middle_letter: "A",
+		middle_octave: 3,
+		middle_number: 5
+	};
+	this.clef_positions["C"][5] = {
+		middle_letter: "F",
+		middle_octave: 3,
+		middle_number: 3
+	};
+	this.transpose_pitch = function(what, old_step, old_alter, old_octave, old_key, new_key) {
         console.log(this.get_self(what, old_step, old_alter, old_octave, old_key, new_key));
         let old_note = old_step;
         if (old_alter == 1)
@@ -636,12 +974,14 @@ this.octave_numbers = {
     
 
     let quarter_divs = 256; // sibelius shows divisions and quarter notes as 256
-
-    this.note_duration = {quarter: quarter_divs, eighth: quarter_divs/2, sixteenth: quarter_divs/4,
-        half: quarter_divs * 2, whole: quarter_divs * 4};
-
-    this.get_duration = function(type, dotted)
-    {
+	this.note_duration = {
+		quarter: quarter_divs,
+		eighth: quarter_divs / 2,
+		sixteenth: quarter_divs / 4,
+		half: quarter_divs * 2,
+		whole: quarter_divs * 4
+	};
+	this.get_duration = function(type, dotted) {
         let duration = this.note_duration[type];
         if (dotted)
             duration *= 1.5;

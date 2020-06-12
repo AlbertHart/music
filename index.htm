@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <html lang="en-US">
+
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8" />
     <link rel="shortcut icon" type="image/png" href="favicon.png">
+    
+    <title>Music XML</title>
 
     <link rel="stylesheet" href="css.css" />
     <script src="music_common/alh_sprintf.js?v=2.66"></script>
+    <script src="music_common/ABMXML_Lib_Common.js?v=2.66"></script>
 
     <script src="process_musicxml.js?v=2.66"></script>
+
+   <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-152244338-2"></script>
 
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -19,7 +25,24 @@
     </script>
     
     </head>
-<h2>Process MusicXML Files</h2>
+
+
+<div style="width:80vw; margin: auto;">
+
+    <img src=images/ice-logo.png style="float: left; width: 150px">
+    <p>&nbsp;</p>
+
+
+    <h2>Process MusicXML Files</h2>
+    <div id=version>Version: </div>
+    <br clear=all>
+
+    <div class="menu_tab" id=top_menu>
+        <script>
+            do_menu("top_menu");
+        </script>  
+    </div>
+
 
 <div id=headers>
 
@@ -27,6 +50,14 @@
 
 <script>
 
+    function open_tab(item)
+    {
+        tab_name = item.name;   // tab to open
+        window.location.href = "process_musicxml.htm?tab=" + tab_name;
+
+    }
+
+    
     
 
     do_transpose_header("headers", true);
@@ -39,6 +70,16 @@
 
     do_melody_chords_header("headers", true);
 </script>
-Our site 
+
+<div class=info id=footer>
+    <script>
+        do_footer("footer");
+    </script>
+    
+
+</div>
+
+</div>
+
 </html>
 

@@ -141,3 +141,54 @@
 
 
      }
+
+     function do_menu(sid)
+     {
+        let shtml = `<button class="tablinks" name='home_tab' onclick="do_home()">Home</button>
+            <button class="tablinks" name='transpose_tab' onclick="open_tab(this)">Transpose XML</button>
+            <button class="tablinks" name='add_bass_tab' onclick="open_tab(this)">Add Bass Notes</button>
+            <button class="tablinks" name='trim_score_tab' onclick="open_tab(this)">Trim Score</button>
+            <button class="tablinks" name='voice_leading_tab' onclick="open_tab(this)">Voice Leading</button>
+            <button class="tablinks" name='melody_chords_tab' onclick="open_tab(this)">Melody Chords</button>
+            <button class="tablinks" name='contact_tab' onclick="do_contact(this)">Contact</button>
+            `;
+
+            let element = document.getElementById(sid);
+            element.innerHTML += shtml;
+     }
+
+     function do_home()
+    {
+        window.location.href = "index.htm";
+    }
+
+    function do_contact()
+    {
+        window.location.href = "musicxml_contact.htm";
+    }
+
+     function do_footer(sid)
+     {
+         let shtml = `<p>&nbsp;</p>
+         <hr>
+         <p>&nbsp;</p>
+         <h2>About Process MusicXML Files</h2>
+         <img src="images/GitHub-Mark-120px-plus.png" style="width: 120px;">
+         <b>Process MusicXML Files</b> is free software and any developer can contribute to the project. 
+         Everything you need is in the 
+         <a href=https://github.com/AlbertHart/music>GitHub repository</a>. 
+         <p></p>
+         Please make sure to read and follow the development process described 
+         in the README, as well as to provide good quality code and respect all guidelines.
+         <p></p>
+         Development discussion takes place on GitHub in the Issues tab.
+         <p></p>
+         Let us know about any ideas you have for new functions or improvements.
+         <p></p>
+         And let us know if you would like to help with the development efforts.
+
+         <br clear=all>`;
+
+         let element = document.getElementById(sid);
+         element.innerHTML += shtml;
+     }

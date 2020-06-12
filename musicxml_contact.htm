@@ -1,0 +1,194 @@
+
+
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" type="image/png" href="favicon.png">
+    
+    <title>Music XML</title>
+
+    <link rel="stylesheet" href="css.css" />
+    <script src="music_common/alh_sprintf.js?v=2.66"></script>
+    <script src="music_common/ABMXML_Lib_Common.js?v=2.66"></script>
+
+    <script src="process_musicxml.js?v=2.66"></script>
+
+   <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-152244338-2"></script>
+
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-152244338-2');
+    </script>
+
+    <script>
+        var MLIB = new MusicDOM(); 
+    </script>
+
+    <style>
+
+/* Style inputs with type="text", select elements and textareas */
+input[type=text], select, textarea {
+  width: 100%; /* Full width */
+  padding: 12px; /* Some padding */ 
+  border: 1px solid #ccc; /* Gray border */
+  border-radius: 4px; /* Rounded borders */
+  box-sizing: border-box; /* Make sure that padding and width stays in place */
+  margin-top: 6px; /* Add a top margin */
+  margin-bottom: 16px; /* Bottom margin */
+  resize: vertical /* Allow the user to vertically resize the textarea (not horizontally) */
+}
+
+/* Style the submit button with a specific background color etc */
+input[type=submit] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* When moving the mouse over the submit button, add a darker green color */
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+/* Add a background color and some padding around the form */
+.container {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+
+    </style>
+    
+    </head>
+
+
+<div style="width:80vw; margin: auto;">
+
+    <img src=images/ice-logo.png style="float: left; width: 150px">
+    <p>&nbsp;</p>
+
+
+    <h2>Process MusicXML Files</h2>
+    <div id=version>Version: </div>
+    <br clear=all>
+
+    <div class="menu_tab" id=top_menu>
+        <script>
+            do_menu("top_menu");
+        </script>  
+    </div>
+
+
+<div id=headers>
+
+</div>
+
+<script>
+
+    function open_tab(item)
+    {
+        tab_name = item.name;   // tab to open
+        window.location.href = "process_musicxml.htm?tab=" + tab_name;
+
+    }
+    // https://mail.google.com/mail/u/0/?view=cm&fs=1&tf=1&source=mailto&su=a+b+%3C+c&to=AlHart369@gmail.com&body=%5Bobject+HTMLTextAreaElement%5D
+
+    //var form0;
+    function process_contact(element)
+    {
+        let errors = "";
+        let form = element.form;
+        //form0 = form;
+        //MLIB.show_object(form, "FORM");
+        //MLIB.show_dom_element(form, "FORM");
+
+        let subject = form.subject.value;
+        if (subject.length < 4)
+        {
+            errors += "Please provide a subject for your request.\n\n";
+        }
+
+        let body = form.body.value;
+        
+        if (body.length < 10)
+        {
+            errors += "Please provide a longer description fo your request.\n\n";
+        }
+
+
+        console.log("subject: %s\nbody: %s", subject, body);
+
+        body = sprintf("MusicXML %s %s\n%s\n\nSent from  musicxml Contact Form", 
+            form.fname.value, form.lname.value, body);
+
+
+        if (errors != "")
+        {
+            alert("Cannot process Contact Request.\n\n" +
+                errors + 
+                "Please correct errors and try again.")
+            return(false);
+        }
+
+        surl = sprintf('mailto:AlHart369@gmail.com?subject=%s&body=%s', 
+            encodeURIComponent(subject), encodeURIComponent(body));
+
+        document.location = surl;
+        return(false)
+    }
+    
+    </script>ss
+
+    <h3>Do you can any questions about our MusicXML application, or any suggestions to inprove it.</h3>
+
+
+<div class="container">
+    <form >
+  
+      <label for="fname">First Name</label>
+      <input type="text" id="fname" name="firstname" placeholder="Your name..">
+  
+      <label for="lname">Last Name</label>
+      <input type="text" id="lname" name="lastname" placeholder="Your last name..">
+  
+      <label for="country">Country</label>
+      <select id="country" name="country">
+        <option value="US">United States</option>
+        <option value="China">China</option>
+        <option value="Other">Other</option>
+      </select>
+  
+      <label for="subject">How can we help you? (*)</label>
+      <input type=text id="subject" name="subject" placeholder="Subject..."  />
+
+      <label for="body">Describe in more detail. (*)</label>
+      <textarea id="body" name="body" placeholder="Write something.." style="height:200px"></textarea>
+  
+      <input type="button" value="Submit" onclick="process_contact(this); return false" />
+  
+      <p></p>(*) These fields are required.
+      <p></p>
+    </form>
+  </div>
+
+  <div class=info id=footer>
+    <script>
+        do_footer("footer");
+    </script>
+    
+
+</div>
+
+</div>
+
+</html>
