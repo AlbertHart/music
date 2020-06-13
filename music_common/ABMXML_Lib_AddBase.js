@@ -84,7 +84,7 @@ MusicDOM.prototype.add_bass_to_xml = function(parameters, xml_string_in)
        staves: null, clef: []};
    attributes = this.attributes;   // use from var
 
-   dom_object = this.xml_to_dom_object(xml_string_in);
+   let dom_object = this.xml_to_dom_object(xml_string_in);
 
    let score_partwise_element = dom_object.firstElementChild; // score-partwise
 
@@ -628,16 +628,7 @@ MusicDOM.prototype.add_bass_to_xml = function(parameters, xml_string_in)
        
        } // end of staffs
 
-    let xml_string_return = this.dom_object_to_string(dom_object);
+    let xml_string_return = this.dom_object_to_return_string(dom_object);
     return(xml_string_return);
 
-}   // end of create_new_score
-
-
-
-
-
-
-
-
-
+}   // end of add_bass_to_xml

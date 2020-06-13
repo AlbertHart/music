@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" type="image/png" href="favicon.png">
+    
+    <title>FAQ - Music XML</title>
+
+    <link rel="stylesheet" href="css.css" />
+    <script src="music_common/alh_sprintf.js?v=2.66"></script>
+    <script src="music_common/ABMXML_Lib_Common.js?v=2.66"></script>
+
+    <script src="process_musicxml.js?v=2.66"></script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="faq/assets/css/style.css">
+
+</head>
+
+<body>
+
+    <div style="width:80vw; margin: auto;">
+
+        <img src=images/ice-logo.png style="float: left; width: 150px">
+        <p>&nbsp;</p>
+
+        
+    <h2>Frequently Asked Questions</h2>
+    <div id=version>Version: </div>
+    <br clear=all>
+        
+    <div class="menu_tab" id=top_menu>
+        <script>
+            do_top_menu("top_menu");
+        </script>  
+    </div>
+
+    <h2>Frequently Asked Questions</h2>
+
+<section class="cd-faq js-cd-faq container max-width-md margin-top-lg margin-bottom-lg">
+	<ul class="cd-faq__categories">
+		<li><a class="cd-faq__category cd-faq__category-selected truncate" href="#basics">Basics</a></li>
+		<li><a class="cd-faq__category truncate" href="#transpose">Transpose</a></li>
+		<li><a class="cd-faq__category truncate" href="#add_bass">Add Bass</a></li>
+		<li><a class="cd-faq__category truncate" href="#trim">Trim</a></li>
+		<li><a class="cd-faq__category truncate" href="#voice_leading">Voice Leading</a></li>
+		<li><a class="cd-faq__category truncate" href="#melody">Melody Chords</a></li>
+	</ul> <!-- cd-faq__categories -->
+
+	<div class="cd-faq__items">
+		<ul id="basics" class="cd-faq__group">
+			<li class="cd-faq__title"><h2>Basics</h2></li>
+			<li class="cd-faq__item">
+				<a class="cd-faq__trigger" href="#0"><span>Since I can do many of these things in Musescore or Sibelius, why should I use software for it</span></a>
+				<div class="cd-faq__content">
+          <div class="text-component">
+            <p>
+                If you want to perform these functions, and know how to do it quickly with your Noatation Software, then you should continue to use that.
+                </p><p>
+                However, many people wanting to use MusicXML files may have a hard time performing basic functions in notation software.
+                If that is you you might find this site very hekpful.
+                <h3>Software Developers</h3>
+                If you are writing your own software and want to include functions like these, you will find the access to our source code very heloful.
+                If there are things you would like to add, or similar routines you would find helpful, you can ask us to provide them.
+                We have good expertise in software development and mujsic theory and would be a good source for additional functions would like.
+            </p>
+          </div>
+				</div> <!-- cd-faq__content -->
+			</li>
+
+			<li class="cd-faq__item">
+				<a class="cd-faq__trigger" href="#0"><span>Can I use this on my own Web Site or Applications</span></a>
+				<div class="cd-faq__content">
+          <div class="text-component">
+            <p><b>Process MusicXML Files</b> is Open Source Software. You can use it on your own web pages
+                or in your own software.
+            </p>
+
+          </div>
+				
+
+		</ul> <!-- cd-faq__group -->
+
+		<ul id="transpose" class="cd-faq__group">
+			<li class="cd-faq__title"><h2>Transpose</h2></li>
+			<li class="cd-faq__item">
+				<a class="cd-faq__trigger" href="#0"><span>How does Transpose work?</span></a>
+				<div class="cd-faq__content">
+          <div class="text-component">
+            <p>
+                You specify the new key and we tranpose notes, chord, the key signature, and evev rest positions
+                if you have rests not on the centerline or the staff.
+
+                The transposition is done usine a <b>"circle of 5ths"</b> method. 
+                This helps with the oroblem of how to translate notes when basically going to the same key.
+                Foe example, when transposing from C to G#, an F# note or chord in the original key is 
+                translated differently than it 
+                would be if you were transposing from C to Ab - even thougn they note on the piano in G# and Ab are the same.
+            </p>
+          </div>
+				</div> <!-- cd-faq__content -->
+			</li>
+
+			
+		</ul> <!-- cd-faq__group -->
+
+		<ul id="add_bass" class="cd-faq__group">
+			<li class="cd-faq__title"><h2>Add Bass</h2></li>
+			<li class="cd-faq__item">
+				<a class="cd-faq__trigger" href="#0"><span>What would I use Add Bass for?</span></a>
+				<div class="cd-faq__content">
+          <div class="text-component">
+              <p>
+                  One use it to take a leadsheet and add a very simple accompaniment to it 
+                  - as a start point for further improvisation, or for use when accompanying choir,
+                  or helping a vocalist learn the part.
+              </p>
+            </div>
+				</div> <!-- cd-faq__content -->
+			</li>
+
+			
+		</ul> <!-- cd-faq__group -->
+
+		<ul id="trim" class="cd-faq__group">
+			<li class="cd-faq__title"><h2>Trim Score</h2></li>
+			<li class="cd-faq__item">
+				<a class="cd-faq__trigger" href="#0"><span>What would I use Trim for?</span></a>
+				<div class="cd-faq__content">
+          <div class="text-component">
+            <p>
+                Trim lets you easily select the measures and even notes in the first and last measure,
+                and trim the score.
+            </p><p>
+                You might find MusicXML for a song, 
+                but want to isolate only a part of the song for study, or inckusing in another score,
+            </p>
+          </div>
+				</div> <!-- cd-faq__content -->
+			</li>
+
+		</ul> <!-- cd-faq__group -->
+
+		<ul id="voice_leading" class="cd-faq__group">
+			<li class="cd-faq__title"><h2>Voice Leading</h2></li>
+			<li class="cd-faq__item">
+				<a class="cd-faq__trigger" href="#0"><span>What would I use Voice Leading for?</span></a>
+				<div class="cd-faq__content">
+          <div class="text-component">
+            <p>
+                If you want to play a simple bass and right hand under an existing melody,
+                provinging an accompaniment for a vocalist or solist - but not necessarily
+                duplicating the melody notes, then 
+                <b>Voice Leading</b> provides a good solution.
+            </p><p>
+                It places chord notes kn a new staff, based on the chord specified in the lead sheet.
+                Add it used voice leading to minimize right hand movement and also to provide satisfying
+                resolution of Dominant 7ths and other tritones. 
+            </p><p>
+                You can use these chord voicings for simple comping, or as a basic for more complicated
+                playing which you would improvise as you played.
+            </p>
+          </div>
+				</div> <!-- cd-faq__content -->
+			</li>
+
+		
+		</ul> <!-- cd-faq__group -->
+			
+		</ul> <!-- cd-faq__group -->
+
+		<ul id="melody" class="cd-faq__group">
+			<li class="cd-faq__title"><h2>Melody Chords</h2></li>
+			<li class="cd-faq__item">
+				<a class="cd-faq__trigger" href="#0"><span>What would I use Trim for?</span></a>
+				<div class="cd-faq__content">
+          <div class="text-component">
+            <p>
+                If you want to play a simple bass and right hand just below an existing melody,
+                and including the melody notes in the 
+                <b>Melody Chords</b> provides a good starting point.
+            </p><p>
+                It places several chord notes below the melody, based on the chord specified in the lead sheet.
+            </p>
+          </div>
+				</div> <!-- cd-faq__content -->
+			</li>
+
+		
+        </ul> <!-- cd-faq__group -->
+        
+	</div> <!-- cd-faq__items -->
+
+	<a href="#0" class="cd-faq__close-panel text-replace">Close</a>
+  
+  <div class="cd-faq__overlay" aria-hidden="true"></div>
+</section> <!-- cd-faq -->
+
+  <script src="faq/assets/js/main.js?v=2.66"></script>
+  <script src="faq/assets/js/util.js?v=2.66"></script>
+
+<div class=info id=footer>
+            <script>
+                do_footer("footer");
+            </script>
+            
+        
+        </div>
+
+</div>
+        
+</body>
+</html>

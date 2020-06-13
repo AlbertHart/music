@@ -46,9 +46,7 @@ MusicDOM.prototype.lib_Transpose = "loaded";
 
         this.transpose_dom_object(parameters, dom_object);
 
-        let xml_string_return = this.dom_object_to_string(dom_object);
-
-        //console.log("xml_string_return %s", xml_string_return);
+        let xml_string_return = this.dom_object_to_return_string(dom_object);
 
         return(xml_string_return);
 

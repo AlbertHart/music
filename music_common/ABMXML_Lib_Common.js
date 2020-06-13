@@ -1062,11 +1062,15 @@ this.octave_numbers = {
             {
                 for (let  ia = 0; ia < child_element.attributes.length && ia < 3; ia++)
                 {
+                    if (ia == 0)
+                        satt == "ATT: ";
                     satt += child_element.attributes[ia].nodeName + "=\"" + child_element.attributes[ia].value + "\" ";
                 }
             }
             let svalue = this.get_element_value(child_element);
-            console.log("- %s SATT: %s VALUE: %s", sname, satt, svalue);
+            if (svalue != "")
+                svalue = "VALUE: " + svalue;
+            console.log("- %s  %s %s", sname, satt, svalue);
         }
         
     };
@@ -1237,6 +1241,8 @@ this.octave_numbers = {
         
     };
 
+    // we clone an element so changes to the copied element
+    // do not change the original element
     this.clone_dom_element = function(element)
     {
         let new_element = element.cloneNode(true);
@@ -1276,10 +1282,11 @@ this.xml_to_dom_object = function(xml_string_in)
 
     let parser = new DOMParser();
     let dom_object = parser.parseFromString(xml_string_in, 'application/xml');
+    this.dom_object = dom_object;   // save in workspace
     return(dom_object);
 };
 
-this.dom_object_to_string = function(dom_object)
+this.dom_object_to_return_string = function(dom_object)
 {
     let xml_out = dom_object.firstElementChild.outerHTML;
     //console.log("BEFORE REPLACE: %s', xml_string_return);
@@ -2108,12 +2115,12 @@ this.get_substitution = function(modifier1)
     this.get_rest = function(duration)
     {
         console.log("get_rest: duration: %s %s", duration, this.get_caller());
-        let rest = sprintf(`    <note>
+        let srest = sprintf(`    <note>
             <rest/>
             <duration>%s</duration>
             <voice>1</voice>
         </note>`, duration);
-        return(rest);
+        return(srest);
     };
 
 
