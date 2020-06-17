@@ -944,7 +944,7 @@ this.octave_numbers = {
             console.log(`transposed_note: %s %s \n` +
                         `     old_note: %s old_octave: %s \n` + 
                         `     new_note: %s new_octave: %s new_accidental: %s`, 
-                what, this.get_caller(), 
+                what, get_caller(), 
                 old_note, old_octave, 
                 new_note, new_octave, new_accidental);
                 
@@ -1012,7 +1012,7 @@ this.octave_numbers = {
  
   
 
-    this.get_caller = function() {
+    function get_caller() {
         let error_stack2 = (new Error).stack;
         let caller_stack_array = error_stack2.split("\n");
         //console.log("GET_CALLER: %s", error_stack2);
@@ -1046,7 +1046,7 @@ this.octave_numbers = {
             sparent = parent.tagName;
         else    
             sparent = "None";
-        console.log("**********\nshow_dom_element: %s - %s PARENT: %s %s", parent_element.tagName, what, sparent, this.get_caller());
+        console.log("**********\nshow_dom_element: %s - %s PARENT: %s %s", parent_element.tagName, what, sparent, get_caller());
         //console.log("type: %s is_array: %s", typeof(parent_element), Array.isArray(parent_element));
         // display first level sub-elements
 
@@ -1126,7 +1126,7 @@ this.octave_numbers = {
          let number = Number(value);
          if (number == "NaN")
          {
-             console.error("Bad Numeric Value for %s: %s %s", element.tagName, value, number, this.get_caller());
+             console.error("Bad Numeric Value for %s: %s %s", element.tagName, value, number, get_caller());
          }
          //console.log("get_element_value_numeric: value: '%s' number: %s", value, number);
          return(number);
@@ -1165,7 +1165,7 @@ this.octave_numbers = {
     this.change_dom_element_value = function(parent_element, name, value)
     {
         if (this.show_output)
-            console.log("*** change_dom_element_value: %s %s --> %s: %s", parent_element.tagName, name, value, this.get_caller());
+            console.log("*** change_dom_element_value: %s %s --> %s: %s", parent_element.tagName, name, value, get_caller());
         let sub_element = parent_element.querySelector(name);
         if (!sub_element)
         {
@@ -1259,7 +1259,7 @@ this.octave_numbers = {
             sout = JSON.stringify(object).replace(/,"/g, "\n\"");
         else
             sout = "undefined";
-        console.log("%s: %s %s", what, sout, this.get_caller());
+        console.log("%s: %s %s", what, sout, get_caller());
     };
 
    
@@ -1276,9 +1276,9 @@ this.xml_to_dom_object = function(xml_string_in)
         alert("<score not found in MusicXML");
         return(false);
     }
-    this.xml_header = xml_string_in.substr(0, ipos);
+    this.xml_text = xml_string_in.substr(0, ipos);
 
-    console.log("XML_HEADER: %s", this.xml_header);
+    console.log("XML_text: %s", this.xml_text);
 
     let parser = new DOMParser();
     let dom_object = parser.parseFromString(xml_string_in, 'application/xml');
@@ -1292,7 +1292,7 @@ this.dom_object_to_return_string = function(dom_object)
     //console.log("BEFORE REPLACE: %s', xml_string_return);
     //xml_string_return = xml_string_return.replace(/></g, ">\n<");
 
-    let xml_string_return = this.xml_header + xml_out;
+    let xml_string_return = this.xml_text + xml_out;
     return(xml_string_return);
 };
 
@@ -1450,7 +1450,7 @@ this.get_base_url = function()
   {
       // chord_data = {schord: schord, sbass: sbass, octave; octave, one_note: false, start_at: 1, duration: one_beat_duration};
 
-      console.log("add_chord_notes: %s", this.get_caller());
+      console.log("add_chord_notes: %s", get_caller());
       //this.show_object(chord_data, "chord_data");
       
 
@@ -1624,7 +1624,7 @@ this.get_base_url = function()
   this.add_note_to_chord = function(sbase, octave, half_steps, duration, new_chord)
   {
       console.log("add_note_to_chord: sbase: %s octave: %s half_steps: %s new_chord: %s  %s",
-          sbase, octave, half_steps, new_chord, this.get_caller() );
+          sbase, octave, half_steps, new_chord, get_caller() );
       let base_number = this.note_numbers[sbase];
 
       let sharp_flat = this.sharp_flat_from_note[sbase];
@@ -1698,7 +1698,7 @@ this.get_base_url = function()
     // for transposed note
     this.get_note_offset = function(note)
     {
-        console.log("get_note_offset %s", this.get_caller());
+        console.log("get_note_offset %s", get_caller());
         this.show_object(note, "note");
         if (this.attributes.clef[note.staff])
         {
@@ -2114,7 +2114,7 @@ this.get_substitution = function(modifier1)
 
     this.get_rest = function(duration)
     {
-        console.log("get_rest: duration: %s %s", duration, this.get_caller());
+        console.log("get_rest: duration: %s %s", duration, get_caller());
         let srest = sprintf(`    <note>
             <rest/>
             <duration>%s</duration>

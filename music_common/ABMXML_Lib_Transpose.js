@@ -38,9 +38,9 @@ MusicDOM.prototype.lib_Transpose = "loaded";
         {
             console.error("<score not found in xml file");
         }
-        let xml_header = xml_string_in.substr(0, ipos);
+        let xml_text = xml_string_in.substr(0, ipos);
 
-        console.log("XML_HEADER: %s", xml_header);
+        console.log("XML_text: %s", xml_text);
 
         let dom_object = this.xml_to_dom_object(xml_string_in);
 

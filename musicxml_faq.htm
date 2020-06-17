@@ -5,16 +5,18 @@
     <meta charset="utf-8" />
     <link rel="shortcut icon" type="image/png" href="favicon.png">
     
-    <title>FAQ - Music XML</title>
+    <title>FAQ - MusicXML</title>
 
-    <link rel="stylesheet" href="css.css" />
+    <link rel="stylesheet" href="musicxml_css.css" />
     <script src="music_common/alh_sprintf.js?v=2.66"></script>
     <script src="music_common/ABMXML_Lib_Common.js?v=2.66"></script>
 
-    <script src="process_musicxml.js?v=2.66"></script>
+    <script src="musicxml_process.js?v=2.66"></script>
     
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="faq/assets/css/style.css">
+
+ 
 
 </head>
 
@@ -30,25 +32,34 @@
     <div id=version>Version: </div>
     <br clear=all>
         
-    <div class="menu_tab" id=top_menu>
+    <div class="top_menu" id=top_menu>
         <script>
-            do_top_menu("top_menu");
+            do_top_menu("top_menu");s
         </script>  
     </div>
 
-    <h2>Frequently Asked Questions</h2>
+    <h2>Frequently Asked Questions</h2>   
+    
+    <p><hr></p>
 
-<section class="cd-faq js-cd-faq container max-width-md margin-top-lg margin-bottom-lg">
-	<ul class="cd-faq__categories">
+
+      <!-- The sidebar -->
+      <section class="cd-faq js-cd-faq container max-width-md margin-top-lg margin-bottom-lg">
+    
+    
+	<ul class="cd-faq__categories" id="sidebar_menu"">
 		<li><a class="cd-faq__category cd-faq__category-selected truncate" href="#basics">Basics</a></li>
+		<li><a class="cd-faq__category truncate" href="#view_play">View and Play</a></li>
 		<li><a class="cd-faq__category truncate" href="#transpose">Transpose</a></li>
 		<li><a class="cd-faq__category truncate" href="#add_bass">Add Bass</a></li>
-		<li><a class="cd-faq__category truncate" href="#trim">Trim</a></li>
+		<li><a class="cd-faq__category truncate" href="#trim_score">Trim</a></li>
 		<li><a class="cd-faq__category truncate" href="#voice_leading">Voice Leading</a></li>
-		<li><a class="cd-faq__category truncate" href="#melody">Melody Chords</a></li>
+		<li><a class="cd-faq__category truncate" href="#melody_chords">Melody Chords</a></li>
 	</ul> <!-- cd-faq__categories -->
 
-	<div class="cd-faq__items">
+	<!-- Page content -->
+    <div class="cd-faq__items">
+	
 		<ul id="basics" class="cd-faq__group">
 			<li class="cd-faq__title"><h2>Basics</h2></li>
 			<li class="cd-faq__item">
@@ -82,7 +93,30 @@
     </li>
 				
 
+        </ul> <!-- cd-faq__group -->
+        
+
+        <ul id="view_play" class="cd-faq__group">
+			<li class="cd-faq__title"><h2>View and Play</h2></li>
+			<li class="cd-faq__item">
+				<a class="cd-faq__trigger" href="#0"><span>How does view  and playwork?</span></a>
+				<div class="cd-faq__content">
+          <div class="text-component">
+            <p>
+                You can view and pring your score. 
+                Either your original score, or the score you have modified.
+            </p><p>
+                During play-back you can pause the score,
+                change the tempo, 
+                or set a range to play and repeat (for learning and practice)
+                </p>
+          </div>
+				</div> <!-- cd-faq__content -->
+			</li>
+
+			
 		</ul> <!-- cd-faq__group -->
+
 
 		<ul id="transpose" class="cd-faq__group">
 			<li class="cd-faq__title"><h2>Transpose</h2></li>
@@ -93,7 +127,7 @@
             <p>
                 You specify the new key and we tranpose notes, chord, the key signature, and evev rest positions
                 if you have rests not on the centerline or the staff.
-
+            </p><p>
                 The transposition is done usine a <b>"circle of 5ths"</b> method. 
                 This helps with the oroblem of how to translate notes when basically going to the same key.
                 Foe example, when transposing from C to G#, an F# note or chord in the original key is 
@@ -125,7 +159,7 @@
 			
 		</ul> <!-- cd-faq__group -->
 
-		<ul id="trim" class="cd-faq__group">
+		<ul id="trim_score" class="cd-faq__group">
 			<li class="cd-faq__title"><h2>Trim Score</h2></li>
 			<li class="cd-faq__item">
 				<a class="cd-faq__trigger" href="#0"><span>What would I use Trim for?</span></a>

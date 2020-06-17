@@ -4,19 +4,37 @@
 <head>
     <meta charset="utf-8" />
     <link rel="shortcut icon" type="image/png" href="favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>Music XML</title>
+    <title>Process MusicXML</title>
 
-    <link rel="stylesheet" href="css.css" />
+    <!-- Bootstrap core CSS -->
+    <link href="./libraries/flatlab/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./libraries/flatlab/css/bootstrap-reset.css" rel="stylesheet">
+    <!--external css-->
+    <link href="./libraries/flatlab/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    
+    <!-- for image gallery -->
+    <link href="./libraries/flatlab/assets/fancybox/source/jquery.fancybox.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="./libraries/flatlab/css/gallery.css" />
+
+    <!-- Custom styles for this template -->
+    <link href="./libraries/flatlab/css/style.css" rel="stylesheet">
+    <link href="./libraries/flatlab/css/style-responsive.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="musicxml_css.css" />
     <script src="music_common/alh_sprintf.js?v=2.66"></script>
     <script src="music_common/ABMXML_Lib_Common.js?v=2.66"></script>
 
-    <script src="process_musicxml.js?v=2.66"></script>
+    <script src="musicxml_process.js?v=2.66"></script>
 
     <!--  individual files for each process -->
     <script src="music_common/ABMXML_Lib_Transpose.js?v=2.66"></script>
     <script src="music_common/ABMXML_Lib_AddBase.js?v=2.66"></script>
     <script src="music_common/ABMXML_Lib_TrimScore.js?v=2.66"></script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="faq/assets/css/style.css">
 
     <!-- this uses the namespace object MLIB to access transpose functions.js -->
 
@@ -33,82 +51,103 @@
 
     
     <script>
+        console.log("<script>");
         var MLIB = new MusicDOM(); 
 
 
         scores = {};
 
-    </script>
 
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="scores/amazing_grace_score.js?v=2.66"></script>
-    <script src="scores/every_time_score.js?v=2.66"></script>
-
-
-    </head>
-    
-    <body>
-
-    <div style="width:80vw; margin: auto;">
-
-        <img src=images/ice-logo.png style="float: left; width: 150px">
-        <p>&nbsp;</p>
-
-        
-    <h2>Process MusicXML Files</h2>
-    <div id=version>Version: </div>
-    <br clear=all>
-        
-    <div class="menu_tab" id=top_menu>
-        <script>
-            do_menu("top_menu");
-        </script>  
-    </div>
-
-
-
-        <h2>Select Desired MusicXML Function</h2>
-        <p>Click on the buttons inside the tabbed menu:</p>
-    
-        Load our <a href="https://ice6.github.io/opensheetmusicdisplay/build/">OSMD Demonstration for Transposition</a>
- 
-        <br clear=all>
-
-                
-    
-    <p><hr></p>
-            
-           
-            
-           
-            
-            
-                    
-     <script>
-        var parameters = {open_tab: "transpose_tab"};
-        var current_tab;
+        var parameters = {process_content: "view_play"};
+  
 
         var xml_string_loaded;
   
-        var output_file_name;
-
-        var show_output = true;
-
-        function do_home()
-        {
-            window.location.href = "index.htm";
-        }
 
 
-     </script>
+
+    </script>
+
+	<script src="scores/amazing_grace_score.js?v=2.66"></script>
+    <script src="scores/every_time_score.js?v=2.66"></script>
+
+  </head>
+
+  <body class="boxed-page">
+      <div class="container">
+        <section id="container" class="" >
+             <!--header start-->
+             <header class="header white-bg">
+                <div class="container">
+                    <div class="sidebar-toggle-box">
+                        <i class="fa fa-bars"></i>
+                    </div>
+                    <!--logo start-->
+                    <a href="families.htm" class="logo">
+                        <img id=logo height='50'>
+                        <script>
+                            document.getElementById("logo").src = "images/ice-logo.png";
+                        </script>
+                    </a>
+                    <!--logo end-->
+                    <div class="nav notify-row" id="top_menu">
+                        <!--  notification start -->
+                        <div id=family_name class=title >MusicXml Process
+                           </div>
+                            <!-- notification dropdown end -->
+                        </ul>
+                        <!--  notification end -->
+                    </div>
+                    <div class="top-nav ">
+                        <!--search & user info start-->
+                            <div class="gcse-search"></div>
+                       
+                        <!--search & user info end-->
+                    </div>
+                </div>
+            </header>
+            <!--header end-->
+
+            <!--sidebar start-->
+            <aside>
+                <div id="sidebar"  class="nav-collapse ">
+                    <script> 
+                        var use_show_process = "open"; 
+                        show_sidebar();
+                    </script>
+                </div>
+            </aside>
+            <!--sidebar end-->
+            
+            <!--main content start-->
+            <section id="main-content"  >
+              <section class=" wrapper" >
+
+                <section class="card" >
+                    <header class="card-header">
+                        
+                    </header>
+                    <div class="card-body" >
+
+
+               
+
+    <!-- START CONTENT -->
+    <div id="view_play_content" class="content_text">
+        <h3>View and Playback Scores</h3>
+        <img width=100% src="images/sample_score.png">
+
+        <div id="view_play_text"> </div>
+
+    </div> <!-- END CONTENT -->
                 
-    <!-- START TAB -->
-    <div id="transpose_tab" class="tabcontent">
+    <!-- START CONTENT -->
+    <div id="transpose_content" class="content_text">
 
-    <div id="transpose_header"> </div>
+    <div id="transpose_text"> </div>
 
     <script>
-        do_transpose_header("transpose_header", false);
+        do_transpose_text("transpose_text", false);
     </script>
     
     
@@ -149,15 +188,15 @@
                 <!-- <option value = "G#">G#</option> -->
         </select>
 
-    </div> <!-- END TAB -->
+    </div> <!-- END CONTENT -->
 
-    <!-- START TAB -->
-    <div id="add_bass_tab" class="tabcontent">
+    <!-- START CONTENT -->
+    <div id="add_bass_content" class="content_text">
 
-    <div id="add_bass_header"> </div>
+    <div id="add_bass_text"> </div>
 
     <script>
-        do_add_bass_header("add_bass_header", false);
+        do_add_bass_text("add_bass_text", false);
     </script>
         
     
@@ -194,25 +233,17 @@
         <input type="radio" class="staff_radio_item parameters" value="" name="staff_type" id="grand-staff"
             onchange="get_parameter_change(this);">
         <label class="label_item" for="grand-staff"> <img class="staff_image" src="images/grand-staff.png"> </label>
+  
 
-
-    
-
+</div><!-- END CONTENT -->
                 
-    
-    
-
-       
-
-</div><!-- END TAB -->
-                
-    <!-- START TAB -->
-    <div id="trim_score_tab" class="tabcontent">
-    <div id="trim_score_header"> </div>
+    <!-- START CONTENT -->
+    <div id="trim_score_content" class="content_text">
+    <div id="trim_score_text"> </div>
     
 
     <script>
-        do_trim_score_header("trim_score_header", false);
+        do_trim_score_text("trim_score_text", false);
     </script>
     
     
@@ -231,22 +262,22 @@
     <br> 
 
 
-
+    
     
 
     <p></p>
 
 
     
+    
+</div> <!-- END CONTENT -->
 
-</div> <!-- END TAB -->
-
-        <!-- START TAB -->
-        <div id="voice_leading_tab" class="tabcontent">
-        <div id="voice_leading_header"> </div>
+        <!-- START CONTENT -->
+        <div id="voice_leading_content" class="content_text">
+        <div id="voice_leading_text"> </div>
             
             <script>
-                do_voice_leading_header("voice_leading_header", false);
+                do_voice_leading_text("voice_leading_text", false);
             </script>
             
             
@@ -274,16 +305,16 @@
             </select>
         </p>
 
-        </div><!-- END TAB -->
+        </div><!-- END CONTENT -->
 
         
 
-        <!-- START TAB -->
-        <div id="melody_chords_tab" class="tabcontent">
-            <div id="melody_chords_header"> </div>
+        <!-- START CONTENT -->
+        <div id="melody_chords_content" class="content_text">
+            <div id="melody_chords_text"> </div>
             
             <script>
-                do_melody_chords_header("melody_chords_tab", false);
+                do_melody_chords_text("melody_chords_content", false);
             </script>
             
             
@@ -307,24 +338,29 @@
                 <option value = "bass">With Bass Note</option>
             </select>
         </p>
+            
+    </div><!-- END CONTENT -->
 
 
-        </div><!-- END TAB -->
        
 
-        <div id=select_file style='display: none;'>
+        <div id=select_file style='display: block;'>
         <h3> Select Music XML file for processing</h3>
 
 
         <p class=font_element>
             <div id=demonstration_scores>
-
+Demonstation Scores
 
             </div>
            
             </p>
 
+   
+       
+
         <script>
+            console.log("Get deomonstation scores");''
             let score_element = document.getElementById("demonstration_scores");
             let shtml = `<label>Select a Demonstration Score</label>
                  <select id="demonstration_score" name="demonstration_score"
@@ -343,7 +379,7 @@
             }
             shtml += "</select>";
             score_element.innerHTML = shtml;
-    
+
             var song_name;
     var openFile = function (event) {
         let elt = document.getElementById('get_file'); 
@@ -402,7 +438,7 @@
                         
  
     
- 
+ <h3>End of Select Style</h3>
             </div>
     
             
@@ -424,29 +460,34 @@
         <button onclick="set_default_parameters()">Reset Settings</button>
         <button onclick="clear_score()">Clear Current Score</button>
         
-        <div class=info id=footer>
-            <script>
-                do_footer("footer");
-            </script>
+       
+
+
+              <!-- try footer here-->
+
+      <div class=info id=footer>
+        <script>
+            do_footer("footer");
+        </script>
             
-        
-        </div>
+</div> <!-- footer -->
 
+    </section> <!-- end card-->
 
+</section> <!-- end wrapper-->
+</section> <!-- end main-content-->
+</section> <!-- end continer-->
 
+<script>
 
-    </div>
-
-    <script>
-    
-
-    window.onload = function() 
+ window.onload = function() 
     {
         load_parameters();  // load saved parameters
         //dom not only ready, but everything is loaded
-        let tab = MLIB.get_url_var("tab");
-        if (tab !== "")
-            open_tab_by_name(tab + "_tab");
+        let content = MLIB.get_url_var("content");
+        console.log("CONTENT: %s", content);
+        if (content !== "")
+            show_process(content);
     };
 
 
@@ -466,21 +507,32 @@
 
     }
 
-
-
-    var part_elements = [];
-
-    var score_part_elements = [];
-
-
     
-  
+ 
 
+    </script>
+
+    <!-- js placed at the end of the document so the pages load faster -->
+    <script src="./libraries/flatlab/js/jquery.js"></script>
+    <script src="./libraries/flatlab/js/bootstrap.bundle.min.js"></script>
+    <script class="include" type="text/javascript" src="./libraries/flatlab/js/jquery.dcjqaccordion.2.7.js"></script>
     
+    <!-- for image gallery -->
+    <script src="./libraries/flatlab/assets/fancybox/source/jquery.fancybox.js"></script>
+
+    <script src="./libraries/flatlab/js/jquery.scrollTo.min.js"></script>
+    <script src="./libraries/flatlab/js/slidebars.min.js"></script>
+    <script src="./libraries/flatlab/js/jquery.nicescroll.js" type="text/javascript"></script>
+    <script src="./libraries/flatlab/js/respond.min.js" ></script>
+
+    <!--common script for all pages-->
+    <script src="./libraries/flatlab/js/common-scripts.js"></script>
+
+	<!-- for image gallery -->
+    <script src="./libraries/flatlab/js/modernizr.custom.js"></script>
+    <script src="./libraries/flatlab/js/toucheffects.js"></script>
 
 
 
-        </script>
-    
-    </body >
-</html >
+  </body>
+</html>

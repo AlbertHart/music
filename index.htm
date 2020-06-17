@@ -4,14 +4,29 @@
 <head>
     <meta charset="utf-8" />
     <link rel="shortcut icon" type="image/png" href="favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>Music XML</title>
+    <title>Process MusicXML</title>
 
-    <link rel="stylesheet" href="css.css" />
+    <!-- Bootstrap core CSS -->
+    <link href="./libraries/flatlab/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./libraries/flatlab/css/bootstrap-reset.css" rel="stylesheet">
+    <!--external css-->
+    <link href="./libraries/flatlab/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    
+    <!-- for image gallery -->
+    <link href="./libraries/flatlab/assets/fancybox/source/jquery.fancybox.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="./libraries/flatlab/css/gallery.css" />
+
+    <!-- Custom styles for this template -->
+    <link href="./libraries/flatlab/css/style.css" rel="stylesheet">
+    <link href="./libraries/flatlab/css/style-responsive.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="musicxml_css.css" />
     <script src="music_common/alh_sprintf.js?v=2.66"></script>
     <script src="music_common/ABMXML_Lib_Common.js?v=2.66"></script>
 
-    <script src="process_musicxml.js?v=2.66"></script>
+    <script src="musicxml_process.js?v=2.66"></script>
 
    <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-152244338-2"></script>
@@ -26,22 +41,64 @@
     
     </head>
 
+  <body class="boxed-page">
+      <div class="container">
+        <section id="container" class="" >
+             <!--header start-->
+             <header class="header white-bg">
+                <div class="container">
+                    <div class="sidebar-toggle-box">
+                        <i class="fa fa-bars"></i>
+                    </div>
+                    <!--logo start-->
+                    <a href="families.htm" class="logo">
+                        <img id=logo height='50'>
+                        <script>
+                            document.getElementById("logo").src = "images/ice-logo.png";
+                        </script>
+                    </a>
+                    <!--logo end-->
+                    <div class="nav notify-row" id="top_menu">
+                        <!--  notification start -->
+                        <div id=family_name class=title >MusicXml Process
+                           </div>
+                            <!-- notification dropdown end -->
+                        </ul>
+                        <!--  notification end -->
+                    </div>
+                    <div class="top-nav ">
+                        <!--search & user info start-->
+                            <div class="gcse-search"></div>
+                       
+                        <!--search & user info end-->
+                    </div>
+                </div>
+            </header>
+            <!--header end-->
 
-<div style="width:80vw; margin: auto;">
+            <!--sidebar start-->
+            <aside>
+                <div id="sidebar"  class="nav-collapse ">
+                    <script> 
+                        var use_show_process = "load"; 
+                        show_sidebar();
+                    </script>
+                </div>
+            </aside>
+            <!--sidebar end-->
+            
+            <!--main content start-->
+            <section id="main-content"  >
+              <section class=" wrapper" >
 
-    <img src=images/ice-logo.png style="float: left; width: 150px">
-    <p>&nbsp;</p>
+                <section class="card" >
+                    <header class="card-header">
+                        
+                    </header>
+                    <div class="card-body" >
 
 
-    <h2>Process MusicXML Files</h2>
-    <div id=version>Version: </div>
-    <br clear=all>
 
-    <div class="menu_tab" id=top_menu>
-        <script>
-            do_top_menu("top_menu");
-        </script>  
-    </div>
 
     <div class=info>
 
@@ -55,30 +112,20 @@
 <p></p>
 <div id=headers>
 
-</div>
+</div><!-- END CONTENT -->
+
+    </section> <!-- end card-->
+       
 
 <script>
 
-    function open_tab(item)
-    {
-        tab_name = item.name;   // tab to open
-        tab_name = tab_name.replace("_tab", "");
-        window.location.href = "process_musicxml.htm?tab=" + tab_name;
 
-    }
-
-    
-    
-
-    do_transpose_header("headers", true);
-
-    do_add_bass_header("headers", true);
-
-    do_trim_score_header("headers", true);
-
-    do_voice_leading_header("headers", true);
-
-    do_melody_chords_header("headers", true);
+    do_view_text("headers", true);
+    do_transpose_text("headers", true);
+    do_add_bass_text("headers", true);
+    do_trim_score_text("headers", true);
+    do_voice_leading_text("headers", true);
+    do_melody_chords_text("headers", true);
 </script>
 
 <div class=info id=footer>
@@ -86,10 +133,41 @@
         do_footer("footer");
     </script>
     
+</div> <!-- footer -->
 
-</div>
 
-</div>
+</section> <!-- end wrapper-->
 
+</section> <!-- end main-content-->
+
+</section> <!-- end continer-->
+
+
+
+    </script>
+
+    <!-- js placed at the end of the document so the pages load faster -->
+    <script src="./libraries/flatlab/js/jquery.js"></script>
+    <script src="./libraries/flatlab/js/bootstrap.bundle.min.js"></script>
+<script class="include" type="text/javascript" src="./libraries/flatlab/js/jquery.dcjqaccordion.2.7.js"></script>
+    
+    <!-- for image gallery -->
+    <script src="./libraries/flatlab/assets/fancybox/source/jquery.fancybox.js"></script>
+
+    <script src="./libraries/flatlab/js/jquery.scrollTo.min.js"></script>
+    <script src="./libraries/flatlab/js/slidebars.min.js"></script>
+    <script src="./libraries/flatlab/js/jquery.nicescroll.js" type="text/javascript"></script>
+    <script src="./libraries/flatlab/js/respond.min.js" ></script>
+
+    <!--common script for all pages-->
+    <script src="./libraries/flatlab/js/common-scripts.js"></script>
+
+	<!-- for image gallery -->
+    <script src="./libraries/flatlab/js/modernizr.custom.js"></script>
+    <script src="./libraries/flatlab/js/toucheffects.js"></script>
+
+
+
+  </body>
 </html>
 

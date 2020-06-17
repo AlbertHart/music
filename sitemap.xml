@@ -13,32 +13,32 @@
   <priority>0.20</priority>
 </url>
 <url>
-  <loc>https://ahlbapps.com/process_musicxml.htm</loc>
+  <loc>https://ahlbapps.com/musicxml_process.htm</loc>
   <lastmod>2020-06-08T00:31:08+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
-  <loc>https://ahlbapps.com/process_musicxml.htm?tab=transpose</loc>
+  <loc>https://ahlbapps.com/musicxml_process.htm?content=transpose</loc>
   <lastmod>2020-06-08T00:31:08+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
-  <loc>https://ahlbapps.com/process_musicxml.htm?tab=add_bass</loc>
+  <loc>https://ahlbapps.com/musicxml_process.htm?content=add_bass</loc>
   <lastmod>2020-06-08T00:31:08+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
-  <loc>https://ahlbapps.com/process_musicxml.htm?tab=trim_score</loc>
+  <loc>https://ahlbapps.com/musicxml_process.htm?content=trim_score</loc>
   <lastmod>2020-06-08T00:31:08+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
-  <loc>https://ahlbapps.com/process_musicxml.htm?tab=voice_leading</loc>
+  <loc>https://ahlbapps.com/musicxml_process.htm?content=voice_leading</loc>
   <lastmod>2020-06-08T00:31:08+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
-  <loc>https://ahlbapps.com/process_musicxml.htm?tab=melody_chords</loc>
+  <loc>https://ahlbapps.com/musicxml_process.htm?content=melody_chords</loc>
   <lastmod>2020-06-08T00:31:08+00:00</lastmod>
   <priority>1.00</priority>
 </url>

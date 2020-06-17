@@ -9,11 +9,11 @@
     
     <title>Music XML</title>
 
-    <link rel="stylesheet" href="css.css" />
+    <link rel="stylesheet" href="musicxml_css.css" />
     <script src="music_common/alh_sprintf.js?v=2.66"></script>
     <script src="music_common/ABMXML_Lib_Common.js?v=2.66"></script>
 
-    <script src="process_musicxml.js?v=2.66"></script>
+    <script src="musicxml_process.js?v=2.66"></script>
 
    <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-152244338-2"></script>
@@ -82,7 +82,7 @@ input[type=submit]:hover {
     <div id=version>Version: </div>
     <br clear=all>
 
-    <div class="menu_tab" id=top_menu>
+    <div class="top_menu" id=top_menu>
         <script>
             do_top_menu("top_menu");
         </script>  
@@ -95,12 +95,7 @@ input[type=submit]:hover {
 
 <script>
 
-    function open_tab(item)
-    {
-        tab_name = item.name;   // tab to open
-        window.location.href = "process_musicxml.htm?tab=" + tab_name;
-
-    }
+ 
     // https://mail.google.com/mail/u/0/?view=cm&fs=1&tf=1&source=mailto&su=a+b+%3C+c&to=AlHart369@gmail.com&body=%5Bobject+HTMLTextAreaElement%5D
 
     //var form0;

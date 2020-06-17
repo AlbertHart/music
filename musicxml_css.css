@@ -146,16 +146,16 @@
         border: 1px solid #808080;
     }
 
-    /* Style the menu_tab */
-    .menu_tab {
+    /* Style the top_menu */
+    .top_menu {
         overflow: hidden;
         border: 1px solid #444;
         background-color: #888;
         width: 80vw
     }
             
-    /* Style the buttons inside the menu_tab */
-    .menu_tab button {
+    /* Style the buttons inside the top_menu */
+    .top_menu button {
         background-color: inherit;
         float: left;
         border: none;
@@ -167,17 +167,17 @@
     }
             
     /* Change background color of buttons on hover */
-    .menu_tab button:hover {
+    .top_menu button:hover {
         background-color: #666;
     }
     
     /* Create an active/current tablink class */
-    .menu_tab button.active {
+    .top_menu button.active {
         background-color: #444;
     }
     
-    /* Style the menu_tab content */
-    .tabcontent {
+    /* Style the top_menu content */
+    .content_text {
         display: none;
         padding: 6px 12px;
         border: 1px solid #aaa;
