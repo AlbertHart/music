@@ -1,4 +1,12 @@
     
+    
+    
+    
+    ul.sidebar-menu li a {
+        
+        padding: 7px 0 7px 7px;
+    }
+    
     .form_element {
         font-size: 2.0vw;
     }

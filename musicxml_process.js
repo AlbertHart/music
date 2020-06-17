@@ -26,45 +26,59 @@ var scores;
                         <span>Home</span>
                     </a>
                 </li>
+                <li>
+                    <a href="javascript:;">
+                        <span style="color: #eee; font-weight: 800;">Processing Functions</span>
+                    </a></li>
 
 
         
 
-                <li class="sub-menu always-open" >
-                    <a href="javascript:;" >
-                    <i class="fa fa-angle-double-right"></i>
-                        <span>Processing Functions...</span>
-                        </a>
-                    <ul class="sub always-open" >
-
 
                     <li>
                         <a href="javascript:show_process('view_play');">
+                        <span style="width: 15px;">&nbsp;</span>
                             <i class="fa fa-music"></i>
-                            <span>View and Play</a></li>
+                            <span >View and Play</span></a></li>
                     <li>
                         <a href="javascript:show_process('transpose');">
+                        <span style="width: 15px;">&nbsp;</span>
                             <i class="fa fa-arrows-v"></i>
-                            <span>Transpose</a></li>
+                            <span>Transpose</span></a></li>
                     <li>
                         <a href="javascript:show_process('add_bass');">
+                        <span style="width: 15px;">&nbsp;</span>
                             <i class="fa fa-level-down"></i>
-                            <span>Add Bass</a></li>
+                            <span>Add Bass</span></a></li>
                     <li>
                         <a href="javascript:show_process('trim_score');">
+                        <span style="width: 15px;">&nbsp;</span>
                             <i class="fa fa-scissors"></i>
-                            <span>Trim</a></li>
+                            <span>Trim</span></a></li>
                     <li>
                         <a href="javascript:show_process('voice_leading');">
+                        <span style="width: 15px;">&nbsp;</span>
                             <i class="fa fa-arrow-right"></i>
-                            <span>Voice Leading</a></li>
+                            <span>Voice Leading</span></a></li>
                     <li>
                         <a href="javascript:show_process('melody_chords');">
+                        <span style="width: 15px;">&nbsp;</span>
                             <i class="fa fa-level-up"></i>
-                            <span>Melody Chords</a></li>
+                            <span>Melody Chords</span></a></li>
 
-                    </ul>
-                </li>
+            <p style="color: #eee; margin-left: 20px;">--------------------------</p>   
+           
+
+
+            
+
+
+
+
+
+
+
+
 
                 <li>
                     <a href ="musicxml_faq.htm">
