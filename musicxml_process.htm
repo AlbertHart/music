@@ -37,9 +37,9 @@
     <script src="music_common/ABMXML_Lib_Transpose.js?v=2.66"></script>
     <script src="music_common/ABMXML_Lib_AddBase.js?v=2.66"></script>
     <script src="music_common/ABMXML_Lib_TrimScore.js?v=2.66"></script>
+    <script src="music_common/ABMXML_Lib.AddRhythm.js?v=2.66"></script>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="faq/assets/css/style.css">
+  <link rel="stylesheet" href="xxxxfaq/assets/css/style.css">
 
     <!-- this uses the namespace object MLIB to access transpose functions.js -->
     <!-- use: var MLIB = new MusicDOM();  -->
@@ -56,10 +56,13 @@
 
     
     <script>
-        console.log("<script>");
         var MLIB = new MusicDOM(); 
 
-        scores = {};
+        // declare this function locally
+        var get_self = MLIB.get_self;
+        console.log("GET_SELF: %s", get_self());
+
+        var demonstration_scores = {};
 
         var parameters = {process_content: "view_play"};
   
@@ -89,8 +92,8 @@
                         <i class="fa fa-bars"></i>
                     </div>
                     <!--logo start-->
-                    <a href="families.htm" class="logo">
-                        <img id=logo height='50'>
+                    <a href="index.htm" class="logo">
+                        <img id=logo height='125'>
                         <script>
                             document.getElementById("logo").src = "images/ice-logo.png";
                         </script>
@@ -98,12 +101,17 @@
                     <!--logo end-->
                     <div class="nav notify-row" id="top_menu">
                         <!--  notification start -->
-                        <div id=family_name class=title >MusicXml Process
-                           </div>
-                            <!-- notification dropdown end -->
-                        </ul>
+                        <div id=title class=title >MusicXml Processor
+                           <div style="font-size: 0.8em;">
+                            An application to view, play, transpose and modify
+                               MusicXML scores.
+                        
+                            </div>  
+                        </div>
+                            <!-- notification dropdown end -->                      
                         <!--  notification end -->
                     </div>
+
                     <div class="top-nav ">
                         <!--search & user info start-->
                             <div class="gcse-search"></div>
@@ -347,6 +355,17 @@
             
     </div><!-- END CONTENT -->
 
+    <!-- START CONTENT -->
+    <div id="add_rhythm_content" class="content_text">
+
+        <div id="add_rhythm_text"> </div>
+    
+        <script>
+            do_add_rhythm_text("add_rhythm_text", false);
+        </script>
+            
+        </div><!-- END CONTENT -->
+
 
        
 
@@ -372,11 +391,11 @@ Demonstation Scores
                  <select id="demonstration_score" name="demonstration_score"
                  style="width:500px;"
                     class="parameters" onchange="get_parameter_change(this);">\n`;
-            let keys = Object.keys(scores);
+            let keys = Object.keys(demonstration_scores);
             for (let iscore = 0; iscore < keys.length; iscore++)
             {
                 let key = keys[iscore];
-                let score = scores[key];
+                let score = demonstration_scores[key];
                 let selected = "";
                 if (iscore == 0)
                     selected = "selected";
@@ -432,6 +451,15 @@ Demonstation Scores
                 <br>Create New Score to create score,
             </div>
 
+            <p class=font_element>
+                <label>Output File Extension</label>
+                <select id="output_file_extension" name="output_file_extension"   
+                    class="parameters" onchange="get_parameter_change(this);">
+                    <option value = ".xml" selected >.xml</option>
+                    <option value = ".musicxml" >.musicxml</option>
+                </select>
+                        </p>  
+
 
             <p class=font_element>
                 <label>Show All Debugs in console</label>
@@ -456,8 +484,8 @@ Demonstation Scores
     
             <p><hr></p>
 
-                <button onclick="MLIB.show_transposed_score();">Show Transposed Score</button>
-                <button onclick="MLIB.copy_transposed_score();">Copy Transposed Score to Clipboard</button>
+                <button onclick="show_transposed_score();">Show Transposed Score</button>
+                <button onclick="copy_transposed_score();">Copy Transposed Score to Clipboard</button>
       
             <div id=transposed_score style="display: none;">Transposed Score</div>
 
@@ -490,10 +518,12 @@ Demonstation Scores
     {
         load_parameters();  // load saved parameters
         //dom not only ready, but everything is loaded
-        let content = MLIB.get_url_var("content");
-        console.log("CONTENT: %s", content);
-        if (content !== "")
-            show_process(content);
+        let process_content = get_url_var("content");
+        console.log("process_content: %s", process_content);
+        if (process_content !== "")
+        {
+            show_process(process_content);
+        }
     };
 
 

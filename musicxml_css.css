@@ -1,8 +1,14 @@
     
     
+    a.logo {
+        margin-top: 5px;
+    }
     
+    ul.faq-menu {
+        margin-top: 125px;
+    }
     
-    ul.sidebar-menu li a {
+    ul.faq-menu li a {
         
         padding: 7px 0 7px 7px;
     }

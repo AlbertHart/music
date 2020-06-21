@@ -7,7 +7,7 @@ var parameters;
 var xml_string_loaded;
 var xml_string_in;
 var xml_string_out;
-var scores;
+var demonstration_scores;
 
     function show_sidebar()
     {
@@ -17,9 +17,9 @@ var scores;
         elt.innerHTML = `
         <!--sidebar start-->
         <aside>
-        <div id="sidebar"  class="nav-collapse ">
+        <div id="sidebar"  class="nav-collapse " >
             <!-- sidebar menu start-->
-            <ul class="sidebar-menu" id="nav-accordion">
+            <ul class="faq-menu" id="nav-accordion">
                 <li>
                     <a href ="index.htm">
                         <i class="fa fa-home"></i>
@@ -32,13 +32,13 @@ var scores;
                     </a></li>
 
 
-        
+                
 
 
                     <li>
                         <a href="javascript:show_process('view_play');">
                         <span style="width: 15px;">&nbsp;</span>
-                            <i class="fa fa-music"></i>
+                            <i class="fa fa-music  "></i>
                             <span >View and Play</span></a></li>
                     <li>
                         <a href="javascript:show_process('transpose');">
@@ -65,6 +65,12 @@ var scores;
                         <span style="width: 15px;">&nbsp;</span>
                             <i class="fa fa-level-up"></i>
                             <span>Melody Chords</span></a></li>
+
+                    <li>
+                        <a href="javascript:show_process('add_rhythm');">
+                        <span style="width: 15px;">&nbsp;</span>
+                            <i class="fa fa-level-down"></i>
+                            <span>Add Rhythm Text</span></a></li>
 
             <p style="color: #eee; margin-left: 20px;">--------------------------</p>   
            
@@ -110,6 +116,7 @@ var scores;
     // onther files, like index and faz can override it.
     function show_process(content_name)
     {
+        console.log("show_process: content_name: %s use_show_process: %s", content_name, use_show_process);
         if (use_show_process == "load")
         {
             // load musicxml_process.htm;
@@ -117,7 +124,8 @@ var scores;
             window.location.href = surl;
             return;
         }
-        console.log(MLIB.get_self(content_name));
+
+        parameters.process_content = content_name;
 
         // see if this is a process to open
         let content_id = content_name + "_content";
@@ -197,7 +205,7 @@ var scores;
     {
 
         if (!output_file_name || output_file_name == "")
-            output_file_name = "new_score.musicxml";
+            output_file_name = "new_score" + parameters.output_file_extension;
 
         //console.log("prepare_output_file: output_file_name: %s", output_file_name);
 
@@ -239,7 +247,7 @@ var scores;
 
     function get_parameter_change(element, dont_save)
     {
-        //console.log(MLIB.get_self(element.id, element.name));
+        //console.log(get_self(element.id, element.name));
  
         let name;
         let value;
@@ -324,15 +332,16 @@ var scores;
         
     function process_xml(xml_string_in)
     {
+        console.log(get_self(parameters.process_content));
         get_parameters_from_elts();
 
 
-       let output_file_name = parameters.content + ".musicxml";
+       let output_file_name = parameters.process_content + parameters.output_file_extension;
 
         if (!xml_string_in || xml_string_in == "")
         {
             let score_no = parameters.demonstration_score;
-            let score = scores[score_no];
+            let score = demonstration_scores[score_no];
             parameters.song_name = score.name;
             //console.log("score_no: %s song_name: %s", score_no, parameters.song_name);
             xml_string_in = score.xml;
@@ -345,31 +354,34 @@ var scores;
             return;
         }
 
-        MLIB.xml_string_out = "";
+        xml_string_out = "";
 
-        switch (parameters.content)
+        switch (parameters.process_content)
         {
             case 'transpose':
-                MLIB.xml_string_out = MLIB.transpose_xml(parameters, xml_string_in);
+                xml_string_out = MLIB.transpose_xml(parameters, xml_string_in);
                 break;
             case 'add_bass':
-                MLIB.xml_string_out = MLIB.add_bass_to_xml(parameters, xml_string_in);
+                xml_string_out = MLIB.add_bass_to_xml(parameters, xml_string_in);
                 break;
             case 'trim_score':
-                MLIB.xml_string_out = MLIB.do_trim_score(parameters, xml_string_in);
+                xml_string_out = MLIB.do_trim_score(parameters, xml_string_in);
                 break;
             case 'voice_leading':
-                MLIB.xml_string_out = MLIB.do_voice_leading(parameters, xml_string_in);
+                xml_string_out = MLIB.do_voice_leading(parameters, xml_string_in);
                 break;
             case 'melody_chords':
-                MLIB.xml_string_out = MLIB.do_melody_chords(parameters, xml_string_in);
+                xml_string_out = MLIB.do_melody_chords(parameters, xml_string_in);
+                break;
+            case 'add_rhythm':
+                xml_string_out = MLIB.add_rhythm_to_xml(parameters, xml_string_in);
                 break;
         }
 
-        if (MLIB.xml_string_out && MLIB.xml_string_out != "")
+        if (xml_string_out && xml_string_out != "")
         {
             let elt = document.getElementById("transposed_score");
-            elt.innerText = MLIB.xml_string_out;
+            elt.innerText = xml_string_out;
         }
 
         // build output file name
@@ -384,7 +396,7 @@ var scores;
 
 
         // create the output file ready for download
-        prepare_output_file(MLIB.xml_string_out, output_file_name);
+        prepare_output_file(xml_string_out, output_file_name);
 
 
     }
@@ -394,9 +406,9 @@ var scores;
     {
 
         if (!output_file_name || output_file_name == "")
-            output_file_name = "new_score.musicxml";
+            output_file_name = "new_score" + parameters.output_file_extension;
 
-        //console.log("prepare_output_file: output_file_name: %s", output_file_name);
+        //console.log("prepare_oSutput_file: output_file_name: %s", output_file_name);
 
 
         let properties = {type: 'text/plain'}; // Specify the file's mime-type.
@@ -432,11 +444,82 @@ var scores;
         //console.log("After set download_link href");
     }
 
+
+    function show_transposed_score()
+    {
+        let elt = document.getElementById("transposed_score");
+        elt.style.display = "block";
+        elt.innerText = xml_string_out;
+    }
+
+    function copy_transposed_score()
+    {
+        if (xml_string_out === "")
+        {
+            alert("No Transposed Score available");
+        }
+        else
+        {
+            copyToClipboard(xml_string_out);
+            alert(xml_string_out.length + " bytes copied to clipboard");
+        }
+    }
+
+    function copyToClipboard(text) {
+        let dummy = document.createElement("textarea");
+        // to avoid breaking orgain page when copying more words
+        // cant copy when adding below this code
+        // dummy.style.display = 'none'
+        document.body.appendChild(dummy);
+        //Be careful if you use texarea. setAttribute('value', value), which works with "input" does not work with "textarea". – Eduard
+        dummy.value = text;
+        dummy.select();
+        document.execCommand("copy");
+        document.body.removeChild(dummy);
+    }
+
+    var url_vars;
+    function get_url_vars()
+    {
+        //console.log(this.get_self());
+        if (url_vars)
+            console.error("url_vars already defined");
+
+        let url_string = window.location.href;
+        let ipos = url_string.indexOf("#");
+        if (ipos >= 0)
+        {
+            url_string = url_string.substr(0, ipos);
+        }
+        url_vars = [];
+        url_string.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key,value) 
+        {
+                url_vars[key] = unescape(value);
+        });
+
+
+        return url_vars;
+    };
+
+    function get_url_var(svar)
+    {
+        //console.log(this.get_self(svar));
+        if (!url_vars)
+        {
+            console.log("getting url_vars");
+            get_url_vars();
+        }
+        let sval = url_vars[svar];
+        if (!sval)
+            sval = "";
+        return(sval);
+};
+
  
      // save parameters after every change
      function save_parameter_changes()
     {
-        //console.log(MLIB.get_self());
+        //console.log(get_self());
         let json_string = JSON.stringify(parameters);
         //console.log("json_string: %s", json_string);
 
@@ -448,7 +531,7 @@ var scores;
 
     function load_parameters()
     {   
-        //console.log(MLIB.get_self());
+        //console.log(get_self());
         let storage_key = "musicxml_process";
         let json_string = localStorage.getItem(storage_key);
         //console.log("load_parameters: %s\n%s", storage_key, json_string);
@@ -470,7 +553,7 @@ var scores;
     // these are not in the library functions (yet) because they are only used in this one .htm file
     function set_element_value(sid, value)
     {
-        //console.log(MLIB.get_self(sid, value));
+        //console.log(get_self(sid, value));
 
         if (sid == "process_content")
         {
@@ -710,6 +793,35 @@ var scores;
 
 
      }
+
+     function do_add_rhythm_text(sid,  add_link)
+    {
+
+        let shtml = `<div class=info>
+                <h3>Add Rhythm Notation</h3>
+                <img src="images/add-rhythm.png" >
+                <br clear=all>
+                Equally spaces out notes based on duration,
+                <br> and optionally
+                Adds  "1 & 2 & 3 & ..." as lyrics to your MusicXML score.
+                <p>
+                This may help with parsing out syncopated rhythms when learning a new melody.
+                </p>\n`;
+
+        if (add_link)
+        shtml += do_load_process("add_rhythm", "Add Base Notes");
+
+
+        shtml +=`<br clear=all>
+                </div><p></p>
+                `;
+
+        let element = document.getElementById(sid);
+        element.innerHTML += shtml;
+
+    }
+
+
 
      function do_top_menu(sid)
      {

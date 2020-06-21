@@ -1,6 +1,6 @@
-scores["every_time"] = {};
-scores.every_time.name = "Every Time We Say Goodbye";
-scores.every_time.xml = `<?xml version="1.0" encoding="UTF-8"?>
+demonstration_scores["every_time"] = {};
+demonstration_scores.every_time.name = "Every Time We Say Goodbye";
+demonstration_scores.every_time.xml = `<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.1 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">
 <score-partwise version="3.1">
   <identification>

@@ -5,45 +5,6 @@ console.log("IN ABMXML_Lib_AddBase.js");
 
 MusicDOM.prototype.lib_AddBase = "loaded";
 
-// we really want to use this which our c_chord table
-MusicDOM.prototype.music_xml_kinds = {
-    "major": {short: "maj"},
-    "minor": {short: "m"},
-
-    "augmented": {short: "aug"},
-    "diminished": {short: "dim"},
-    "dominant": {short: "7"},
-    "major-seventh": {short: "maj7"},
-    "minor-seventh": {short: "m7"},
-    "diminished-seventh": {short: "dim7"},
-    "augmented-seventh": {short: "aug7"},
-    "half-diminished": {short: "m7b5"},
-    "major-minor": {short: "min(maj7)"},
-    "majorsixth": {short: "maj6"},
-    "minor-sixth": {short: "m6"},
-    "dominant-ninth": {short: "9"},
-    "major-ninth": {short: "maj9"},
-    "minor-ninth": {short: "m9"},
-    "dominant-11th": {short: "11"},
-    "major-11th": {short: "maj11"},
-    "minor--11th": {short: "m11"},
-    "dominant-13th": {short: "13"},
-    "major-13th": {short: "maj13"},
-    "minor-13th": {short: "m13"},
-    "suspended-second": {short: "sus2"},
-    "suspended-fourth": {short: "sus4"},
-
-    "pedal": {short: "ped"},
-    "power": {short: "5"},
-    "Neapolitan": {short: "neop"},
-    "Italian": {short: "ital"},
-    "French": {short: "fren"},
-    "German": {short: "germ"},
-    "Tristan": {short: "trist"},
-};
-
-
-
 
 
 
@@ -71,6 +32,7 @@ MusicDOM.prototype.score_part_elements = [];
 MusicDOM.prototype.add_bass_to_xml = function(parameters, xml_string_in)
 {
     this.parameters = parameters;  // save in prototype
+    
     bass_format = parameters.bass_format;
     if (bass_format.substr(0, 6) == "radio_")
     {
@@ -123,7 +85,7 @@ MusicDOM.prototype.add_bass_to_xml = function(parameters, xml_string_in)
                            let score_part_id = score_part_element.getAttribute("id");
 
                            console.log("score_part_id: %s", score_part_id);
-                           score_part_elements.push(score_part_element);
+                           this.score_part_elements.push(score_part_element);
                            break;
                    }
                }
@@ -136,7 +98,7 @@ MusicDOM.prototype.add_bass_to_xml = function(parameters, xml_string_in)
                let part_id = part_element.getAttribute("id");
 
                console.log("part_id: %s", part_id);
-               part_elements.push(part_element);
+               this.part_elements.push(part_element);
                break;
        }
    }
@@ -357,7 +319,7 @@ MusicDOM.prototype.add_bass_to_xml = function(parameters, xml_string_in)
                            bass_alter = this.get_dom_element_value(harmony_element, "bass-alter", this.SKIP_ERROR);
                            //console.log("bass-alter: %s", bass_alter);
                            kind = this.get_dom_element_value(harmony_element, "kind", this.SKIP_ERROR);
-                           kind2 = music_xml_kinds[kind].short;
+                           kind2 = this.music_xml_kinds[kind].short;
                            //console.log("kind: %s", kind);
 
                            sroot = root_step + this.sharp_flat_from_alter(root_alter);
@@ -416,7 +378,7 @@ MusicDOM.prototype.add_bass_to_xml = function(parameters, xml_string_in)
                                if (bass_alter < 0)
                                    schord += "b";
                            }
-                           schord += music_xml_kinds[kind].short;
+                           schord += this.music_xml_kinds[kind].short;
 ;
 
                            if (istaff == 1)

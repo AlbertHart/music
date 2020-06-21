@@ -1,6 +1,6 @@
-scores["amazing_grace"] = {};
-scores.amazing_grace.name = "Amazing Grace";
-scores.amazing_grace.xml = `<?xml version="1.0" encoding="UTF-8"?>
+demonstration_scores["amazing_grace"] = {};
+demonstration_scores.amazing_grace.name = "Amazing Grace";
+demonstration_scores.amazing_grace.xml = `<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.1 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">
 <score-partwise version="3.1">
   <identification>
@@ -1601,9 +1601,9 @@ scores.amazing_grace.xml = `<?xml version="1.0" encoding="UTF-8"?>
 `;
 
 // just one measure
-scores["amazing_grace_test"] = {};
-scores.amazing_grace_test.name = "Amazing Grace - 1 Measure for Testing";
-scores.amazing_grace_test.xml = `<?xml version="1.0" encoding="UTF-8"?>
+demonstration_scores["amazing_grace_test"] = {};
+demonstration_scores.amazing_grace_test.name = "Amazing Grace - 1 Measure for Testing";
+demonstration_scores.amazing_grace_test.xml = `<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.1 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">
 <score-partwise version="3.1">
   <identification>

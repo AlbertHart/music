@@ -14,8 +14,6 @@ function MusicDOM()
     this.SKIP_ERROR = true; // use this to skip error messages in DOM calls
 
 
-    this.xml_string_out = ""; // output from processing
-
 
 this.note_letters_flat = ["", "C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"];
 this.note_letters_sharp = ["", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
@@ -483,6 +481,43 @@ this.octave_numbers = {
 		},
     };
 
+
+    // we really want to use this which our c_chord table
+    this.music_xml_kinds = {
+    "major": {short: "maj"},
+    "minor": {short: "m"},
+
+    "augmented": {short: "aug"},
+    "diminished": {short: "dim"},
+    "dominant": {short: "7"},
+    "major-seventh": {short: "maj7"},
+    "minor-seventh": {short: "m7"},
+    "diminished-seventh": {short: "dim7"},
+    "augmented-seventh": {short: "aug7"},
+    "half-diminished": {short: "m7b5"},
+    "major-minor": {short: "min(maj7)"},
+    "majorsixth": {short: "maj6"},
+    "minor-sixth": {short: "m6"},
+    "dominant-ninth": {short: "9"},
+    "major-ninth": {short: "maj9"},
+    "minor-ninth": {short: "m9"},
+    "dominant-11th": {short: "11"},
+    "major-11th": {short: "maj11"},
+    "minor--11th": {short: "m11"},
+    "dominant-13th": {short: "13"},
+    "major-13th": {short: "maj13"},
+    "minor-13th": {short: "m13"},
+    "suspended-second": {short: "sus2"},
+    "suspended-fourth": {short: "sus4"},
+
+    "pedal": {short: "ped"},
+    "power": {short: "5"},
+    "Neapolitan": {short: "neop"},
+    "Italian": {short: "ital"},
+    "French": {short: "fren"},
+    "German": {short: "germ"},
+    "Tristan": {short: "trist"},
+};
    
 
     // map alternates to main chord
@@ -1298,38 +1333,7 @@ this.dom_object_to_return_string = function(dom_object)
 
 
 
-this.show_transposed_score = function()
-{
-    let elt = document.getElementById("transposed_score");
-    elt.style.display = "block";
-    elt.innerText = this.xml_string_out;
-};
 
-this.copy_transposed_score = function()
-{
-    if (this.this.xml_string_out === "")
-    {
-        alert("No Transposed Score available");
-    }
-    else
-    {
-        this.copyToClipboard(this.xml_string_out);
-        alert(this.xml_string_out.length + " bytes copied to clipboard");
-    }
-};
-
-this.copyToClipboard = function(text) {
-    let dummy = document.createElement("textarea");
-    // to avoid breaking orgain page when copying more words
-    // cant copy when adding below this code
-    // dummy.style.display = 'none'
-    document.body.appendChild(dummy);
-    //Be careful if you use texarea. setAttribute('value', value), which works with "input" does not work with "textarea". – Eduard
-    dummy.value = text;
-    dummy.select();
-    document.execCommand("copy");
-    document.body.removeChild(dummy);
-};
 
 this.get_self = function(sarg, sarg2, sarg3, sarg4) {
     //console.log("SARG: %s SARG@: %s SARG3: %s", sarg, sarg2, sarg3);
@@ -1408,41 +1412,7 @@ this.get_base_url = function()
 };
 
 
-    this.get_url_vars = function()
-    {
-        //console.log(this.get_self());
-        if (this.url_vars)
-            console.error("url_vars already defined");
-
-        let url_string = window.location.href;
-        let ipos = url_string.indexOf("#");
-        if (ipos >= 0)
-        {
-            url_string = url_string.substr(0, ipos);
-        }
-        let url_vars = [];
-        url_string.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key,value) 
-        {
-                url_vars[key] = unescape(value);
-        });
-
-        this.url_vars = url_vars;
-        return this.url_vars;
-    };
-
-    this.get_url_var = function(svar)
-    {
-        console.log(this.get_self(svar));
-        if (!this.url_vars)
-        {
-            console.log("getting url_vars");
-            this.get_url_vars();
-        }
-        let sval = this.url_vars[svar];
-        if (!sval)
-            sval = "";
-        return(sval);
-};
+    
     
  
 

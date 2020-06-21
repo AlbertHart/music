@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en-US">
 
@@ -8,7 +6,8 @@
     <link rel="shortcut icon" type="image/png" href="favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>Music XML</title>
+    <title>Process MusicXML</title>
+
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
         new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -35,7 +34,6 @@
     <script src="musicxml_process.js?v=2.66"></script>
 
 
-
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
@@ -43,58 +41,15 @@
 
         gtag('config', 'UA-152244338-2');
     </script>
-
-    <script>
-        var MLIB = new MusicDOM(); 
-    </script>
-
-    <style>
-
-/* Style inputs with type="text", select elements and textareas */
-input[type=text], select, textarea {
-  width: 100%; /* Full width */
-  padding: 12px; /* Some padding */ 
-  border: 1px solid #ccc; /* Gray border */
-  border-radius: 4px; /* Rounded borders */
-  box-sizing: border-box; /* Make sure that padding and width stays in place */
-  margin-top: 6px; /* Add a top margin */
-  margin-bottom: 16px; /* Bottom margin */
-  resize: vertical /* Allow the user to vertically resize the textarea (not horizontally) */
-}
-
-/* Style the submit button with a specific background color etc */
-input[type=submit] {
-  background-color: #4CAF50;
-  color: white;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-/* When moving the mouse over the submit button, add a darker green color */
-input[type=submit]:hover {
-  background-color: #45a049;
-}
-
-/* Add a background color and some padding around the form */
-.container {
-  border-radius: 5px;
-  background-color: #f2f2f2;
-  padding: 20px;
-}
-
-
-    </style>
     
     </head>
 
   <body class="boxed-page">
 
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KPJDJHV"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+        <!-- Google Tag Manager (noscript) -->
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KPJDJHV"
+        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        <!-- End Google Tag Manager (noscript) -->
 
       <div class="container">
         <section id="container" class="" >
@@ -153,91 +108,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 
+    <div class=info>
 
-<script>
+    <b>Process MusicXML Files</b> is a MusicXML Application to automatically make changes to MusicXML scores.
+    <p>
+        It was developed by Albert Hart and Liu Bing.
+    </p>
 
- 
-    // https://mail.google.com/mail/u/0/?view=cm&fs=1&tf=1&source=mailto&su=a+b+%3C+c&to=AlHart369@gmail.com&body=%5Bobject+HTMLTextAreaElement%5D
-
-    //var form0;
-    function process_contact(element)
-    {
-        let errors = "";
-        let form = element.form;
-        //form0 = form;
-        //MLIB.show_object(form, "FORM");
-        //MLIB.show_dom_element(form, "FORM");
-
-        let subject = form.subject.value;
-        if (subject.length < 4)
-        {
-            errors += "Please provide a subject for your request.\n\n";
-        }
-
-        let body = form.body.value;
-        
-        if (body.length < 10)
-        {
-            errors += "Please provide a longer description fo your request.\n\n";
-        }
-
-
-        console.log("subject: %s\nbody: %s", subject, body);
-
-        body = sprintf("MusicXML %s %s\n%s\n\nSent from  musicxml Contact Form", 
-            form.fname.value, form.lname.value, body);
-
-
-        if (errors != "")
-        {
-            alert("Cannot process Contact Request.\n\n" +
-                errors + 
-                "Please correct errors and try again.")
-            return(false);
-        }
-
-        surl = sprintf('mailto:AlHart369@gmail.com?subject=%s&body=%s', 
-            encodeURIComponent(subject), encodeURIComponent(body));
-
-        document.location = surl;
-        return(false)
-    }
     
-    </script>ss
+</div>
 
-    <h3>Do you can any questions about our MusicXML application, or any suggestions to improve it.</h3>
+<p></p>
 
 
-<div class="container">
-    <form >
-  
-      <label for="fname">First Name</label>
-      <input type="text" id="fname" name="firstname" placeholder="Your name..">
-  
-      <label for="lname">Last Name</label>
-      <input type="text" id="lname" name="lastname" placeholder="Your last name..">
-  
-      <label for="country">Country</label>
-      <select id="country" name="country">
-        <option value="US">United States</option>
-        <option value="China">China</option>
-        <option value="Other">Other</option>
-      </select>
-  
-      <label for="subject">How can we help you? (*)</label>
-      <input type=text id="subject" name="subject" placeholder="Subject..."  />
+</div><!-- END CONTENT -->
 
-      <label for="body">Describe in more detail. (*)</label>
-      <textarea id="body" name="body" placeholder="Write something.." style="height:200px"></textarea>
-  
-      <input type="button" value="Submit" onclick="process_contact(this); return false" />
-  
-      <p></p>(*) These fields are required.
-      <p></p>
-    </form>
-  </div>
+    </section> <!-- end card-->
+       
 
-  <div class=info id=footer>
+
+<div class=info id=footer>
     <script>
         do_footer("footer");
     </script>
@@ -250,6 +140,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section> <!-- end main-content-->
 
 </section> <!-- end continer-->
+
+
+
+    </script>
 
     <!-- js placed at the end of the document so the pages load faster -->
     <script src="./libraries/flatlab/js/jquery.js"></script>
@@ -269,7 +163,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 	<!-- for image gallery -->
     <script src="./libraries/flatlab/js/modernizr.custom.js"></script>
     <script src="./libraries/flatlab/js/toucheffects.js"></script>
-    
+
 
 
   </body>
