@@ -1,3 +1,3 @@
-score;amazing_grace.xml
-score;amazing_grace2.xml
-score;every_time_i_say_goodbye.xml
+score;Amazing Grace - Chinese;amazing_grace.xml
+score;Amazing Grace - 2 measuresamazing_grace2.xml
+score;Every Time I Say Goodbye;every_time_i_say_goodbye.xml

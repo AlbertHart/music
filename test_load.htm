@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Using the XMLHttpRequest object</h2>
+
+<button type="button" onclick="loadXMLDoc('scores.txt')">scores.txt</button>
+
+<p id="demo"></p>
+
+<script>
+
+    var xobj;
+    var score_text;
+
+    var scores = {};
+
+    var xmlhttp2;
+
+    function loadXMLDoc(surl0, todo) 
+    {
+        var xmlhttp;
+        if (window.XMLHttpRequest) {
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            // code for older browsers
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp2 = xmlhttp;
+
+        xmlhttp.todo = todo;
+
+        xmlhttp.onreadystatechange = function() 
+        {
+
+            console.log("SCORE readyStat: %s status: %s LENGTH: %s", 
+                this.readyState, this.status, this.responseText.length);
+            xobj = this;
+            if (this.readyState == 4)
+            {
+                score_text = this.responseText;
+
+            }
+            if (this.readyState == 4 && this.status == 200) {
+                score_text = this.responseText;
+
+                console.log("TODO: %s", this.todo);
+
+                if (this.todo == "get_scores")
+                {
+                    console.log("TEXT: %s", score_text);   
+                    let lines = score_text.split("\n");
+                    for (let iline = 0; iline < lines.length; iline++)
+                    {
+                        sline = lines[iline];
+                        sdata = sline.split(";");
+                        if (sdata[0] == "score")
+                        {
+                            score_name = sdata[1];
+                            score_url = sdata[2];
+                            scores[score_name] = {};
+                            scores[score_name].url = score_url;
+                        }
+                    }           
+                }
+                else
+                {
+                    document.getElementById("demo").innerHTML = score_text;
+                }
+            }
+        };
+
+        //surl = "http://ahlbapps.com/scores/every_time_score.xml";
+        //surl = "http://ahlbapps.com/scores/";
+        //surl = scores.txt
+        surl = "http://ahlbapps.com/scores/" + surl0;
+        xmlhttp.open("GET", surl, true);
+        xmlhttp.send();
+    }
+
+    loadXMLDoc('scores.txt', "get_scores");
+
+</script>
+
+</body>
+</html>
