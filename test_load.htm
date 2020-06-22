@@ -1,21 +1,90 @@
 <!DOCTYPE html>
-<html>
-<body>
+<html lang="en-US">
 
-<h2>Using the XMLHttpRequest object</h2>
+<head>
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" type="image/png" href="favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Process MusicXML</title>
 
-<button type="button" onclick="loadXMLDoc('scores.txt')">scores.txt</button>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-KPJDJHV');</script>
+    <!-- End Google Tag Manager -->
 
-<p id="demo"></p>
+    <!-- Bootstrap core CSS -->
+    <link href="./libraries/flatlab/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./libraries/flatlab/css/bootstrap-reset.css" rel="stylesheet">
+    <!--external css-->
+    <link href="./libraries/flatlab/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    
 
-<script>
+    <!-- Custom styles for this template -->
+    <link href="./libraries/flatlab/css/style.css" rel="stylesheet">
+    <link href="./libraries/flatlab/css/style-responsive.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="musicxml_css.css" />
+    <script src="music_common/alh_sprintf.js?v=2.66"></script>
+    <script src="music_common/ABMXML_Lib_Common.js?v=2.66"></script>
+
+    <script src="musicxml_process.js?v=2.66"></script>
+
+    <!--  individual files for each process -->
+    <script src="music_common/ABMXML_Lib_Transpose.js?v=2.66"></script>
+    <script src="music_common/ABMXML_Lib_AddBase.js?v=2.66"></script>
+    <script src="music_common/ABMXML_Lib_TrimScore.js?v=2.66"></script>
+    <script src="music_common/ABMXML_Lib.AddRhythm.js?v=2.66"></script>
+
+  <link rel="stylesheet" href="xxxxfaq/assets/css/style.css">
+
+    <!-- this uses the namespace object MLIB to access transpose functions.js -->
+    <!-- use: var MLIB = new MusicDOM();  -->
+
+
+
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-152244338-2');
+    </script>
+
+    
+    <script>
+        var MLIB = new MusicDOM(); 
+
+        // declare this function locally
+        var get_self = MLIB.get_self;
+        console.log("GET_SELF: %s", get_self());
+
+        var parameters = {process_content: "view_play"};
+  
+        var xml_string_loaded;
+        
+        
 
     var xobj;
     var score_text;
 
-    var scores = {};
+    var demonstration_scores_array = [];
 
     var xmlhttp2;
+
+    function get_score(score_name)
+    {
+        score_data = demonstration_scores_array[score_name];
+        loadXMLDoc(score_data.url, "get_score_text");
+    }
+
+    function get_score_text(xml_score)
+    {
+        
+    }
 
     function loadXMLDoc(surl0, todo) 
     {
@@ -46,7 +115,7 @@
 
                 console.log("TODO: %s", this.todo);
 
-                if (this.todo == "get_scores")
+                if (this.todo == "get_score_names")
                 {
                     console.log("TEXT: %s", score_text);   
                     let lines = score_text.split("\n");
@@ -58,11 +127,15 @@
                         {
                             score_name = sdata[1];
                             score_url = sdata[2];
-                            scores[score_name] = {};
-                            scores[score_name].url = score_url;
+                            
+                            demonstration_scores_array[score_name] = {name: score_name, url: score_url};
                             console.log("NAME: %s URL: %s", score_name, score_url);
                         }
                     }           
+                }
+                else if (this.todo = "get_score")
+                {
+                    get_score_text(score_text);
                 }
                 else
                 {
@@ -79,9 +152,26 @@
         xmlhttp.send();
     }
 
-    loadXMLDoc('scores.txt', "get_scores");
+    loadXMLDoc('scores.txt', "get_score_names");
 
-</script>
+
+    </script>
+
+
+  </head>
+  
+
+
+<body>
+
+<h2>Using the XMLHttpRequest object</h2>
+
+<button type="button" onclick="loadXMLDoc('scores.txt')">scores.txt</button>
+\<button type="button" onclick="get_score(0);">sget_score(0)</button>
+
+<p id="demo"></p>
+
+
 
 </body>
 </html>

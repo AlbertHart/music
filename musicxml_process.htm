@@ -59,20 +59,134 @@
         var MLIB = new MusicDOM(); 
 
         // declare this function locally
+        // for easier use
         var get_self = MLIB.get_self;
-        console.log("GET_SELF: %s", get_self());
+        //console.log("GET_SELF: %s", get_self());
 
-        var demonstration_scores = {};
+        var demonstration_scores_array = {};
 
         var parameters = {process_content: "view_play"};
   
         var xml_string_loaded;
   
+ 	
+ 	// get score xml and process score 
+ 	function get_score(score_name)
+    {
+        console.log(get_self(score_name));
+        score_data = demonstration_scores_array[score_name];
+        load_url_text(score_data.url, "get_score_text", score_data);
+    }
+
+    function get_score_xml(xml_score)
+    {
+        console.log(get_self(xml_score));
+        
+    }
+
+    function load_url_text(surl0, todo) 
+    {
+        console.log(get_self(surl0, todo));
+        var xmlhttp;
+        if (window.XMLHttpRequest) {
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            // code for older browsers
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp2 = xmlhttp;
+
+        xmlhttp.todo = todo;
+
+        xmlhttp.onreadystatechange = function() 
+        {
+
+            console.log("SCORE readyState: %s status: %s LENGTH: %s", 
+                this.readyState, this.status, this.responseText.length);
+            xobj = this;
+            if (this.readyState == 4)
+            {
+                score_text = this.responseText;
+
+            }
+            if (this.readyState == 4 && this.status == 200) {
+                score_text = this.responseText;
+
+                console.log("TODO: %s", this.todo);
+
+                if (this.todo == "get_score_names")
+                {
+                    console.log("TEXT: %s", score_text);   
+                    let lines = score_text.split("\n");
+                    for (let iline = 0; iline < lines.length; iline++)
+                    {
+                        sline = lines[iline];
+                        sdata = sline.split(";");
+                        if (sdata[0] == "score")
+                        {
+                            score_name = sdata[1];
+                            score_url = sdata[2];
+                            
+                            demonstration_scores_array[score_name] = {name: score_name, url: score_url};
+                            console.log("NAME: %s URL: %s", score_name, score_url);
+                        }
+                    }         
+                     // these are set after they are loaded from the server
+                    console.log("Set demonstration scores into SELECT");
+                    let score_element = document.getElementById("demonstration_scores");
+                    let shtml = `<label>Select a Demonstration Score</label>
+                        <select id="demonstration_score" name="demonstration_score"
+                        style="width:500px;"
+                            class="parameters" onchange="get_parameter_change(this);">\n`;
+                    let keys = Object.keys(demonstration_scores_array);
+                    for (let iscore = 0; iscore < keys.length; iscore++)
+                    {
+                        let key = keys[iscore];
+                        let score = demonstration_scores_array[key];
+                        let selected = "";
+                        if (iscore == 0)
+                            selected = "selected";
+                        shtml += sprintf(`<option value = "%s" %s>%s</option>\n`, key, selected, score.name);
+                        document.innerHTML = shtml;
+                    }
+                    shtml += "</select>";
+                    score_element.innerHTML = shtml;
+
+                    //console.log("score_element.id: %s score_element.name: %s type: %s tagName: %s", score_element.id, score_element.name, score_element.type, score_element.tagName);
+
+                    //console.log("score_element: %s", score_element.innerHTML);
+
+                    // load parameters after score names are added
+                    load_parameters();  // load saved parameters
+
+
+          
+                }
+                else if (this.todo = "process")
+                {
+                    
+                    xml_string_loaded = this.responseText;
+                    process_xml(xml_string_loaded);
+                }
+                else
+                {
+                    document.getElementById("demo").innerHTML = score_text;
+                }
+            }
+        };
+
+        //surl = "http://ahlbapps.com/scores/every_time_score.xml";
+        //surl = "http://ahlbapps.com/scores/";
+        //surl = scores.txt
+        surl = "http://ahlbapps.com/scores/" + surl0;
+        xmlhttp.open("GET", surl, true);
+        xmlhttp.send();
+    }
+
+    
 
     </script>
 
-	<script src="scores/amazing_grace_score.js?v=2.66"></script>
-    <script src="scores/every_time_score.js?v=2.66"></script>
 
   </head>
 
@@ -382,51 +496,38 @@ Demonstation Scores
             </p>
 
    
-       
+        <label>Select a Demonstration Score</label>
+        <select id="demonstration_score" name="demonstration_score"
+            style="width:500px;"
+               class="parameters" onchange="get_parameter_change(this);">
 
         <script>
-            console.log("Get deomonstation scores");''
-            let score_element = document.getElementById("demonstration_scores");
-            let shtml = `<label>Select a Demonstration Score</label>
-                 <select id="demonstration_score" name="demonstration_score"
-                 style="width:500px;"
-                    class="parameters" onchange="get_parameter_change(this);">\n`;
-            let keys = Object.keys(demonstration_scores);
-            for (let iscore = 0; iscore < keys.length; iscore++)
-            {
-                let key = keys[iscore];
-                let score = demonstration_scores[key];
-                let selected = "";
-                if (iscore == 0)
-                    selected = "selected";
-                shtml += sprintf(`<option value = "%s" %s>%s</option>\n`, key, selected, score.name);
-                document.innerHTML = shtml;
-            }
-            shtml += "</select>";
-            score_element.innerHTML = shtml;
+           
 
+            // oprn xml from <input type='file'
             var song_name;
-    var openFile = function (event) {
-        let elt = document.getElementById('get_file'); 
-        if (!elt)
-        {
-            console.error("File not found");
-            throw("file read error");
-        }
-        song_name = elt.files.item(0).name;             
-        //console.log("(IN OPEN FILE: song_name: %s", song_name);
-        set_element_value("song_name", song_name);
-        parameters.song_name = song_name;
+            var openFile = function (event) 
+            {
+                let elt = document.getElementById('get_file'); 
+                if (!elt)
+                {
+                    console.error("File not found");
+                    throw("file read error");
+                }
+                song_name = elt.files.item(0).name;             
+                //console.log("(IN OPEN FILE: song_name: %s", song_name);
+                set_element_value("song_name", song_name);
+                parameters.song_name = song_name;
         
         
-        let input = event.target;  
-        
-        reader = new FileReader();
-        reader.onload = fileLoaded;
-        flag = 1; // reading
-        //console.log("SET FLAG: %s READING", flag);
-        reader.readAsText(input.files[0]);
-    };
+                let input = event.target;  
+                
+                reader = new FileReader();
+                reader.onload = fileLoaded;
+                flag = 1; // reading
+                //console.log("SET FLAG: %s READING", flag);
+                reader.readAsText(input.files[0]);
+            };
     
         </script>
         
@@ -447,7 +548,7 @@ Demonstation Scores
             </p>
 
             <div id='create_score1' style='display:block;'>
-                <button onclick="process_xml(xml_string_loaded);">Process XML</button>
+                <button onclick="process_loaded_xml();">Process XML</button>
                 <br>Create New Score to create score,
             </div>
 
@@ -463,7 +564,7 @@ Demonstation Scores
 
             <p class=font_element>
                 <label>Show All Debugs in console</label>
-                <select id="show_output" name="show_output"   
+                <select id="show_output_select" name="show_output_select"   
                     class="parameters" onchange="get_parameter_change(this);">
                     <option value = 0 selected >No</option>
                     <option value = 1 >Yes</option>
@@ -516,8 +617,14 @@ Demonstation Scores
 
  window.onload = function() 
     {
-        load_parameters();  // load saved parameters
+        
         //dom not only ready, but everything is loaded
+
+        //let score_element = document.getElementById("demonstration_scores");
+        load_url_text('scores.txt', "get_score_names");
+
+        
+
         let process_content = get_url_var("content");
         console.log("process_content: %s", process_content);
         if (process_content !== "")

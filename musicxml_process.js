@@ -7,7 +7,7 @@ var parameters;
 var xml_string_loaded;
 var xml_string_in;
 var xml_string_out;
-var demonstration_scores;
+var demonstration_scores_array;
 
     function show_sidebar()
     {
@@ -170,7 +170,8 @@ var demonstration_scores;
             last_note: "1",
             process_content: "view_play",
             seventh_position: "treble",
-            show_output: "0",
+            show_output: false,
+            show_output_select: "0",
             staff_type: "bass-clef",
             starting_inversion: "root",
             transpose_direction: "closest",
@@ -247,7 +248,8 @@ var demonstration_scores;
 
     function get_parameter_change(element, dont_save)
     {
-        //console.log(get_self(element.id, element.name));
+        console.log(get_self());
+        console.log("element.id: %s element.name: %s type: %s tagName: %s", element.id, element.name, element.type, element.tagName);
  
         let name;
         let value;
@@ -257,7 +259,7 @@ var demonstration_scores;
             type = "SELECT";
             name = element.id;
             let index = element.selectedIndex;
-            //console.log("NAME: %s index: %s", name, index);
+            console.log("NAME: %s index: %s", name, index);
             value = element.options[index].value;
         }
         else if (element.type == "radio")
@@ -271,19 +273,20 @@ var demonstration_scores;
             value = element.value;
         }
         parameters[name] = value;
-        //console.log("get_parameter_change: type: %s name: %s value: %s", type, name, value);
+        console.log("get_parameter_change: type: %s name: %s value: %s", type, name, value);
         if (!dont_save)
             save_parameter_changes();
     }
 
     function get_parameters_from_elts()
     {
+        console.log(get_self());
         let parameter_elts = document.getElementsByClassName("parameters");
         let DONT_SAVE = true;
         for (let iparm = 0; iparm < parameter_elts.length; iparm++)
         {
             let elt = parameter_elts[iparm];
-            //console.log("type: %s id: %s name: %s tagName: %s value: %s", elt.type, elt.id, elt.name, elt.tagName, elt.value);
+            console.log("type: %s id: %s name: %s tagName: %s value: %s", elt.type, elt.id, elt.name, elt.tagName, elt.value);
             if (elt.type == "number" || elt.type == "text")
             {
                 get_parameter_change(elt, DONT_SAVE);
@@ -303,6 +306,13 @@ var demonstration_scores;
                 //console.log("Unknown Element type: %s", elt.type);
             }
         }
+
+        // ADH - we will better T/F logic for parameters
+        if (parameters.show_output_select == "1")
+            parameters.show_output = true;
+        else   
+            parameters.show_output = false;
+
         save_parameter_changes();
     }
 
@@ -328,24 +338,36 @@ var demonstration_scores;
 
     }
 
+    // process xml_string_loaded, or
+    // get new text from demotration score
+    function process_loaded_xml()
+    {   
+        console.log(get_self());
+        if (!xml_string_loaded || xml_string_loaded == "")
+        {
+            let score_name = parameters.demonstration_score;
+            let score_data = demonstration_scores_array[score_name];
+            parameters.song_name = score_data.name;
+            console.log("score_name: %s song_name: %s", score_name, parameters.song_name);
+            load_url_text(score_data.url, "process");
+        }
+        else
+        {
+            process_xml(xml_string_loaded);
+        }
+    }
    
         
     function process_xml(xml_string_in)
     {
         console.log(get_self(parameters.process_content));
         get_parameters_from_elts();
+        console.log("show_output: %s", parameters.show_output);
 
 
        let output_file_name = parameters.process_content + parameters.output_file_extension;
 
-        if (!xml_string_in || xml_string_in == "")
-        {
-            let score_no = parameters.demonstration_score;
-            let score = demonstration_scores[score_no];
-            parameters.song_name = score.name;
-            //console.log("score_no: %s song_name: %s", score_no, parameters.song_name);
-            xml_string_in = score.xml;
-        }
+       
 
         if (!xml_string_in || xml_string_in == "")
         {
@@ -541,6 +563,8 @@ var demonstration_scores;
 
         for (let key in parameters_parsed)
         {
+            if (key == "show_output")
+                continue;
             let value = parameters_parsed[key];
             //console.log("load_parameters: key: %s value:  %s", key, value);
             parameters[key] = value;
@@ -588,10 +612,14 @@ var demonstration_scores;
             console.error("set_element_value: ELT NOT FOUND: %s", sid);
             return;
         }
+
+
+        //console.log("elt.id: %s elt.name: %s type: %s tagName: %s", elt.id, elt.name, elt.type, elt.tagName);
         
         if (elt.tagName == "SELECT")
         {
-            for(let ii=0; ii < elt.options.length; ii++)
+            //console.log("elt.options.length: %s", elt.options.length);
+            for (let ii=0; ii < elt.options.length; ii++)
             {
                 let elt_value = elt.options[ii].value;
                 //console.log("ii: %s sid: %s value: %s (value == elt_value): %s", 

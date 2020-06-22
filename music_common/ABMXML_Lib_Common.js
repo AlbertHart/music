@@ -1105,7 +1105,7 @@ this.octave_numbers = {
             let svalue = this.get_element_value(child_element);
             if (svalue != "")
                 svalue = "VALUE: " + svalue;
-            console.log("- %s  %s %s", sname, satt, svalue);
+            //console.log("- %s  %s %s", sname, satt, svalue);
         }
         
     };
@@ -1313,7 +1313,7 @@ this.xml_to_dom_object = function(xml_string_in)
     }
     this.xml_text = xml_string_in.substr(0, ipos);
 
-    console.log("XML_text: %s", this.xml_text);
+    //console.log("XML_text: %s", this.xml_text);
 
     let parser = new DOMParser();
     let dom_object = parser.parseFromString(xml_string_in, 'application/xml');
