@@ -51,6 +51,11 @@ var demonstration_scores_array;
                             <i class="fa fa-level-down"></i>
                             <span>Add Bass</span></a></li>
                     <li>
+                        <a href="javascript:show_process('add_solo');">
+                        <span style="width: 15px;">&nbsp;</span>
+                            <i class="fa fa-level-down"></i>
+                            <span>Add Solo Section</span></a></li>
+                    <li>
                         <a href="javascript:show_process('trim_score');">
                         <span style="width: 15px;">&nbsp;</span>
                             <i class="fa fa-scissors"></i>
@@ -116,7 +121,7 @@ var demonstration_scores_array;
     // onther files, like index and faz can override it.
     function show_process(content_name)
     {
-        console.log("show_process: content_name: %s use_show_process: %s", content_name, use_show_process);
+        //console.log("show_process: content_name: %s use_show_process: %s", content_name, use_show_process);
         if (use_show_process == "load")
         {
             // load musicxml_process.htm;
@@ -164,9 +169,9 @@ var demonstration_scores_array;
             max_number_of_notes_melody: "4",
             bass_format: "radio_chords",
             demonstration_score: "amazing_grace",
-            first_measure: "2",
+            first_trim_measure: "2",
             first_note: "2",
-            last_measure: "4",
+            last_trim_measure: "4",
             last_note: "1",
             process_content: "view_play",
             seventh_position: "treble",
@@ -274,19 +279,21 @@ var demonstration_scores_array;
         }
         parameters[name] = value;
         console.log("get_parameter_change: type: %s name: %s value: %s", type, name, value);
+
+        
         if (!dont_save)
             save_parameter_changes();
     }
 
     function get_parameters_from_elts()
     {
-        console.log(get_self());
+        //console.log(get_self());
         let parameter_elts = document.getElementsByClassName("parameters");
         let DONT_SAVE = true;
         for (let iparm = 0; iparm < parameter_elts.length; iparm++)
         {
             let elt = parameter_elts[iparm];
-            console.log("type: %s id: %s name: %s tagName: %s value: %s", elt.type, elt.id, elt.name, elt.tagName, elt.value);
+            //console.log("type: %s id: %s name: %s tagName: %s value: %s", elt.type, elt.id, elt.name, elt.tagName, elt.value);
             if (elt.type == "number" || elt.type == "text")
             {
                 get_parameter_change(elt, DONT_SAVE);
@@ -317,7 +324,19 @@ var demonstration_scores_array;
     }
 
     
+    function get_demonstration_score(element, dont_save)
+    {
+        console.log(get_self());
 
+        get_parameter_change(element, dont_save);
+
+        let value;
+        name = element.id;
+        let index = element.selectedIndex;
+        console.log("NAME: %s index: %s", name, index);
+        value = element.options[index].value;
+ 
+    }
        
     
         
@@ -348,7 +367,7 @@ var demonstration_scores_array;
             let score_name = parameters.demonstration_score;
             let score_data = demonstration_scores_array[score_name];
             parameters.song_name = score_data.name;
-            console.log("score_name: %s song_name: %s", score_name, parameters.song_name);
+            //console.log("score_name: %s song_name: %s", score_name, parameters.song_name);
             load_url_text(score_data.url, "process");
         }
         else
@@ -358,11 +377,16 @@ var demonstration_scores_array;
     }
    
         
-    function process_xml(xml_string_in)
+    function process_xml(xml_string_loaded)
     {
         console.log(get_self(parameters.process_content));
         get_parameters_from_elts();
         console.log("show_output: %s", parameters.show_output);
+
+        // save in var for debug
+        xml_string_in = xml_string_loaded;
+
+        console.log("xml_string_in length: %s", xml_string_in.length);
 
 
        let output_file_name = parameters.process_content + parameters.output_file_extension;
@@ -378,33 +402,40 @@ var demonstration_scores_array;
 
         xml_string_out = "";
 
+        var song_name;
+
+        let dom_object = MLIB.musicxml_to_dom(xml_string_in);
+
         switch (parameters.process_content)
         {
             case 'transpose':
-                xml_string_out = MLIB.transpose_xml(parameters, xml_string_in);
+                MLIB.transpose_musicxml_dom(parameters, dom_object);
                 break;
             case 'add_bass':
-                xml_string_out = MLIB.add_bass_to_xml(parameters, xml_string_in);
+                MLIB.add_bass_to_musicxml_dom(parameters, dom_object);
+                break;
+            case 'add_solo':
+                MLIB.add_solo_to_musicxml_dom(parameters, dom_object);
                 break;
             case 'trim_score':
-                xml_string_out = MLIB.do_trim_score(parameters, xml_string_in);
+                MLIB.do_trim_score_musicxml_dom(parameters, dom_object);
                 break;
             case 'voice_leading':
-                xml_string_out = MLIB.do_voice_leading(parameters, xml_string_in);
+                MLIB.do_voice_leading_musicxml_dom(parameters, dom_object);
                 break;
             case 'melody_chords':
-                xml_string_out = MLIB.do_melody_chords(parameters, xml_string_in);
+                MLIB.do_melody_chords_musicxml_dom(parameters, dom_object);
                 break;
             case 'add_rhythm':
-                xml_string_out = MLIB.add_rhythm_to_xml(parameters, xml_string_in);
+                MLIB.add_rhythm_to_musicxml_dom(parameters, dom_object);
                 break;
         }
 
-        if (xml_string_out && xml_string_out != "")
-        {
-            let elt = document.getElementById("transposed_score");
-            elt.innerText = xml_string_out;
-        }
+        xml_string_out = MLIB.dom_object_to_return_string(dom_object);
+
+
+      
+    
 
         // build output file name
         if (song_name)
@@ -469,9 +500,16 @@ var demonstration_scores_array;
 
     function show_transposed_score()
     {
-        let elt = document.getElementById("transposed_score");
-        elt.style.display = "block";
-        elt.innerText = xml_string_out;
+        if (xml_string_out === "")
+        {
+            alert("No Transposed Score available");
+        }
+        else
+        {
+            let elt = document.getElementById("transposed_score");
+            elt.style.display = "block";
+            elt.innerText = xml_string_out;
+        }
     }
 
     function copy_transposed_score()
@@ -521,21 +559,21 @@ var demonstration_scores_array;
 
 
         return url_vars;
-    };
+    }
 
     function get_url_var(svar)
     {
         //console.log(this.get_self(svar));
         if (!url_vars)
         {
-            console.log("getting url_vars");
+            //console.log("getting url_vars");
             get_url_vars();
         }
         let sval = url_vars[svar];
         if (!sval)
             sval = "";
         return(sval);
-};
+}
 
  
      // save parameters after every change
@@ -742,7 +780,31 @@ var demonstration_scores_array;
 
     }
 
-    function do_trim_score_text(sid,  add_link)
+    function do_add_solo_text(sid,  add_link)
+    {
+
+        let shtml = `<div class=info>
+                <h3>Add Solo Section</h3>
+                <img src="images/add-solo.png" >
+                Add a simple Accompaniment to your MusicXML score.
+                <p>
+                For instance, a piano accompaniment for a choral score.
+                </p>\n`;
+
+        if (add_link)
+        shtml += do_load_process("add_solo", "Add Base Notes");
+
+
+        shtml +=`<br clear=all>
+                </div><p></p>
+                `;
+
+        let element = document.getElementById(sid);
+        element.innerHTML += shtml;
+
+    }
+
+    function do_trim_score_xml_text(sid,  add_link)
     {
     
         let shtml = `<div class=info>
@@ -849,6 +911,184 @@ var demonstration_scores_array;
 
     }
 
+    // Stuff for drop and load files
+    function setup_drop_and_paste()
+    {
+        // where files are dropped + file selector is opened
+        let dropRegion = document.getElementById("drop-region");
+
+        
+
+        // open file selector when clicked on the drop region
+        let file_input_element = document.createElement("input");
+        file_input_element.type = "file";
+        file_input_element.accept = ".xml,.musicxml,.mxl";
+        file_input_element.multiple = true;
+        dropRegion.addEventListener('click', function() {
+            file_input_element.click();
+        });
+
+        file_input_element.addEventListener("change", function() {
+            let files = file_input_element.files;
+            handle_drop_files(files);
+        });
+
+        dropRegion.addEventListener('dragenter', prevent_event_default, false);
+        dropRegion.addEventListener('dragleave', prevent_event_default, false);
+        dropRegion.addEventListener('dragover', prevent_event_default, false);
+        dropRegion.addEventListener('drop', prevent_event_default, false);;
+
+        // is there a timing reaon why we do the previous line?
+        dropRegion.addEventListener('drop', handle_drop_event, false);
+    }
+
+
+    function prevent_event_default(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+   
+
+    function handle_drop_event(e) {
+
+        let dt = e.dataTransfer,
+            files = dt.files;
+
+        handle_drop_files(files)		
+    }
+
+    
+
+    function get_file_extension(filename) {
+        return filename.slice((filename.lastIndexOf(".") - 1 >>> 0) + 2);
+        }
+
+
+    function handle_drop_files(files) {
+        console.log("handle_drop_files: %s", files.length);
+        for (let i = 0, len = files.length; i < len; i++) 
+        {
+            file = files[i];
+            console.log("file.name: %s type: %s", file.name, files[0].type);
+
+            let extension = get_file_extension(file.name)
+            if (extension == "mxl")
+            {
+                load_zip_file(file);
+            }
+            else
+            {
+                load_dropped_file(file);
+            }
+            break;  // we only process one file
+        }
+    }
+
+
+    function load_dropped_file(dropped_file) 
+    {
+        console.log("load_dropped_file");
+
+        // read the dropped_file...
+        let reader = new FileReader();
+        reader.onload = function(e) {
+            result = e.target.result;
+            console.log("FileReader: reader.onload: result length: %s\n%s", result.length, result.substr(0,32));
+
+            let ipos = result.indexOf("base64,")
+            if (ipos)
+            {
+                let header = result.substr(0, ipos);
+                let base64_string = result.substr(ipos + 7);
+                console.log("header: %s base64_string: %s", header, base64_string.substr(0,64));
+
+                if (base64_string.substr(0,8) == "UEsDBBQA")
+                {
+                    console.log("ZIP FILE");
+                    
+                    return(false);
+                }
+                else
+                {
+                    xml_string_loaded = atob(base64_string);
+                    console.log("header: %s - %s", header, xml_string_loaded.substr(0,64));
+
+
+                    // store xml and name for reload
+                    localStorage.setItem('song_data', xml_string_loaded);
+
+                    let song_name = dropped_file.name;
+                    console.log("localStorage.setItem('song_name',%s);", song_name);
+                    localStorage.setItem('song_name', song_name);
+
+                    process_xml(xml_string_loaded);
+                
+                    return(true);
+                }
+            }
+        }
+        reader.readAsDataURL(dropped_file);
+    }
+
+
+     // Closure to capture the file information.
+     function load_zip_file(zip_file) 
+     {
+        
+        console.log("load_zip_file: %s", zip_file.name);
+        
+        //let result_div = document.getElementById("result");
+        //result_div.innerHTML = "<h4>ZIP File: " + zip_file.name + "</h4>";
+
+
+        JSZip.loadAsync(zip_file)                                   // 1) read the Blob
+        .then(function(zip) {
+
+            zip_object = zip;
+            let first_entry = true;
+
+
+
+            zip.forEach(function (relativePath, zipEntry) {  // 2) print entries
+                    //zip_entries.push(zipEntry); // for debug
+
+                    console.log("ZIP ENTRY: %s _data.uncompressedSize: %s", zipEntry.name, zipEntry._data ? zipEntry._data.uncompressedSize : -1);
+
+
+                if (zipEntry.name.substr(0,8) != "META-INF" && first_entry)
+                    {
+
+                        // Read the contents of the 'Hello.txt' file
+                        zipEntry.async("string").then(function (data) {
+                        // data is "Hello World!"
+                        xml_string_loaded = data;
+                        console.log("zipEntry NAME: %s xml_string_loaded: %s", zipEntry.name, xml_string_loaded.substr(0, 256));
+
+                        // store xml and name for reload
+                        localStorage.setItem('song_data', xml_string_loaded);
+
+                        let song_name = zipEntry.name;
+                        console.log("localStorage.setItem('song_name',%s);", song_name);
+                        localStorage.setItem('song_name', song_name);
+
+                        process_xml(xml_string_loaded);
+                    
+                        
+                    
+                    
+                    });
+                    first_entry = false;    // only process one file
+                }
+
+
+
+            });
+        }, function (e) {
+            alert("Error reading compressed file" + zip_file.name + ": " + e.message);
+        });
+    }
+
 
 
      function do_top_menu(sid)
@@ -869,7 +1109,7 @@ var demonstration_scores_array;
      function toggle_sidebar()
       {
           let elt = document.getElementById("sidebar_menu");
-          console.log("menu display: %s", elt.style.display);
+          //console.log("menu display: %s", elt.style.display);
           if (elt.style.display != "none")
           {
               elt.style.display = "none";

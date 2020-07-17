@@ -3,14 +3,25 @@
 /* jshint eqeqeq: false */
 console.log("IN ABMXML_Lib_TrimScore.js");
 
-MusicDOM.prototype.lib_TrimScore = "loaded";
+MusicDOM.prototype.libs__loaded["ABMXML_Lib_TrimScore"] = "loaded";
 
 
-MusicDOM.prototype.do_trim_score = function(parameters, xml_string_in)
+// You can use this function to send a MusicXML file, and get back an ASCII Music XML file.
+MusicDOM.prototype.do_trim_score_xml = function(parameters, xml_string_in)
+{
+    let dom_object = this.musicxml_to_dom(xml_string_in);
+
+    this.do_trim_score_musicxml_dom(parameters, dom_object);
+
+    let xml_string_return = this.dom_object_to_return_string(dom_object);
+    return(xml_string_return);
+}
+
+MusicDOM.prototype.do_trim_score_musicxml_dom = function(parameters, xml_string_in)
 {
     this.parameters = parameters;  // save in prototype
-
-    let dom_object = this.xml_to_dom_object(xml_string_in);
+    this.show_output = parameters.show_output;
+    let show_output = this.show_output;
 
     let score_partwise_element = dom_object.firstElementChild; // score-partwise
 
@@ -58,7 +69,7 @@ MusicDOM.prototype.do_trim_score = function(parameters, xml_string_in)
 
                     console.log("part_id: %s", part_id);
 
-                    new_measure_number = parameters.first_measure;
+                    new_measure_number = parameters.first_trim_measure;
                 
 
 
@@ -76,33 +87,33 @@ MusicDOM.prototype.do_trim_score = function(parameters, xml_string_in)
                 console.log("%s part_element_child: '%s': %s", im, measure_element.tagName, measure_number);
 
                 
-                if (measure_number == 1 && parameters.first_measure > 1)
+                if (measure_number == 1 && parameters.first_trim_measure > 1)
                 {
                     // we need to keep attributes from the first measure, but not the notes
                     console.log("SAVE FIRST MEASURE: %s", measure_number);
                     first_measure_element = measure_element
                 }
                 
-                if (measure_number > 1 && measure_number < parameters.first_measure)
+                if (measure_number > 1 && measure_number < parameters.first_trim_measure)
                 {
                     console.log("PUSH FOR DELETE: %s", measure_number);
                     measures_to_delete.push(measure_element);
                     continue;
                 }
 
-                if (parameters.last_measure > 0 && measure_number >  parameters.last_measure)
+                if (parameters.last_trim_measure > 0 && measure_number >  parameters.last_trim_measure)
                 {
                     console.log("PUSH FOR DELETE: %s", measure_number);
                     measures_to_delete.push(measure_element);
                     continue;
                 }
 
-                if (measure_number > 1 && measure_number == parameters.first_measure)
+                if (measure_number > 1 && measure_number == parameters.first_trim_measure)
                 {
-                    // copy everything to first_measure
+                    // copy everything to first_trim_measure
                     console.log("COPY TO FIRST MEASURE: %s", measure_number);
 
-                    //this.show_dom_element(first_measure, "FIRST MEASURE BEFORE CHANGES");
+                    //this.show_dom_element(first_trim_measure, "FIRST MEASURE BEFORE CHANGES");
 
                     // remove notes from first measure
 
@@ -125,7 +136,7 @@ MusicDOM.prototype.do_trim_score = function(parameters, xml_string_in)
                         }
                     }
 
-                    //this.show_dom_element(first_measure, "FIRST MEASURE AFTER DELETIONS");
+                    //this.show_dom_element(first_trim_measure, "FIRST MEASURE AFTER DELETIONS");
 
                     // append or change any attrbutes
                     measure_element_children = measure_element.children;
@@ -278,4 +289,4 @@ MusicDOM.prototype.do_trim_score = function(parameters, xml_string_in)
 
     return(xml_string_return);
 
-} // end of do_trim_score
+} // end of do_trim_score_xml

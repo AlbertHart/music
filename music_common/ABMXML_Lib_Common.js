@@ -496,7 +496,7 @@ this.octave_numbers = {
     "augmented-seventh": {short: "aug7"},
     "half-diminished": {short: "m7b5"},
     "major-minor": {short: "min(maj7)"},
-    "majorsixth": {short: "maj6"},
+    "major-sixth": {short: "maj6"},
     "minor-sixth": {short: "m6"},
     "dominant-ninth": {short: "9"},
     "major-ninth": {short: "maj9"},
@@ -1086,26 +1086,27 @@ this.octave_numbers = {
         // display first level sub-elements
 
         let children = parent_element.children;
-        //console.log("CHILDREN: %s", children.length);
+        console.log("CHILDREN: %s", children.length);
         for (let  ii = 0; ii < children.length; ii++)
         {
             let child_element = children[ii];
             // console.log("CHILD %s: %s", ii, child_element.tagName);
             let sname = child_element.tagName;
             let satt = "";
+            console.log("child_element.attributes: %s", child_element.attributes);
             if (child_element.attributes)
             {
+                console.log("child_element.attributes.length: %s", child_element.attributes.length);
                 for (let  ia = 0; ia < child_element.attributes.length && ia < 3; ia++)
                 {
-                    if (ia == 0)
-                        satt == "ATT: ";
                     satt += child_element.attributes[ia].nodeName + "=\"" + child_element.attributes[ia].value + "\" ";
                 }
+                console.log("Attributes: %s", satt);
             }
             let svalue = this.get_element_value(child_element);
             if (svalue != "")
-                svalue = "VALUE: " + svalue;
-            //console.log("- %s  %s %s", sname, satt, svalue);
+                svalue = "VALUE from get_element_value: " + svalue;
+            console.log("- %s  %s %s", sname, satt, svalue);
         }
         
     };
@@ -1135,6 +1136,7 @@ this.octave_numbers = {
             return("");
         }
         let value = sub_element.innerHTML;
+        console.log("get_dom_element_value: parent: %s name: %s: value: %s", parent_element.tagName, name, value);
         return(value);
     };
 
@@ -1149,9 +1151,11 @@ this.octave_numbers = {
     };
 
      // let duration = +duration_elem.innerHTML;
+     // get value from <duration>128</duration>
      this.get_element_value = function(element)
      {
          let value = element.innerHTML;
+         console.log("get_element_value: %s: value: %s", element.tagName, value);
          return(value);
      };
 
@@ -1301,7 +1305,7 @@ this.octave_numbers = {
 
 // parse xml string into a DOM object
 // save the header to put backi into output
-this.xml_to_dom_object = function(xml_string_in)
+this.musicxml_to_dom = function(xml_string_in)
 {
     // save header data and restore it when done
     let ipos = xml_string_in.indexOf("<score");
@@ -1330,10 +1334,6 @@ this.dom_object_to_return_string = function(dom_object)
     let xml_string_return = this.xml_text + xml_out;
     return(xml_string_return);
 };
-
-
-
-
 
 this.get_self = function(sarg, sarg2, sarg3, sarg4) {
     //console.log("SARG: %s SARG@: %s SARG3: %s", sarg, sarg2, sarg3);
@@ -1589,6 +1589,41 @@ this.get_base_url = function()
 
 
   };
+
+  this.tts_types = {
+      1: {type: "32nd", dot: false},
+      2: {type: "16th", dot: false},
+      3: {type: "16th", dot: true},
+      4: {type: "eighth", dot: false},
+      6: {type: "eighth", dot: true},
+      8: {type: "quarter", dot: false},
+      12: {type: "quarter", dot: true},
+      16: {type: "half", dot: false},
+      24: {type: "half", dot: true},
+      32: {type: "whole", dot: false},
+      48: {type: "whole", dot: true},
+
+  };
+
+
+  this.get_note_type = function(duration)
+  {
+    // thirty second notes
+    let tts32s = Math.round((duration * 8) / this.attributes.divisions);
+    ret = this.tts_types[tts32s];
+    if (!ret)
+    {
+        console.log("get_note_type: duration: %s divisions: %s ret: NOT FOUND",
+            duration, this.attributes.divisions);
+    }
+    else
+    {
+        console.log("get_note_type: duration: %s divisions: %s ret: %s %s",
+            duration, this.attributes.divisions, ret.type, ret.dot);
+    }
+
+    return(ret);
+  }
 
   // sbase = Bb, D, F#
   this.add_note_to_chord = function(sbase, octave, half_steps, duration, new_chord)
@@ -2085,11 +2120,53 @@ this.get_substitution = function(modifier1)
     this.get_rest = function(duration)
     {
         console.log("get_rest: duration: %s %s", duration, get_caller());
-        let srest = sprintf(`    <note>
+
+        let srest = "";
+        let sdot = "";
+
+        let note_type = this.get_note_type(duration);
+
+        if (!note_type)
+        {
+            // we need to break this into multiple rests
+            let duration2 = duration - 1;
+            for (; duration2 > 0; duration2 --)
+            {
+                note_type = this.get_note_type(duration2);
+                if (note_type)
+                {
+                    if (note_type.dot)
+                        sdot = "<dot/>\n";
+                    else    
+                        sdot = "";
+                    srest += sprintf(`
+                        <note>
+                        <rest/>
+                        <duration>%s</duration>
+                        <voice>1</voice>
+                        <type>%s</type>
+                        %s
+                    </note>`, duration2, note_type.type, sdot);
+                    duration -= duration2;
+                    console.log("duration2: %s new duration: %s", duration2, duration);
+                    note_type = this.get_note_type(duration);
+                    break;
+                }
+            }
+        }
+        if (note_type.dot)
+            sdot = "<dot/>\n";
+        else    
+            sdot = "";
+        srest += sprintf(`
+            <note>
             <rest/>
             <duration>%s</duration>
             <voice>1</voice>
-        </note>`, duration);
+            <type>%s</type>
+            %s
+        </note>`, duration, note_type.type, sdot);
+        console.log("SREST: %s", srest);
         return(srest);
     };
 

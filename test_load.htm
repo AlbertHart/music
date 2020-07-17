@@ -41,7 +41,6 @@
     <script src="music_common/ABMXML_Lib_TrimScore.js?v=2.66"></script>
     <script src="music_common/ABMXML_Lib.AddRhythm.js?v=2.66"></script>
 
-  <link rel="stylesheet" href="xxxxfaq/assets/css/style.css">
 
     <!-- this uses the namespace object MLIB to access transpose functions.js -->
     <!-- use: var MLIB = new MusicDOM();  -->
@@ -79,8 +78,9 @@
 
     function get_score(score_name)
     {
+        console.log(get_self(score_name));
         score_data = demonstration_scores_array[score_name];
-        loadXMLDoc(score_data.url, "get_score_text");
+        load_xml_doc_from_url(score_data.url, "get_score_text");
     }
 
     function get_score_text(xml_score)
@@ -88,7 +88,7 @@
         
     }
 
-    function loadXMLDoc(surl0, todo) 
+    function load_xml_doc_from_url(surl0, todo) 
     {
         var xmlhttp;
         if (window.XMLHttpRequest) {
@@ -154,7 +154,7 @@
         xmlhttp.send();
     }
 
-    loadXMLDoc('scores.txt', "get_score_names");
+    load_xml_doc_from_url('scores.txt', "get_score_names");
 
 
     </script>
@@ -168,7 +168,7 @@
 
 <h2>Using the XMLHttpRequest object</h2>
 
-<button type="button" onclick="loadXMLDoc('scores.txt')">scores.txt</button>
+<button type="button" onclick="load_xml_doc_from_url('scores.txt')">scores.txt</button>
 \<button type="button" onclick="get_score(0);">sget_score(0)</button>
 
 <p id="demo"></p>

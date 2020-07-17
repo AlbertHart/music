@@ -3,7 +3,7 @@
 /* jshint eqeqeq: false */
 console.log("IN ABMXML_Lib_AddBase.js");
 
-MusicDOM.prototype.lib_AddBase = "loaded";
+MusicDOM.prototype.libs__loaded["ABMXML_Lib_AddBase"] = "loaded";
 
 
 
@@ -26,14 +26,25 @@ MusicDOM.prototype.part_elements = [];
 
 MusicDOM.prototype.score_part_elements = [];
 
-
-
-
+// You can use this function to send a MusicXML file, and get back an ASCII Music XML file.
 MusicDOM.prototype.add_bass_to_xml = function(parameters, xml_string_in)
 {
+    let dom_object = this.musicxml_to_dom(xml_string_in);
+
+    this.add_bass_to_musicxml_dom(parameters, dom_object);
+
+    let xml_string_return = this.dom_object_to_return_string(dom_object);
+    return(xml_string_return);
+}
+
+
+MusicDOM.prototype.add_bass_to_musicxml_dom = function(parameters, dom_object)
+{
     this.parameters = parameters;  // save in prototype
+    this.show_output = parameters.show_output;
+    let show_output = this.show_output;
     
-    bass_format = parameters.bass_format;
+    let bass_format = parameters.bass_format;
     if (bass_format.substr(0, 6) == "radio_")
     {
         // from SELECT elt
@@ -44,37 +55,36 @@ MusicDOM.prototype.add_bass_to_xml = function(parameters, xml_string_in)
        time: {beats: 0, beat_type: 0}, 
        key: {fifths: 0, mode: null},
        staves: null, clef: []};
-   attributes = this.attributes;   // use from var
-
-   let dom_object = this.xml_to_dom_object(xml_string_in);
+   let attributes = this.attributes;   // use from var
 
    let score_partwise_element = dom_object.firstElementChild; // score-partwise
 
    let score_partwise_children = score_partwise_element.children;
    console.log("score_partwise_element: %s top children: %s", score_partwise_element.tagName, score_partwise_children.length);
 
-  
+   let part_list_element;
 
    // get part-list and part from score-partwise
    for (let iscore_partwise = 0; iscore_partwise < score_partwise_children.length; iscore_partwise++) 
    {
-       score_partwise_child = score_partwise_children[iscore_partwise];
+       let score_partwise_child = score_partwise_children[iscore_partwise];
        console.log("  iscore_partwise: %s score_partwise_child: %s", iscore_partwise, score_partwise_child.tagName);
 
+       
        
 
        // looking for 'part-list' and 'part'
        switch (score_partwise_child.tagName) {
 
            case "part-list":
-               part_list_element = score_partwise_child;
+              part_list_element = score_partwise_child;
 
                let part_list_children = part_list_element.children;
                console.log("part_list_element: %s top children: %s", part_list_element.tagName, part_list_children.length);
 
                // get 'score-part' from 'part-list'
                for (let ipart_list = 0; ipart_list < part_list_children.length; ipart_list++) {
-                   part_list_child = part_list_children[ipart_list];
+                   let part_list_child = part_list_children[ipart_list];
                    console.log("    ipart_list: %s part_list_child: %s", ipart_list, part_list_child.tagName);
 
                    switch (part_list_child.tagName) {
@@ -92,7 +102,7 @@ MusicDOM.prototype.add_bass_to_xml = function(parameters, xml_string_in)
                break;
 
            case "part":
-               part_element = score_partwise_child;
+               let part_element = score_partwise_child;
 
                // <part id="P2">
                let part_id = part_element.getAttribute("id");
@@ -103,12 +113,13 @@ MusicDOM.prototype.add_bass_to_xml = function(parameters, xml_string_in)
        }
    }
 
+   let starting_staff;
    if (parameters.staff_type == "bass-clef")
        starting_staff = 2;
    else
        starting_staff = 1; // make two staffs - grand-staff
 
-   let new_part_index = score_part_elements.length;
+   let new_part_index = this.score_part_elements.length;
 
    for (let istaff = starting_staff; istaff <= 2; istaff++)
    {
@@ -147,7 +158,7 @@ MusicDOM.prototype.add_bass_to_xml = function(parameters, xml_string_in)
        console.log("create new_part_element in score_partwise");
 
        // read from part element 1
-       let part_element1 = part_elements[0];
+       let part_element1 = this.part_elements[0];
        let part_element1_children = part_element1.children;
        console.log("part_element1_children: length: %s", part_element1_children.length);
 
@@ -170,19 +181,19 @@ MusicDOM.prototype.add_bass_to_xml = function(parameters, xml_string_in)
            new_measure_element.setAttribute("number", measure_number);
            new_part_element.appendChild(new_measure_element);
 
-           new_measure_html = "";
-           new_notes_html = "";
+           let new_measure_html = "";
+           let new_notes_html = "";
            let first_harmony = true;
            let first_note = true;
 
-           measure_element_children = measure_element.children;
+           let measure_element_children = measure_element.children;
            console.log("measure_element_children: length: %s", measure_element_children.length);
 
            
 
                for (let ic = 0; ic < measure_element_children.length; ic++)
                {
-                   measure_child = measure_element_children[ic];
+                   let measure_child = measure_element_children[ic];
 
                    // some children get copied 
                    // some get replaced
@@ -197,7 +208,7 @@ MusicDOM.prototype.add_bass_to_xml = function(parameters, xml_string_in)
                            
 
                                // clone to make a new copy
-                               new_attribute_element = measure_child.cloneNode(true);
+                               let new_attribute_element = measure_child.cloneNode(true);
                                if (show_output)
                                    this.show_dom_element(new_attribute_element);
 
@@ -216,7 +227,7 @@ MusicDOM.prototype.add_bass_to_xml = function(parameters, xml_string_in)
                                    switch (attribute_child.tagName) 
                                    {
                                        case "clef":
-                                           clef_element = attribute_child;
+                                           let clef_element = attribute_child;
                                            if (istaff == 1)
                                            {
                                                // new treble staff
@@ -248,7 +259,7 @@ MusicDOM.prototype.add_bass_to_xml = function(parameters, xml_string_in)
                                            if (show_output)
                                                console.log("CASE: %s", attribute_child.tagName);
 
-                                           let key_element = attribute_child
+                                           let key_element = attribute_child;
 
                                            //this.show_dom_element(key_element);
                                            attributes.key.fifths = this.get_dom_element_value_numeric(key_element, "fifths");
@@ -308,27 +319,34 @@ MusicDOM.prototype.add_bass_to_xml = function(parameters, xml_string_in)
 
                            
 
-                           harmony_element = measure_child;
+                           let harmony_element = measure_child;
 
-                           root_step = this.get_dom_element_value(harmony_element, "root-step", this.SKIP_ERROR);
-                           //console.log("root-step: %s", root_step);
+                           let root_step = this.get_dom_element_value(harmony_element, "root-step", this.SKIP_ERROR);
+                           let //console.log("root-step: %s", root_step);
                            root_alter = this.get_dom_element_value(harmony_element, "root-alter", this.SKIP_ERROR);
                            //console.log("root-alter: %s", root_alter);
-                           bass_step = this.get_dom_element_value(harmony_element, "bass-step", this.SKIP_ERROR);
+                           let bass_step = this.get_dom_element_value(harmony_element, "bass-step", this.SKIP_ERROR);
                            //console.log("bass-step: %s", bass_step);
-                           bass_alter = this.get_dom_element_value(harmony_element, "bass-alter", this.SKIP_ERROR);
+                           let bass_alter = this.get_dom_element_value(harmony_element, "bass-alter", this.SKIP_ERROR);
                            //console.log("bass-alter: %s", bass_alter);
-                           kind = this.get_dom_element_value(harmony_element, "kind", this.SKIP_ERROR);
-                           kind2 = this.music_xml_kinds[kind].short;
+                           let kind = this.get_dom_element_value(harmony_element, "kind", this.SKIP_ERROR);
+                           let kinds = this.music_xml_kinds[kind];
+                           if (!kinds)
+                           {
+                               console.error("music_xml_kinds not found; %s", kind);
+                               this.show_dom_element(harmony_element, "harmony_element");
+                           }
+                           let kind_short = kinds.short;
                            //console.log("kind: %s", kind);
 
-                           sroot = root_step + this.sharp_flat_from_alter(root_alter);
+                           let sroot = root_step + this.sharp_flat_from_alter(root_alter);
+                           let  sbass = "";
                            if (bass_step != "")
                                sbass = "/" + bass_step + this.sharp_flat_from_alter(bass_alter);
                            else   
                                sbass = "";
                            console.log("CHORD: %s%s%s kind: %s staff_type: %s", 
-                            sroot, kind2, sbass, kind, parameters.staff_type);
+                            sroot, kind_short, sbass, kind, parameters.staff_type);
 
 
 
@@ -341,6 +359,9 @@ MusicDOM.prototype.add_bass_to_xml = function(parameters, xml_string_in)
                                new_measure_html += "\n    ";
                                new_measure_html += harmony_element.outerHTML;
                            }
+                       
+                           let  first_step;
+                           let  first_alter;
 
                            if (bass_step)
                            {
@@ -353,6 +374,8 @@ MusicDOM.prototype.add_bass_to_xml = function(parameters, xml_string_in)
                                first_alter = root_alter;
 
                            }
+                       
+                           let octave;
 
                            // give octave of bass note
                            if (root_step >= "C" && root_step <= "F")
@@ -362,13 +385,12 @@ MusicDOM.prototype.add_bass_to_xml = function(parameters, xml_string_in)
 
 
                            // get notes of chord
-                           schord = root_step;
+                          let  schord = root_step;
                            if (root_alter > 0)
                                schord += "#";
                            if (root_alter < 0)
                                schord += "b";
 
-                           sbass = "";
                            if (bass_step)
                            {
                                // get notes of chord
@@ -379,7 +401,7 @@ MusicDOM.prototype.add_bass_to_xml = function(parameters, xml_string_in)
                                    schord += "b";
                            }
                            schord += this.music_xml_kinds[kind].short;
-;
+
 
                            if (istaff == 1)
                                octave = octave + 1;
@@ -388,7 +410,7 @@ MusicDOM.prototype.add_bass_to_xml = function(parameters, xml_string_in)
                            new_notes_html += "\n";
 
                            let one_beat_duration = (attributes.divisions * 4)  / attributes.time.beat_type;
-                           chord_data = {schord: schord, sbass: sbass, octave: octave, one_note: false, start_at: 1, duration: one_beat_duration};
+                           let chord_data = {schord: schord, sbass: sbass, octave: octave, one_note: false, start_at: 1, duration: one_beat_duration};
                            
                            let beats_remaining = attributes.time.beats;
                            
@@ -590,7 +612,7 @@ MusicDOM.prototype.add_bass_to_xml = function(parameters, xml_string_in)
        
        } // end of staffs
 
-    let xml_string_return = this.dom_object_to_return_string(dom_object);
-    return(xml_string_return);
+    return(dom_object);
 
-}   // end of add_bass_to_xml
+
+};  // end of add_bass_to_xml_dom

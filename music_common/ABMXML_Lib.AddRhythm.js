@@ -3,16 +3,25 @@
 /* jshint eqeqeq: false */
 console.log("IN ABMXML_Lib_AddRhythm.js");
 
-MusicDOM.prototype.lib_AddRhythm = "loaded";
+MusicDOM.prototype.libs__loaded["ABMXML_Lib_AddRhythm"] = "loaded";
 
 
-
-
-
-
+// You can use this function to send a MusicXML file, and get back an ASCII Music XML file.
 MusicDOM.prototype.add_rhythm_to_xml = function(parameters, xml_string_in)
 {
+    let dom_object = this.musicxml_to_dom(xml_string_in);
+
+    this.add_rhythm_to_musicxml_dom(parameters, dom_object);
+
+    let xml_string_return = this.dom_object_to_return_string(dom_object);
+    return(xml_string_return);
+}
+
+MusicDOM.prototype.add_rhythm_to_musicxml_dom = function(parameters, dom_object)
+{
     this.parameters = parameters;  // save in prototype
+    this.show_output = parameters.show_output;
+    let show_output = this.show_output;
     
     bass_format = parameters.bass_format;
     if (bass_format.substr(0, 6) == "radio_")
@@ -26,8 +35,6 @@ MusicDOM.prototype.add_rhythm_to_xml = function(parameters, xml_string_in)
        key: {fifths: 0, mode: null},
        staves: null, clef: []};
    attributes = this.attributes;   // use from var
-
-   let dom_object = this.xml_to_dom_object(xml_string_in);
 
    let score_partwise_element = dom_object.firstElementChild; // score-partwise
 
@@ -284,3 +291,4 @@ for (let im = 0; im < part_element1_children.length; im++)
     return(xml_string_return);
 
 }   // end of add_rhythm_to_xml
+// You can use this function to send a MusicXML file, and get back an ASCII Music XML file.
