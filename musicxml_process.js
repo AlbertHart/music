@@ -121,7 +121,7 @@ var demonstration_scores_array;
     // onther files, like index and faz can override it.
     function show_process(content_name)
     {
-        //console.log("show_process: content_name: %s use_show_process: %s", content_name, use_show_process);
+        //console.log(get_self(content_name));
         if (use_show_process == "load")
         {
             // load musicxml_process.htm;
@@ -131,6 +131,8 @@ var demonstration_scores_array;
         }
 
         parameters.process_content = content_name;
+        //console.log("parameters.process_content: %s", parameters.process_content);
+        save_parameters_to_local_storage();
 
         // see if this is a process to open
         let content_id = content_name + "_content";
@@ -192,7 +194,7 @@ var demonstration_scores_array;
         // if user clicked set_default_paramaters
         if (do_save)
         {
-            save_parameter_changes();
+            save_parameters_to_local_storage();
         }
     }
 
@@ -282,7 +284,7 @@ var demonstration_scores_array;
 
         
         if (!dont_save)
-            save_parameter_changes();
+            save_parameters_to_local_storage();
     }
 
     function get_parameters_from_elts()
@@ -320,7 +322,7 @@ var demonstration_scores_array;
         else   
             parameters.show_output = false;
 
-        save_parameter_changes();
+        save_parameters_to_local_storage();
     }
 
     
@@ -577,7 +579,7 @@ var demonstration_scores_array;
 
  
      // save parameters after every change
-     function save_parameter_changes()
+     function save_parameters_to_local_storage()
     {
         //console.log(get_self());
         let json_string = JSON.stringify(parameters);
@@ -589,12 +591,12 @@ var demonstration_scores_array;
 
     }
 
-    function load_parameters()
+    function load_parameters_from_local_storage()
     {   
         //console.log(get_self());
         let storage_key = "musicxml_process";
         let json_string = localStorage.getItem(storage_key);
-        //console.log("load_parameters: %s\n%s", storage_key, json_string);
+        //console.log("load_parameters_from_local_storage: %s\n%s", storage_key, json_string);
         let parameters_parsed = JSON.parse(json_string);
 
         //console.log("parameters_parsed: %s", parameters_parsed);
@@ -604,7 +606,7 @@ var demonstration_scores_array;
             if (key == "show_output")
                 continue;
             let value = parameters_parsed[key];
-            //console.log("load_parameters: key: %s value:  %s", key, value);
+            //console.log("load_parameters_from_local_storage: key: %s value:  %s", key, value);
             parameters[key] = value;
             set_element_value(key, value);
         }
@@ -620,7 +622,10 @@ var demonstration_scores_array;
         if (sid == "process_content")
         {
             // not setting sidebar tab yet
-            show_process(value);
+
+            content_name = value;
+            //console.log("CALL show_process('%s'))", content_name);
+            show_process(content_name);
             return;
         }
         let elt = document.getElementById(sid);

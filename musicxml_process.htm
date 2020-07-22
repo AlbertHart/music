@@ -41,6 +41,7 @@
 
     <!--  individual files for each process -->
     <script>MusicDOM.prototype.libs__loaded = {};</script>
+    <script src="music_common/ABMXML_Lib_View.js?v=2.66"></script>
     <script src="music_common/ABMXML_Lib_Transpose.js?v=2.66"></script>
     <script src="music_common/ABMXML_Lib_AddBase.js?v=2.66"></script>
     <script src="music_common/ABMXML_Lib_TrimScore.js?v=2.66"></script>
@@ -115,7 +116,7 @@
         {
 
        
-            console.log("SCORE readyState: %s status: %s LENGTH: %s", 
+            console.log("onreadystatechange: readyState: %s status: %s LENGTH: %s", 
                 this.readyState, this.status, this.responseText.length);
             xobj = this;
             if (this.readyState == 4)
@@ -173,7 +174,7 @@
                     //console.log("score_element: %s", score_element.innerHTML);
 
                     // load parameters after score names are added
-                    load_parameters();  // load saved parameters
+                    load_parameters_from_local_storage();  // load saved parameters
 
 
           
@@ -283,6 +284,8 @@
         <img width=100% src="images/sample_score.png">
 
         <div id="view_play_text"> </div>
+
+        <div id=view_container></div>
 
     </div> <!-- END CONTENT -->
                 
@@ -657,21 +660,25 @@ Demonstation Scores
 
  window.onload = function() 
     {
-        
+        console.log("window.onload in HTM");
         //dom not only ready, but everything is loaded
 
         //let score_element = document.getElementById("demonstration_score_div");
         load_url_text('scores.txt', "get_score_names");
 
+        load_parameters_from_local_storage();
+
         setup_drop_and_paste();
 
         
 
-        let process_content = get_url_var("content");
-        console.log("process_content: %s", process_content);
-        if (process_content !== "")
+        let content_name = get_url_var("content");
+        console.log("ONLOAD: content_name: %s", content_name);
+        
+        if (content_name !== "")
         {
-            show_process(process_content);
+            console.log("ONLOAD: CALL show_process('%s'))", content_name);
+            show_process(content_name);
         }
     };
 
