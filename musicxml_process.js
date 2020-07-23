@@ -36,43 +36,43 @@ var demonstration_scores_array;
 
 
                     <li>
-                        <a href="javascript:show_process('view_play');">
+                        <a href="javascript:set_content_name('view_play');">
                         <span style="width: 15px;">&nbsp;</span>
                             <i class="fa fa-music  "></i>
                             <span >View and Play</span></a></li>
                     <li>
-                        <a href="javascript:show_process('transpose');">
+                        <a href="javascript:set_content_name('transpose');">
                         <span style="width: 15px;">&nbsp;</span>
                             <i class="fa fa-arrows-v"></i>
                             <span>Transpose</span></a></li>
                     <li>
-                        <a href="javascript:show_process('add_bass');">
+                        <a href="javascript:set_content_name('add_bass');">
                         <span style="width: 15px;">&nbsp;</span>
                             <i class="fa fa-level-down"></i>
                             <span>Add Bass</span></a></li>
                     <li>
-                        <a href="javascript:show_process('add_solo');">
+                        <a href="javascript:set_content_name('add_solo');">
                         <span style="width: 15px;">&nbsp;</span>
                             <i class="fa fa-level-down"></i>
                             <span>Add Solo Section</span></a></li>
                     <li>
-                        <a href="javascript:show_process('trim_score');">
+                        <a href="javascript:set_content_name('trim_score');">
                         <span style="width: 15px;">&nbsp;</span>
                             <i class="fa fa-scissors"></i>
                             <span>Trim</span></a></li>
                     <li>
-                        <a href="javascript:show_process('voice_leading');">
+                        <a href="javascript:set_content_name('voice_leading');">
                         <span style="width: 15px;">&nbsp;</span>
                             <i class="fa fa-arrow-right"></i>
                             <span>Voice Leading</span></a></li>
                     <li>
-                        <a href="javascript:show_process('melody_chords');">
+                        <a href="javascript:set_content_name('melody_chords');">
                         <span style="width: 15px;">&nbsp;</span>
                             <i class="fa fa-level-up"></i>
                             <span>Melody Chords</span></a></li>
 
                     <li>
-                        <a href="javascript:show_process('add_rhythm');">
+                        <a href="javascript:set_content_name('add_rhythm');">
                         <span style="width: 15px;">&nbsp;</span>
                             <i class="fa fa-level-down"></i>
                             <span>Add Rhythm Text</span></a></li>
@@ -119,7 +119,7 @@ var demonstration_scores_array;
     var use_show_process;
     // in musicxml_process.htm this shows the parameters for the process
     // onther files, like index and faz can override it.
-    function show_process(content_name)
+    function set_content_name(content_name)
     {
         //console.log(get_self(content_name));
         if (use_show_process == "load")
@@ -184,7 +184,7 @@ var demonstration_scores_array;
             transpose_direction: "closest",
             transpose_key: "None",
             };
-
+        
         for (let key in parameters)
         {
             let value = parameters[key];
@@ -208,23 +208,34 @@ var demonstration_scores_array;
 
     }
 
+    function change_file_name(elt)
+    {
+        let output_file_name = elt.value;
+        console.log(get_self(output_file_name));
+
+        prepare_output_file(xml_string_out, output_file_name);
+    }
+
     // to save output
     function prepare_output_file(output_string, output_file_name)
     {
 
         if (!output_file_name || output_file_name == "")
+        {
             output_file_name = "new_score" + parameters.output_file_extension;
+            let elt = document.getElementById("output_file_name");
+            elt.innerText = output_file_name;
+        }
 
         //console.log("prepare_output_file: output_file_name: %s", output_file_name);
 
 
         let properties = {type: 'text/plain'}; // Specify the file's mime-type.
 
-        let elt = document.getElementById("download_output");
-        elt.innerText = output_file_name;
+        
 
-        let data = [output_string];
-        //console.log("string DATA length: %s", data.length);
+        let output_file_data = [output_string];
+        //console.log("string DATA length: %s", output_file_data.length);
 
         let file;
         try 
@@ -232,13 +243,13 @@ var demonstration_scores_array;
             // Specify the filename using the File constructor, but ...
             //console.log("SAVE AS FILE");
             // we will want to get output file name
-            file = new File(data, output_file_name, properties);
+            file = new File(output_file_data, output_file_name, properties);
         } 
         catch (e) 
         {
             // ... fall back to the Blob constructor if that isn't supported.
             //console.log("SAVE AS BLOB");
-            file = new Blob(data, properties);
+            file = new Blob(output_file_data, properties);
         }
         //console.log("After create FILE");
         let url = URL.createObjectURL(file);
@@ -250,13 +261,18 @@ var demonstration_scores_array;
         download_elt.download = output_file_name;
         download_elt.href = url;
         //console.log("After set download_link href");
+
+        let label_elt = document.getElementById("output_file_label");
+        label_elt.scrollIntoViewIfNeeded();
+
     }
 
 
     function get_parameter_change(element, dont_save)
     {
-        console.log(get_self());
-        console.log("element.id: %s element.name: %s type: %s tagName: %s", element.id, element.name, element.type, element.tagName);
+        //console.log(get_self());
+        //console.log("element.id: %s element.name: %s type: %s tagName: %s dont_save: %s", 
+        //    element.id, element.name, element.type, element.tagName dont_save);
  
         let name;
         let value;
@@ -280,7 +296,7 @@ var demonstration_scores_array;
             value = element.value;
         }
         parameters[name] = value;
-        console.log("get_parameter_change: type: %s name: %s value: %s", type, name, value);
+        //console.log("get_parameter_change: type: %s name: %s value: %s", type, name, value);
 
         
         if (!dont_save)
@@ -364,16 +380,25 @@ var demonstration_scores_array;
     function process_loaded_xml()
     {   
         console.log(get_self());
-        if (!xml_string_loaded || xml_string_loaded == "")
+       if (!xml_string_loaded || xml_string_loaded == "")
         {
+            console.log("parameters.demonstration_score: %s", parameters.demonstration_score);
             let score_name = parameters.demonstration_score;
             let score_data = demonstration_scores_array[score_name];
+            MLIB.show_object(demonstration_scores_array, "demonstration_scores_array");
+            MLIB.show_object(score_data, "score_data");
             parameters.song_name = score_data.name;
-            //console.log("score_name: %s song_name: %s", score_name, parameters.song_name);
+
+
+            set_element_value("song_name", song_name);
+            parameters.song_name = song_name;
+            console.log("score_name: %s song_name: %s", score_name, parameters.song_name);
             load_url_text(score_data.url, "process");
         }
         else
         {
+            console.log("xml_string_loaded.length: %s", xml_string_loaded.length);
+        
             process_xml(xml_string_loaded);
         }
     }
@@ -382,18 +407,16 @@ var demonstration_scores_array;
     function process_xml(xml_string_loaded)
     {
         console.log(get_self(parameters.process_content));
+
         get_parameters_from_elts();
-        console.log("show_output: %s", parameters.show_output);
+
+        //console.log("show_output: %s", parameters.show_output);
 
         // save in var for debug
         xml_string_in = xml_string_loaded;
 
-        console.log("xml_string_in length: %s", xml_string_in.length);
+        //console.log("xml_string_in length: %s\n    %s", xml_string_in.length, xml_string_in.substr(0,100));
 
-
-       let output_file_name = parameters.process_content + parameters.output_file_extension;
-
-       
 
         if (!xml_string_in || xml_string_in == "")
         {
@@ -410,94 +433,106 @@ var demonstration_scores_array;
 
         switch (parameters.process_content)
         {
+            case 'view_play':
+                // will display below
+                short_content = ""; // not used for file name
+                break;
             case 'transpose':
+                short_content = parameters.transpose_key;
                 MLIB.transpose_musicxml_dom(parameters, dom_object);
                 break;
             case 'add_bass':
+                short_content = "bass";
                 MLIB.add_bass_to_musicxml_dom(parameters, dom_object);
                 break;
             case 'add_solo':
+                short_content = "solo";
                 MLIB.add_solo_to_musicxml_dom(parameters, dom_object);
                 break;
             case 'trim_score':
+                short_content = "trimmed";
                 MLIB.do_trim_score_musicxml_dom(parameters, dom_object);
                 break;
             case 'voice_leading':
+                short_content = "leading";
                 MLIB.do_voice_leading_musicxml_dom(parameters, dom_object);
                 break;
             case 'melody_chords':
+                short_content = "melody";
                 MLIB.do_melody_chords_musicxml_dom(parameters, dom_object);
                 break;
             case 'add_rhythm':
+                short_content = "rhythm";
                 MLIB.add_rhythm_to_musicxml_dom(parameters, dom_object);
+                break;
+            default:
+                console.error("UNKNOWN process_content: %s", parameters.process_content);
                 break;
         }
 
-        xml_string_out = MLIB.dom_object_to_return_string(dom_object);
+       
 
+        // display processed score
+        MLIB.view_musicxml_dom(parameters, dom_object);
 
-      
-    
+        song_name = MLIB.osmd_object.sheet.title.text;
 
-        // build output file name
-        if (song_name)
+        let output_file_name = sprintf("%s_%s%s", song_name, short_content, parameters.output_file_extension);
+
+        //console.log("TITLE: %s output_file_name: %s", song_name, output_file_name);
+
+        set_element_value("song_name", song_name);
+        parameters.song_name = song_name;
+
+        set_element_value("output_file_name", output_file_name);
+
+        if (parameters.process_content != "view_play")
         {
-            let output_file_name = song_name;
-            let ipos3 = output_file_name.lastIndexOf(".");
-            if (ipos3 >= 0)
-                output_file_name = output_file_name.substr(0, ipos3) + "-" + parameters.transpose_key + output_file_name.substr(ipos3);
-            set_element_value("output_file_name", output_file_name);
+            xml_string_out = MLIB.dom_object_to_return_string(dom_object);
+            // create the output file ready for download
+            prepare_output_file(xml_string_out, output_file_name);
         }
-
-
-        // create the output file ready for download
-        prepare_output_file(xml_string_out, output_file_name);
 
 
     }
 
-     // to save output
-    function prepare_output_file(output_string, output_file_name)
+    function zoomin()
     {
-
-        if (!output_file_name || output_file_name == "")
-            output_file_name = "new_score" + parameters.output_file_extension;
-
-        //console.log("prepare_oSutput_file: output_file_name: %s", output_file_name);
-
-
-        let properties = {type: 'text/plain'}; // Specify the file's mime-type.
-
-        let elt = document.getElementById("download_output");
-        elt.innerText = output_file_name;
-
-        let data = [output_string];
-        //console.log("string DATA length: %s", data.length);
-        let file;
-        try 
-        {
-            // Specify the filename using the File constructor, but ...
-            //console.log("SAVE AS FILE");
-            // we will want to get output file name
-            file = new File(data, output_file_name, properties);
-        } 
-        catch (e) 
-        {
-            // ... fall back to the Blob constructor if that isn't supported.
-            //console.log("SAVE AS BLOB");
-            file = new Blob(data, properties);
-        }
-        //console.log("After create FILE");
-        let url = URL.createObjectURL(file);
-
-        let download_div_elt = document.getElementById('download_div');
-        download_div_elt.style.display = "block";
-
-        let download_elt = document.getElementById('download_link');
-        download_elt.download = output_file_name;
-        download_elt.href = url;
-        //console.log("After set download_link href");
+        //window.setTimeout(function () 
+        //{
+            MLIB.view_params.zoom *= 1.25;
+            set_element_value("zoom", MLIB.view_params.zoom);
+            MLIB.osmd_object.Zoom = MLIB.view_params.zoom;
+            MLIB.osmd_object.render();
+        //}, 0);
     }
+
+    function zoomout()
+    {
+        //window.setTimeout(function () 
+        //{
+            MLIB.view_params.zoom /= 1.25;
+            set_element_value("zoom", MLIB.view_params.zoom);
+            MLIB.osmd_object.Zoom = MLIB.view_params.zoom;
+            MLIB.osmd_object.render();
+        //}, 0);
+    }
+
+    function zoom100()
+    {
+        //window.setTimeout(function () 
+        //{
+            MLIB.view_params.zoom = 1.00;
+            MLIB.osmd_object.Zoom = MLIB.view_params.zoom;
+            set_element_value("zoom", MLIB.view_params.zoom);
+            MLIB.osmd_object.render();
+        //}, 0);
+    }
+
+     
+
+  
+    
 
 
     function show_transposed_score()
@@ -543,7 +578,7 @@ var demonstration_scores_array;
     var url_vars;
     function get_url_vars()
     {
-        //console.log(this.get_self());
+        //console.log(get_self());
         if (url_vars)
             console.error("url_vars already defined");
 
@@ -565,7 +600,7 @@ var demonstration_scores_array;
 
     function get_url_var(svar)
     {
-        //console.log(this.get_self(svar));
+        //console.log(get_self(svar));
         if (!url_vars)
         {
             //console.log("getting url_vars");
@@ -624,10 +659,13 @@ var demonstration_scores_array;
             // not setting sidebar tab yet
 
             content_name = value;
-            //console.log("CALL show_process('%s'))", content_name);
-            show_process(content_name);
+            //console.log("CALL set_content_name('%s'))", content_name);
+            set_content_name(content_name);
             return;
         }
+
+      
+       
         let elt = document.getElementById(sid);
         if (!elt)
         {
@@ -644,6 +682,8 @@ var demonstration_scores_array;
                     return;
                 }
             }
+
+            
             console.error("set_element_value: ITEM TO CHECK NOT FOUND: %s", sid);
 
             return;
@@ -655,6 +695,8 @@ var demonstration_scores_array;
             console.error("set_element_value: ELT NOT FOUND: %s", sid);
             return;
         }
+
+        
 
 
         //console.log("elt.id: %s elt.name: %s type: %s tagName: %s", elt.id, elt.name, elt.type, elt.tagName);
@@ -675,7 +717,19 @@ var demonstration_scores_array;
                     return;
                 }
             }
+
+            if (sid == "demonstration_score")
+            {
+                return; // we will set this on page load later
+                // we will select this later
+            }
+
+
             console.error(sid + " - SELECT value not found: " + value, sid, value);
+        }
+        else if (elt.tagName == "DIV" || elt.tagName == "SPAN")
+        {
+            elt.innerText = value;
         }
         else
         {
@@ -1017,7 +1071,8 @@ var demonstration_scores_array;
                 else
                 {
                     xml_string_loaded = atob(base64_string);
-                    console.log("header: %s - %s", header, xml_string_loaded.substr(0,64));
+                    console.log("xml_string_loaded length: %s\n    %s", 
+                        xml_string_loaded.length, xml_string_loaded.substr(0,100));
 
 
                     // store xml and name for reload
@@ -1025,6 +1080,9 @@ var demonstration_scores_array;
 
                     let song_name = dropped_file.name;
                     console.log("localStorage.setItem('song_name',%s);", song_name);
+
+                    set_element_value("song_name", song_name);
+                    parameters.song_name = song_name;
                     localStorage.setItem('song_name', song_name);
 
                     process_xml(xml_string_loaded);
@@ -1065,10 +1123,11 @@ var demonstration_scores_array;
                     {
 
                         // Read the contents of the 'Hello.txt' file
-                        zipEntry.async("string").then(function (data) {
-                        // data is "Hello World!"
-                        xml_string_loaded = data;
-                        console.log("zipEntry NAME: %s xml_string_loaded: %s", zipEntry.name, xml_string_loaded.substr(0, 256));
+                        zipEntry.async("string").then(function (zip_file_data) {
+                        // zip_file_data is "Hello World!"
+                        xml_string_loaded = zip_file_data;
+                        //console.log("xml_string_loaded length: %s\n    %s", 
+                            xml_string_loaded.length, xml_string_loaded.substr(0,100));
 
                         // store xml and name for reload
                         localStorage.setItem('song_data', xml_string_loaded);
@@ -1076,6 +1135,10 @@ var demonstration_scores_array;
                         let song_name = zipEntry.name;
                         console.log("localStorage.setItem('song_name',%s);", song_name);
                         localStorage.setItem('song_name', song_name);
+
+
+                        set_element_value("song_name", song_name);
+                        parameters.song_name = song_name;
 
                         process_xml(xml_string_loaded);
                     
@@ -1114,7 +1177,7 @@ var demonstration_scores_array;
      function toggle_sidebar()
       {
           let elt = document.getElementById("sidebar_menu");
-          //console.log("menu display: %s", elt.style.display);
+          console.log("toggle_sidebar sidebar_menu display: %s", elt.style.display);
           if (elt.style.display != "none")
           {
               elt.style.display = "none";

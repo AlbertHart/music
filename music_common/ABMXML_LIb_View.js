@@ -5,24 +5,17 @@ console.log("IN ABMXML_Lib_View.js");
 
 MusicDOM.prototype.libs__loaded["ABMXML_Lib_View"] = "loaded";
 
-MusicDOM.prototype.view_object = undefined;
-MusicDOM.prototype.view_container = undefined;
 
 
-MusicDOM.prototype.lib_view = {
+MusicDOM.prototype.view_params = {
 
    
+    zoom: 1.0,
 
     backendType: "canvas",
 
-    isCustom: true,   // are we loading from a string?
+    is_custom: true,   // are we loading from a string?
 
-    paramPageFormat: undefined,
-    paramPageBackgroundColor: undefined,
-    paramPageHeight: undefined,
-    paramPageWidth: undefined,
-    paramPageBackgroundColor: undefined,
-    paramSingleHorizontalStaffline: undefined,
 
     compactMode: false,
 
@@ -30,21 +23,24 @@ MusicDOM.prototype.lib_view = {
 
     measureRangeEnd: Number.MAX_SAFE_INTEGER,
 
-    pageFormat: paramPageFormat ? paramPageFormat : "Endless",
+    pageFormat: "Endless",
+    pageBackgroundColor: undefined,
+    singleHorizontalStaffline: false,
 
+    //pageFormat: MusicDOM.prototype.view_params.paramPageFormat ? 
+    //    MusicDOM.prototype.view_params.paramPageFormat : "Endless",
 
-
-
-
-    pageBackgroundColor: paramPageBackgroundColor ? "#" + paramPageBackgroundColor : undefined, // vexflow format, see OSMDOptions. can't use # in parameters.
+    //pageBackgroundColor:  MusicDOM.prototype.view_params.paramPageBackgroundColor ?
+    //     "#" +  MusicDOM.prototype.view_params.paramPageBackgroundColor : undefined, // vexflow format, see OSMDOptions. can't use # in parameters.
         
-    singleHorizontalStaffline: (paramSingleHorizontalStaffline === '1'),
+    //singleHorizontalStaffline: (paramSingleHorizontalStaffline === '1'),
 
 };
 
-if (paramPageHeight && paramPageWidth) {
-    pageFormat: `${paramPageWidth}x${paramPageHeight}`,
-}
+//if (paramPageHeight && paramPageWidth) 
+//{
+//    MusicDOM.prototype.view_params.pageFormat = `${paramPageWidth}x${paramPageHeight}`;
+//}
 
 // You can use this function to send a MusicXML file, and get back an ASCII Music XML file.
 MusicDOM.prototype.view_xml = function(parameters, xml_string_in)
@@ -60,15 +56,23 @@ MusicDOM.prototype.view_xml = function(parameters, xml_string_in)
 
 MusicDOM.prototype.view_musicxml_dom = function(parameters, dom_object)
 {
+    console.log("view_musicxml_dom");
     this.parameters = parameters;  // save in prototype
     this.show_output = parameters.show_output;
     let show_output = this.show_output;
+    let view_params = this.view_params;
 
      // Create OSMD object and canvas
 
-     this.view_container: document.getElementById("view_container"),
+     let score_container_div = document.getElementById("score_container");
+     score_container_div.style.display = "block";
 
-     thus.view_object = new opensheetmusicdisplay.OpenSheetMusicDisplay(this.view_container, {
+     let osmd_container_div = document.getElementById("osmd_container");
+
+     osmd_container_div.innerHTML = "<h3>Loading Score</h3>";
+
+     //console.log("get osmd_object");
+     this.osmd_object = new opensheetmusicdisplay.OpenSheetMusicDisplay(osmd_container_div, {
             autoResize: true,
             backend: this.backendType,
             //backend: "canvas",
@@ -109,25 +113,54 @@ MusicDOM.prototype.view_musicxml_dom = function(parameters, dom_object)
             // tripletsBracketed: true,
             // tupletsRatioed: true, // unconventional; renders ratios for tuplets (3:2 instead of 3 for triplets)
         });
-        view_object.setLogLevel('info'); // set this to 'debug' if you want to see more detailed control flow information in console
+
+        let osmd_object = this.osmd_object;
+        osmd_object.setLogLevel('info'); // set this to 'debug' if you want to see more detailed control flow information in console
        
 
-    view_object.load(xml_string_in).then(
+        osmd_object.load(xml_string_in).then(
             function () {
                 // This gives you access to the osmd object in the console. Do not use in productive code
-                window.osmd = view_object;
-                view_object.zoom = zoom;
-                return view_object.render();
+                window.osmd = osmd_object;
+                osmd_object.Zoom = view_params.zoom;
+                return osmd_object.render();
             },
             function (e) {
                 errorLoadingOrRenderingSheet(e, "rendering");
             }
         ).then(
             function () {
-                return onLoadingEnd(isCustom);
+                return onLoadingEnd(view_params.is_custom);
             }, function (e) {
                 errorLoadingOrRenderingSheet(e, "loading");
-                onLoadingEnd(isCustom);
+                onLoadingEnd(view_params.is_custom);
             }
         );
+
+    function errorLoadingOrRenderingSheet(e, loadingOrRenderingString) {
+        var errorString = "Error " + loadingOrRenderingString + " sheet: " + e;
+        // if (process.env.DEBUG) { // people may not set a debug environment variable for the demo.
+        // Always giving a StackTrace might give us more and better error reports.
+        // TODO for a release, StackTrace control could be reenabled
+        errorString += "\n" + "StackTrace: \n" + e.stack;
+        // }
+        console.warn(errorString);
+    }
+
+    function onLoadingEnd(is_custom) {
+        // Remove option from select
+        if (!is_custom && custom.parentElement === selectSample) {
+            selectSample.removeChild(custom);
+        }
+
+        if (typeof interactive === 'function') {
+            interactive()
+        }
+    }
 }
+
+    
+
+
+
+

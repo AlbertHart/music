@@ -1704,7 +1704,7 @@ this.get_base_url = function()
     this.get_note_offset = function(note)
     {
         console.log("get_note_offset %s", get_caller());
-        this.show_object(note, "note");
+        //this.show_object(note, "note");
         if (this.attributes.clef[note.staff])
         {
             clef = this.attributes.clef[note.staff];

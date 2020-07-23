@@ -32,6 +32,8 @@
      <!-- use a CDN to load jszip -->
      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.5.0/jszip.min.js"></script>
 
+     <script src="../osmd_library/opensheetmusicdisplay.min.js"></script>
+
 
     <link rel="stylesheet" href="musicxml_css.css" />
     <script src="sprintf_new.js?v=2.66"></script>
@@ -80,21 +82,6 @@
         var xml_string_loaded;
 
 
- 	// get score xml and process score 
- 	function get_score(score_name)
-    {
-        console.log(get_self(score_name));
-
-
-        score_data = demonstration_scores_array[score_name];
-        load_url_text(score_data.url, "get_score_text", score_data);
-    }
-
-    function get_score_xml(xml_score)
-    {
-        console.log(get_self(xml_score));
-        
-    }
 
     
     function load_url_text(surl0, todo) 
@@ -116,8 +103,8 @@
         {
 
        
-            console.log("onreadystatechange: readyState: %s status: %s LENGTH: %s", 
-                this.readyState, this.status, this.responseText.length);
+            //console.log("onreadystatechange: readyState: %s status: %s LENGTH: %s", 
+            //    this.readyState, this.status, this.responseText.length);
             xobj = this;
             if (this.readyState == 4)
             {
@@ -127,9 +114,10 @@
             if (this.readyState == 4 && this.status == 200) {
                 score_text = this.responseText;
 
-                console.log("this.readyState == 4 && this.status == 200 this.todo: %s", this.todo);
+                //console.log("this.readyState == 4 && this.status == 200 this.todo: %s", this.todo);
 
-                if (this.todo == "get_score_names")
+                if (this.todo == "get_score_names" ||
+                    this.todo == "get_score_names_and_process")
                 {
                     console.log("score_text: %s", score_text); 
  
@@ -150,40 +138,43 @@
                     }         
                      // these are set after they are loaded from the server
                     console.log("Set demonstration scores into SELECT");
-                    let score_element = document.getElementById("demonstration_score_div");
-                    let shtml = `<label>Select a Demonstration Score</label>
-                        <select id="demonstration_score" name="demonstration_score"
-                        style="width:500px;"
-                            class="parameters" onchange="get_parameter_change(this);">\n`;
+                    let score_element = document.getElementById("demonstration_score");
+                    let select_html = "";
                     let keys = Object.keys(demonstration_scores_array);
                     for (let iscore = 0; iscore < keys.length; iscore++)
                     {
                         let key = keys[iscore];
                         let score = demonstration_scores_array[key];
                         let selected = "";
-                        if (iscore == 0)
+                        // select the last one used
+                        //console.log("score.name: %s parameters.demonstration_score: %s", score.name, parameters.demonstration_score);
+                        if (score.name == parameters.demonstration_score)
                             selected = "selected";
-                        shtml += sprintf(`<option value = "%s" %s>%s</option>\n`, key, selected, score.name);
-                        document.innerHTML = shtml;
+                        shtml = sprintf(`<option value="%s" %s>%s</option>\n`, key, selected, score.name);
+                        //console.log("SHTML: %s", shtml);
+                        select_html += shtml;
                     }
-                    shtml += "</select>";
-                    score_element.innerHTML = shtml;
+                    
+                    score_element.innerHTML = select_html;
 
                     //console.log("score_element.id: %s score_element.name: %s type: %s tagName: %s", score_element.id, score_element.name, score_element.type, score_element.tagName);
 
-                    //console.log("score_element: %s", score_element.innerHTML);
+                    //console.log("score_element.innerHTML: %s", score_element.innerHTML);
 
                     // load parameters after score names are added
                     load_parameters_from_local_storage();  // load saved parameters
 
-
+                    // if view mode - go ahead and process
+                    if (this.todo == "get_score_names_and_process")
+                        process_loaded_xml();
           
                 }
                 else if (this.todo = "process")
                 {
                     
                     xml_string_loaded = this.responseText;
-                    console.log("xml_string_loaded length: %s", xml_string_loaded.length);
+                    console.log("xml_string_loaded length: %s\n    %s", 
+                        xml_string_loaded.length, xml_string_loaded.substr(0,100));
                     process_xml(xml_string_loaded);
                 }
                 else
@@ -285,7 +276,7 @@
 
         <div id="view_play_text"> </div>
 
-        <div id=view_container></div>
+        
 
     </div> <!-- END CONTENT -->
                 
@@ -527,8 +518,11 @@
 
         <p class=font_element>
             <div id=demonstration_score_div>
-Demonstation Scores
-
+                <label>Select a Demonstration Score</label>
+                        <select id="demonstration_score" name="demonstration_score"
+                        style="width:500px;"
+                            class="parameters" onchange="get_parameter_change(this);">
+                </select>
             </div>
            
             </p>
@@ -578,31 +572,27 @@ Demonstation Scores
 
                 <input type=hidden name="load_song" id="load_song" value=1>
 
-                <p class=font_element>
-                    <label>Song Name:</label>
-                    <div id="song_name" >
+                <p></p>
+                    <b>Song Name:</b>
+                    <span id="song_name" >DD</span>
 
-                    </div>
-
-                        <label>Output File Name:</label>
-                        <input type=text id="output_file_name" name="output_file_name"   
-                            onchange="change_file_name(this);">
                 
-            </p>
+                  
+            <p></p>
 
             <div id='create_score1' style='display:block;'>
                 <button onclick="process_loaded_xml();">Process XML</button>
                 <br>Create New Score to create score,
             </div>
 
-            <p class=font_element>
+            <p></p>
                 <label>Output File Extension</label>
                 <select id="output_file_extension" name="output_file_extension"   
                     class="parameters" onchange="get_parameter_change(this);">
                     <option value = ".xml" selected >.xml</option>
                     <option value = ".musicxml" >.musicxml</option>
                 </select>
-                        </p>  
+         
 
 
             <p class=font_element>
@@ -618,14 +608,8 @@ Demonstation Scores
     
  <h3>End of Select Style</h3>
             </div>
-    
+
             
-            <div id=download_div style="display:none;">
-                <a id="download_link" target="_blank" download="test.xml" >
-                    <button>Click here to Download <span id=download_output></span></button>
-                </a>
-       
-    
             <p><hr></p>
 
                 <button onclick="show_transposed_score();">Show Transposed Score</button>
@@ -637,9 +621,36 @@ Demonstation Scores
         <hr>
         <button onclick="set_default_parameters()">Reset Settings</button>
         <button onclick="clear_score()">Clear Current Score</button>
-        
-       
 
+        <hr>
+        <p></p>  
+
+            <h3 id=output_file_label >Output File:</h3>
+            Change before download if desired
+            <input type=text id="output_file_name" name="output_file_name"   
+                onchange="change_file_name(this);">
+
+            
+            <div id=download_div style="display:none;">
+                <a id="download_link" target="_blank" download="test.xml" >
+                    <button>Click here to Download Output File</span></button>
+                </a>
+       
+    
+        <div id=score_container style="display:none;">
+            <h3>SCORE and ZOOM</h3>
+
+            <div id="zoom_navbar">
+    
+                <button type="button" onclick="zoomin()"> Zoom In</button>
+                <button type="button" onclick="zoomout()"> Zoom Out</button>
+                <button type="button" onclick="zoom100()"> Reset Zoom</button>
+                ZOOM: <input type=text id=zoom style="width: 4em;" onchange="get_parameter_change(this);" />
+            </div>
+
+            
+            <div id=osmd_container></div>
+        </div>
 
               <!-- try footer here-->
 
@@ -663,10 +674,20 @@ Demonstation Scores
         console.log("window.onload in HTM");
         //dom not only ready, but everything is loaded
 
-        //let score_element = document.getElementById("demonstration_score_div");
-        load_url_text('scores.txt', "get_score_names");
-
         load_parameters_from_local_storage();
+        console.log('parameters.process_content: %s', parameters.process_content);
+        
+        // don't try to load score on initial load
+        if (parameters.process_content == "xxxxview_play")
+        {
+            load_url_text('scores.txt', "get_score_names_and_process");
+        }
+        else
+        {
+            load_url_text('scores.txt', "get_score_names");
+        }
+
+        
 
         setup_drop_and_paste();
 
@@ -677,8 +698,8 @@ Demonstation Scores
         
         if (content_name !== "")
         {
-            console.log("ONLOAD: CALL show_process('%s'))", content_name);
-            show_process(content_name);
+            console.log("window.onload: CALL set_content_name('%s'))", content_name);
+            set_content_name(content_name);
         }
     };
 
@@ -687,12 +708,10 @@ Demonstation Scores
         //console.log("fileLoaded: event.target.result: %s", event.target.result.substr(0, 100));
 
         xml_string_loaded = event.target.result;
-        console.log("xml_string_loaded length: %s", xml_string_loaded.length);
 
-     
         // store xml and name for reload
         localStorage.setItem('song_data', xml_string_loaded);
-        //console.log("localStorage.setItem('song_name',%s);", song_name);
+
         localStorage.setItem('song_name', song_name);
 
         process_xml(xml_string_loaded);
