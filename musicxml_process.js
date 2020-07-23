@@ -1127,7 +1127,7 @@ var demonstration_scores_array;
                         // zip_file_data is "Hello World!"
                         xml_string_loaded = zip_file_data;
                         //console.log("xml_string_loaded length: %s\n    %s", 
-                            xml_string_loaded.length, xml_string_loaded.substr(0,100));
+                        //    xml_string_loaded.length, xml_string_loaded.substr(0,100));
 
                         // store xml and name for reload
                         localStorage.setItem('song_data', xml_string_loaded);
