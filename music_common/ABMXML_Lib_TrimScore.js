@@ -17,7 +17,7 @@ MusicDOM.prototype.do_trim_score_xml = function(parameters, xml_string_in)
     return(xml_string_return);
 }
 
-MusicDOM.prototype.do_trim_score_musicxml_dom = function(parameters, xml_string_in)
+MusicDOM.prototype.do_trim_score_musicxml_dom = function(parameters, dom_object)
 {
     this.parameters = parameters;  // save in prototype
     this.show_output = parameters.show_output;

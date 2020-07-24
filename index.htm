@@ -30,10 +30,14 @@
     <link href="./libraries/flatlab/css/style-responsive.css" rel="stylesheet" />
 
     <link rel="stylesheet" href="musicxml_css.css" />
-    <script src="music_common/alh_sprintf.js?v=2.66"></script>
-    <script src="music_common/ABMXML_Lib_Common.js?v=2.66"></script>
+    <script src="sprintf_new.js?v=2.67"></script>
+    <script src="music_common/ABMXML_Lib_Common.js?v=2.67"></script>
 
-    <script src="musicxml_process.js?v=2.66"></script>
+    <script src="musicxml_process.js?v=2.67"></script>
+
+    <!--  individual files for each process -->
+    <script>MusicDOM.prototype.libs__loaded = {};</script>
+
 
 
     <script>
@@ -129,16 +133,28 @@
        
 
 <script>
+    var MLIB = new MusicDOM(); 
 
+    // declare this function locally
+    // for easier use
+    var get_self = MLIB.get_self;
 
-    do_view_text("headers", true);
-    do_transpose_text("headers", true);
-    do_add_bass_text("headers", true);
-    do_add_solo_text("headers", true);
-    do_trim_score_xml_text("headers", true);
-    do_voice_leading_text("headers", true);
-    do_melody_chords_text("headers", true);
-    do_add_rhythm_text("headers", true);
+    var parameters;
+    let do_save = false;
+    set_default_parameters(do_save); 
+    skip_set = true;
+    load_parameters_from_local_storage(skip_set);
+    //console.log("parameters.process_content: %s", parameters.process_content);
+
+    let add_link = true;
+    do_view_text("headers", add_link);
+    do_transpose_text("headers", add_link);
+    do_add_bass_text("headers", add_link);
+    do_add_solo_text("headers", add_link);
+    do_trim_score_text("headers", add_link);
+    do_voice_leading_text("headers", add_link);
+    do_melody_chords_text("headers", add_link);
+    do_add_rhythm_text("headers", add_link);
 </script>
 
 <div class=info id=footer>

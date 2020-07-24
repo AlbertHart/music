@@ -201,7 +201,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         surl = sprintf('mailto:AlHart369@gmail.com?subject=%s&body=%s', 
             encodeURIComponent(subject), encodeURIComponent(body));
 
-        document.location = surl;
+        window.location.href = surl;
         return(false)
     }
     

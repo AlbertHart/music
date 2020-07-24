@@ -116,19 +116,18 @@ var demonstration_scores_array;
     `;
     }
 
+   
+
+  
+    var parameters;
     var use_show_process;
     // in musicxml_process.htm this shows the parameters for the process
     // onther files, like index and faz can override it.
     function set_content_name(content_name)
     {
         //console.log(get_self(content_name));
-        if (use_show_process == "load")
-        {
-            // load musicxml_process.htm;
-            let surl = "musicxml_process.htm?content=" + content_name;
-            window.location.href = surl;
-            return;
-        }
+        //console.log("use_show_process: %s", use_show_process);
+        
 
         parameters.process_content = content_name;
         //console.log("parameters.process_content: %s", parameters.process_content);
@@ -166,11 +165,12 @@ var demonstration_scores_array;
 
     function set_default_parameters(do_save)
     {
+        //console.log(get_self(do_save));
         parameters = {
             max_number_of_notes_leading: "4",
             max_number_of_notes_melody: "4",
             bass_format: "radio_chords",
-            demonstration_score: "amazing_grace",
+            demonstration_score: "Every Time I Say Goodbye",
             first_trim_measure: "2",
             first_note: "2",
             last_trim_measure: "4",
@@ -185,11 +185,6 @@ var demonstration_scores_array;
             transpose_key: "None",
             };
         
-        for (let key in parameters)
-        {
-            let value = parameters[key];
-            set_element_value(key, value);
-        }
 
         // if user clicked set_default_paramaters
         if (do_save)
@@ -282,7 +277,7 @@ var demonstration_scores_array;
             type = "SELECT";
             name = element.id;
             let index = element.selectedIndex;
-            console.log("NAME: %s index: %s", name, index);
+            //console.log("SELECT NAME: %s index: %s", name, index);
             value = element.options[index].value;
         }
         else if (element.type == "radio")
@@ -431,6 +426,9 @@ var demonstration_scores_array;
 
         let dom_object = MLIB.musicxml_to_dom(xml_string_in);
 
+        try
+        {
+
         switch (parameters.process_content)
         {
             case 'view_play':
@@ -468,6 +466,12 @@ var demonstration_scores_array;
             default:
                 console.error("UNKNOWN process_content: %s", parameters.process_content);
                 break;
+        }
+        }
+        catch (err)
+        {
+            console.error("***Error while processing XML: %s", err.message) // will log the error with the error stack
+            return(false);
         }
 
        
@@ -626,7 +630,7 @@ var demonstration_scores_array;
 
     }
 
-    function load_parameters_from_local_storage()
+    function load_parameters_from_local_storage(skip_set)
     {   
         //console.log(get_self());
         let storage_key = "musicxml_process";
@@ -634,16 +638,16 @@ var demonstration_scores_array;
         //console.log("load_parameters_from_local_storage: %s\n%s", storage_key, json_string);
         let parameters_parsed = JSON.parse(json_string);
 
-        //console.log("parameters_parsed: %s", parameters_parsed);
 
         for (let key in parameters_parsed)
         {
             if (key == "show_output")
                 continue;
             let value = parameters_parsed[key];
-            //console.log("load_parameters_from_local_storage: key: %s value:  %s", key, value);
+            //console.log("load_parameters_from_local_storage:SET key: %s value:  %s", key, value);
             parameters[key] = value;
-            set_element_value(key, value);
+            if (!skip_set)
+            	set_element_value(key, value);
         }
         
 
@@ -761,15 +765,32 @@ var demonstration_scores_array;
         return(value);
     }
 
-    function do_load_process(stab, sfunction)
+    // get link to load page
+    function get_musicxml_load_html(content_name, text_label)
     {
-        let shtml = sprintf(`<p></p><a href='musicxml_process.htm?content=%s'>
+        //console.log("get_musicxml_load_html(%s,%s)", content_name, text_label);
+        let shtml = sprintf(`<p></p><a href='Javascript:load_musicxml_process_page("%s");'>
             <button>%s MusicXML File</button>
             </a><br>
-            `, stab, sfunction);
+            `, content_name, text_label);
 
         return(shtml);
     }
+
+     
+     function load_musicxml_process_page(content_name)
+     {
+        //console.log("load_musicxml_process_page(%s)", content_name);
+         // save content into localStorage as process_content
+         let skip_set = true;
+         load_parameters_from_local_storage(skip_set);
+         parameters.process_content = content_name;
+         save_parameters_to_local_storage();
+         let surl = "musicxml_process.htm";
+         window.location.href = surl;
+     }
+
+
 
     function do_view_text(sid,  add_link)
     {
@@ -780,7 +801,7 @@ var demonstration_scores_array;
             View you score and play it in your browser.\n`;
 
             if (add_link)
-                shtml += do_load_process("view_play", "View and Play");
+                shtml += get_musicxml_load_html("view_play", "View and Play");
 
         shtml +=`<br clear=all>
         </div><p></p>
@@ -802,7 +823,7 @@ var demonstration_scores_array;
             Transpose your MusicXML score, chords and key signatures to any key.\n`;
 
             if (add_link)
-                shtml += do_load_process("transpose", "Transpose");
+                shtml += get_musicxml_load_html("transpose", "Transpose");
 
         shtml +=`<br clear=all>
         </div><p></p>
@@ -827,7 +848,7 @@ var demonstration_scores_array;
                 </p>\n`;
 
         if (add_link)
-        shtml += do_load_process("add_bass", "Add Base Notes");
+        shtml += get_musicxml_load_html("add_bass", "Add Base Notes");
 
 
         shtml +=`<br clear=all>
@@ -851,7 +872,7 @@ var demonstration_scores_array;
                 </p>\n`;
 
         if (add_link)
-        shtml += do_load_process("add_solo", "Add Base Notes");
+        shtml += get_musicxml_load_html("add_solo", "Add Base Notes");
 
 
         shtml +=`<br clear=all>
@@ -863,7 +884,7 @@ var demonstration_scores_array;
 
     }
 
-    function do_trim_score_xml_text(sid,  add_link)
+    function do_trim_score_text(sid,  add_link)
     {
     
         let shtml = `<div class=info>
@@ -875,7 +896,7 @@ var demonstration_scores_array;
         \n`;
 
         if (add_link)
-            shtml += do_load_process("trim_score", "Trim Score");
+            shtml += get_musicxml_load_html("trim_score", "Trim Score");
 
 
             shtml +=`<br clear=all>
@@ -906,7 +927,7 @@ var demonstration_scores_array;
             \n`;
 
         if (add_link)
-        shtml += do_load_process("voice_leading", "Add Voice Leasing Chords");
+        shtml += get_musicxml_load_html("voice_leading", "Add Voice Leasing Chords");
 
 
             shtml +=`<br clear=all>
@@ -930,7 +951,7 @@ var demonstration_scores_array;
         \n`;
 
     if (add_link)
-        shtml += do_load_process("melody_chords", "Add Melody Chords");
+        shtml += get_musicxml_load_html("melody_chords", "Add Melody Chords");
 
 
         shtml +=`<br clear=all>
@@ -958,7 +979,7 @@ var demonstration_scores_array;
                 </p>\n`;
 
         if (add_link)
-        shtml += do_load_process("add_rhythm", "Add Base Notes");
+        shtml += get_musicxml_load_html("add_rhythm", "Add Base Notes");
 
 
         shtml +=`<br clear=all>

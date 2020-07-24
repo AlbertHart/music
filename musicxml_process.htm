@@ -50,12 +50,7 @@
     <script src="music_common/ABMXML_Lib_AddBase.js?v=2.67"></script>
     <script src="music_common/ABMXML_Lib_TrimScore.js?v=2.67"></script>
     <script src="music_common/ABMXML_Lib_AddRhythm.js?v=2.67"></script>
-    <script>console.log("Including: music_common/ABMXML_Lib_AddSolo.js?v=2.67");</script>
     <script src="music_common/ABMXML_Lib_AddSolo.js?v=2.67"></script>
-
-    <script>console.log("Including: music_common/ABMXML_Lib_View.js?v=2.67");</script>
-    
-    <script src="music_common/ABMXML_Lib_View.js?v=2.67"></script>
 
 
 
@@ -83,7 +78,9 @@
 
         var demonstration_scores_array = {};
 
-        var parameters = {process_content: "view_play"};
+        var parameters;
+        let do_save = false;
+        set_default_parameters(do_save); 
   
         var xml_string_loaded;
 
@@ -139,11 +136,11 @@
                             score_url = sdata[2];
                             
                             demonstration_scores_array[score_name] = {name: score_name, url: score_url};
-                            console.log("NAME: %s URL: %s", score_name, score_url);
+                            //console.log("SCORE NAME: %s URL: %s", score_name, score_url);
                         }
                     }         
                      // these are set after they are loaded from the server
-                    console.log("Set demonstration scores into SELECT");
+                    //console.log("Set demonstration scores into SELECT");
                     let score_element = document.getElementById("demonstration_score");
                     let select_html = "";
                     let keys = Object.keys(demonstration_scores_array);
@@ -407,7 +404,7 @@
     
 
     <script>
-        do_trim_score_xml_text("trim_score_text", false);
+        do_trim_score_text("trim_score_text", false);
     </script>
     
     
@@ -706,6 +703,10 @@
         if (content_name !== "")
         {
             console.log("window.onload: CALL set_content_name('%s'))", content_name);
+            let url = window.location.href;
+            url = url.split('?')[0];
+            console.log("New URL: %s", url);
+            window.history.pushState({}, document.title, url);
             set_content_name(content_name);
         }
     };
