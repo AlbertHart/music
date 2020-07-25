@@ -429,44 +429,44 @@ var demonstration_scores_array;
         try
         {
 
-        switch (parameters.process_content)
-        {
-            case 'view_play':
-                // will display below
-                short_content = ""; // not used for file name
-                break;
-            case 'transpose':
-                short_content = parameters.transpose_key;
-                MLIB.transpose_musicxml_dom(parameters, dom_object);
-                break;
-            case 'add_bass':
-                short_content = "bass";
-                MLIB.add_bass_to_musicxml_dom(parameters, dom_object);
-                break;
-            case 'add_solo':
-                short_content = "solo";
-                MLIB.add_solo_to_musicxml_dom(parameters, dom_object);
-                break;
-            case 'trim_score':
-                short_content = "trimmed";
-                MLIB.do_trim_score_musicxml_dom(parameters, dom_object);
-                break;
-            case 'voice_leading':
-                short_content = "leading";
-                MLIB.do_voice_leading_musicxml_dom(parameters, dom_object);
-                break;
-            case 'melody_chords':
-                short_content = "melody";
-                MLIB.do_melody_chords_musicxml_dom(parameters, dom_object);
-                break;
-            case 'add_rhythm':
-                short_content = "rhythm";
-                MLIB.add_rhythm_to_musicxml_dom(parameters, dom_object);
-                break;
-            default:
-                console.error("UNKNOWN process_content: %s", parameters.process_content);
-                break;
-        }
+            switch (parameters.process_content)
+            {
+                case 'view_play':
+                    // will display below
+                    short_content = ""; // not used for file name
+                    break;
+                case 'transpose':
+                    short_content = parameters.transpose_key;
+                    MLIB.transpose_musicxml_dom(parameters, dom_object);
+                    break;
+                case 'add_bass':
+                    short_content = "bass";
+                    MLIB.add_bass_to_musicxml_dom(parameters, dom_object);
+                    break;
+                case 'add_solo':
+                    short_content = "solo";
+                    MLIB.add_solo_to_musicxml_dom(parameters, dom_object);
+                    break;
+                case 'trim_score':
+                    short_content = "trimmed";
+                    MLIB.do_trim_score_musicxml_dom(parameters, dom_object);
+                    break;
+                case 'voice_leading':
+                    short_content = "leading";
+                    MLIB.do_voice_leading_musicxml_dom(parameters, dom_object);
+                    break;
+                case 'melody_chords':
+                    short_content = "melody";
+                    MLIB.do_melody_chords_musicxml_dom(parameters, dom_object);
+                    break;
+                case 'add_rhythm':
+                    short_content = "rhythm";
+                    MLIB.add_rhythm_to_musicxml_dom(parameters, dom_object);
+                    break;
+                default:
+                    console.error("UNKNOWN process_content: %s", parameters.process_content);
+                    break;
+            }
         }
         catch (err)
         {
@@ -638,7 +638,7 @@ var demonstration_scores_array;
         //console.log("load_parameters_from_local_storage: %s\n%s", storage_key, json_string);
         let parameters_parsed = JSON.parse(json_string);
 
-
+        
         for (let key in parameters_parsed)
         {
             if (key == "show_output")
@@ -647,7 +647,7 @@ var demonstration_scores_array;
             //console.log("load_parameters_from_local_storage:SET key: %s value:  %s", key, value);
             parameters[key] = value;
             if (!skip_set)
-            	set_element_value(key, value);
+                set_element_value(key, value);
         }
         
 
@@ -905,7 +905,7 @@ var demonstration_scores_array;
 
 
             let element = document.getElementById(sid);
-    element.innerHTML += shtml;
+            element.innerHTML += shtml;
     }
 
 
@@ -1186,7 +1186,7 @@ var demonstration_scores_array;
          shtml += `<img src=images/hamburger.png onclick="toggle_sidebar();" style="width: 50px; height: 50px; float: left">\n`;
          shtml += `
             <button   onclick="do_home()">Home</button>
-            <button onclick="do_process(this)">Process MusicXML</button>
+            <button onclick="do_process(this)">Adjust My Music</button>
             <button onclick="do_faq(this)">FAQ</button>
             <button onclick="do_contact(this)">Contact</button>
             `;
@@ -1235,10 +1235,10 @@ var demonstration_scores_array;
          let shtml = `<p>&nbsp;</p>
          <hr>
          <p>&nbsp;</p>
-         <h2>About Process MusicXML Files</h2>
+         <h2>About Adjust My Music</h2>
          <img src="images/GitHub-Mark-120px-plus.png" style="width: 120px;">
 
-         <p>You can use the <strong>Process MusicXML Files</strong> Library Routines to create stand-alone MusicXML modification applications. 
+         <p>You can use the <strong>Adjust My Music</strong> Library Routines to create stand-alone MusicXML modification applications. 
         Reading a musicxml file, transposing or modifying it, and re-writing the file for use in OSMD or other tools which can read MUsicXML file.</p>
 
 
@@ -1248,7 +1248,7 @@ var demonstration_scores_array;
         <p><a href="https://github.com/AlbertHart/ahlbapps/issues">https://github.com/AlbertHart/ahlbapps/issues</a></p>
 
 
-         <b>Process MusicXML Files</b> is free software and any developer can contribute to the project. 
+         <b>Adjust My Music</b> is free software and any developer can contribute to the project. 
          Everything you need is in the 
          <a href=https://github.com/AlbertHart/music>GitHub repository</a>. 
          <p></p>
