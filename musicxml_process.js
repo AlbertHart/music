@@ -39,7 +39,7 @@ var demonstration_scores_array;
                         <a href="javascript:set_content_name('view_play');">
                         <span style="width: 15px;">&nbsp;</span>
                             <i class="fa fa-music  "></i>
-                            <span >View and Play</span></a></li>
+                            <span style="color: #ddd;" >View</span></a></li>
                     <li>
                         <a href="javascript:set_content_name('transpose');">
                         <span style="width: 15px;">&nbsp;</span>
@@ -49,33 +49,33 @@ var demonstration_scores_array;
                         <a href="javascript:set_content_name('add_bass');">
                         <span style="width: 15px;">&nbsp;</span>
                             <i class="fa fa-level-down"></i>
-                            <span>Add Bass</span></a></li>
+                            <span style="color: #ddd;">Add Bass</span></a></li>
                     <li>
                         <a href="javascript:set_content_name('add_solo');">
                         <span style="width: 15px;">&nbsp;</span>
                             <i class="fa fa-level-down"></i>
-                            <span>Add Solo Section</span></a></li>
+                            <span style="color: #ddd;">Add Solo Section</span></a></li>
                     <li>
                         <a href="javascript:set_content_name('trim_score');">
                         <span style="width: 15px;">&nbsp;</span>
                             <i class="fa fa-scissors"></i>
-                            <span>Trim</span></a></li>
+                            <span style="color: #ddd;">Trim</span></a></li>
                     <li>
                         <a href="javascript:set_content_name('voice_leading');">
                         <span style="width: 15px;">&nbsp;</span>
                             <i class="fa fa-arrow-right"></i>
-                            <span>Voice Leading</span></a></li>
+                            <span style="color: #ddd;">Voice Leading</span></a></li>
                     <li>
                         <a href="javascript:set_content_name('melody_chords');">
                         <span style="width: 15px;">&nbsp;</span>
                             <i class="fa fa-level-up"></i>
-                            <span>Melody Chords</span></a></li>
+                            <span style="color: #ddd;">Melody Chords</span></a></li>
 
                     <li>
                         <a href="javascript:set_content_name('add_rhythm');">
                         <span style="width: 15px;">&nbsp;</span>
                             <i class="fa fa-level-down"></i>
-                            <span>Add Rhythm Text</span></a></li>
+                            <span style="color: #ddd;">Add Rhythm Text</span></a></li>
 
             <p style="color: #eee; margin-left: 20px;">--------------------------</p>   
            
@@ -120,18 +120,24 @@ var demonstration_scores_array;
 
   
     var parameters;
-    var use_show_process;
+    var load_or_open;
     // in musicxml_process.htm this shows the parameters for the process
-    // onther files, like index and faz can override it.
+    // onther files, like index and faq can override it.
     function set_content_name(content_name)
     {
-        //console.log(get_self(content_name));
-        //console.log("use_show_process: %s", use_show_process);
+        console.log(get_self(content_name));
+        console.log("load_or_open: %s", load_or_open);
         
 
         parameters.process_content = content_name;
         //console.log("parameters.process_content: %s", parameters.process_content);
         save_parameters_to_local_storage();
+
+        if (load_or_open == "load")
+        {
+            load_musicxml_process_page(content_name);
+            return;
+        }
 
         // see if this is a process to open
         let content_id = content_name + "_content";
