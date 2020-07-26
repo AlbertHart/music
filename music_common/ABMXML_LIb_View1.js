@@ -5,8 +5,6 @@ console.log("IN ABMXML_Lib_View1.js");
 
 MusicDOM.prototype.libs__loaded["ABMXML_Lib_View1"] = "loaded";
 
-
-
 MusicDOM.prototype.view_params = {
 
    
@@ -51,7 +49,7 @@ MusicDOM.prototype.view_xml = function(parameters, xml_string_in)
 
     let xml_string_return = this.dom_object_to_return_string(dom_object);
     return(xml_string_return);
-}
+};
 
 
 MusicDOM.prototype.view_musicxml_dom = function(parameters, dom_object)
@@ -154,13 +152,7 @@ MusicDOM.prototype.view_musicxml_dom = function(parameters, dom_object)
         }
 
         if (typeof interactive === 'function') {
-            interactive()
+            interactive();
         }
     }
-}
-
-    
-
-
-
-
+};
