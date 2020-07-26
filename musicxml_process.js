@@ -1251,7 +1251,7 @@ var demonstration_scores_array;
 
 
         <p>If you would like to make suggestions, participate in development, etc. make a post on our GitHUB issues tab:</p>
-        <p><a href="https://github.com/AlbertHart/ahlbapps/issues">https://github.com/AlbertHart/ahlbapps/issues</a></p>
+        <p><a href="https://github.com/AlbertHart/adjustmymusic/issues">https://github.com/AlbertHart/adjustmymusic/issues</a></p>
 
 
          <b>Adjust My Music</b> is free software and any developer can contribute to the project. 
