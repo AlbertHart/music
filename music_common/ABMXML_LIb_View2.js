@@ -4,6 +4,7 @@
 console.log("IN ABMXML_Lib_View2.js");
 
 libs__loaded["ABMXML_Lib_View2"] = "loaded";
+console.log("libs_loaded.length: %s", libs_loaded.length);
 
 
 

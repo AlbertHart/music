@@ -3,6 +3,7 @@
 console.log("IN ABMXML_Lib_View3F.js");
 
 libs__loaded["ABMXML_Lib_View3F"] = "loaded";
+console.log("libs_loaded.length: %s", libs_loaded.length);
 
 MusicDOM.prototype.view_params = {
 

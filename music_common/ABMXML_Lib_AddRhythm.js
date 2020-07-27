@@ -4,6 +4,7 @@
 console.log("IN ABMXML_Lib_AddRhythm.js");
 
 libs__loaded["ABMXML_Lib_AddRhythm"] = "loaded";
+console.log("libs_loaded.length: %s", libs_loaded.length);
 
 
 // You can use this function to send a MusicXML file, and get back an ASCII Music XML file.
