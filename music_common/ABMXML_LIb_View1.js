@@ -4,7 +4,7 @@
 console.log("IN ABMXML_Lib_View1.js");
 
 libs_loaded["ABMXML_Lib_View1"] = "loaded";
-console.log("libs_loaded.length: %s", libs_loaded.length);
+console.log("ABMXML_Lib_View1 libs_loaded.length: %s", libs_loaded.length);
 
 MusicDOM.prototype.view_params = {
 
