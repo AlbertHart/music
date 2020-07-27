@@ -1,9 +1,11 @@
+
 /* jslint esversion: 6,  maxerr: 100 */
 /* jshint eqeqeq: false */
-console.log("IN ABMXML_Lib_View3F.js");
+console.log("IN AMMLIB_Lib_View1.js");
 
-libs_loaded["ABMXML_Lib_View3F"] = "loaded";
-console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).length);
+libs_loaded["AMMLIB_Lib_View1"] = "loaded";
+console.log("AMMLIB_Lib_View1 Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).length);
+get_last_script_name();
 
 MusicDOM.prototype.view_params = {
 

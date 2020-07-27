@@ -9,6 +9,14 @@
             console.log("ADD TEXT: %s", stext);
             document.getElementById('text').innerHTML += "<br>" + stext;
         }
+        function get_last_script_name()
+        {
+            var scripts = document.getElementsByTagName('script');
+            var lastScript = scripts[scripts.length-1];
+            var scriptName = lastScript.src;
+            add_text("Loaded: " + scriptName);
+            return(scriptName);
+        }
     </script>
 
 <head>
@@ -52,7 +60,7 @@
 
     <link rel="stylesheet" href="musicxml_css.css" />
     <script src="sprintf_new.js?v=2.73"></script>
-    <script src="music_lib/ABMXML_Lib_Common.js?v=2.73"></script>
+    <script src="music_lib/AMMLIB_Common.js?v=2.73"></script>
 
     <script src="musicxml_process.js?v=2.73"></script>
 
@@ -61,10 +69,10 @@
     <script src="music_lib/AMMLIB_View.js?v=2.73"></script>
 
 
-    <script src="music_lib/ABMXML_Lib_View1.js?v=2.73"></script>
-    <script src="music_lib/ABMXML_Lib_View2.js?v=2.73"></script>
-    <script src="music_lib/ABMXML_Lib_View3.js?v=2.73"></script>
-    <script src="music_lib/ABMXML_Lib_View4.js?v=2.73"></script>
+    <script src="music_lib/AMMLIB_View1.js?v=2.73"></script>
+    <script src="music_lib/AMMLIB_View2.js?v=2.73"></script>
+    <script src="music_lib/AMMLIB_View3.js?v=2.73"></script>
+    <script src="music_lib/AMMLIB_View4.js?v=2.73"></script>
 
 
     <body>

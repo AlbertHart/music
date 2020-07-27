@@ -5,8 +5,7 @@ console.log("IN ABMXML_Lib_Common.JS");
 
 libs_loaded["ABMXML_Lib_Common"] = "loaded";
 console.log("ABMXML_Lib_Common Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).length);
-add_text("<br>IN ABMXML_Lib_Common\n");
-console.log("AFTER add_text");
+get_last_script_name();
 
 // the routine which uses this needs something like:
 // var MLIB = new MusicDOM(); 

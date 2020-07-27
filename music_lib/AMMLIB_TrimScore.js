@@ -1,11 +1,11 @@
 
 /* jslint esversion: 6,  maxerr: 100 */
 /* jshint eqeqeq: false */
-console.log("IN ABMXML_Lib_TrimScore.js");
+console.log("IN AMMLIB_Lib_TrimScore.js");
 
-libs_loaded["ABMXML_Lib_TrimScore"] = "loaded";
+libs_loaded["AMMLIB_Lib_TrimScore"] = "loaded";
 console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).length);
-
+get_last_script_name();
 
 // You can use this function to send a MusicXML file, and get back an ASCII Music XML file.
 MusicDOM.prototype.do_trim_score_xml = function(parameters, xml_string_in)
