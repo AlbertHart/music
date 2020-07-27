@@ -3,7 +3,7 @@
 /* jshint eqeqeq: false */
 console.log("IN ABMXML_Lib_View1.js");
 
-MusicDOM.prototype.libs__loaded["ABMXML_Lib_View1"] = "loaded";
+libs__loaded["ABMXML_Lib_View1"] = "loaded";
 
 MusicDOM.prototype.view_params = {
 

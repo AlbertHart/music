@@ -3,7 +3,7 @@
 /* jshint eqeqeq: false */
 console.log("IN ABMXML_Lib_AddRhythm.js");
 
-MusicDOM.prototype.libs__loaded["ABMXML_Lib_AddRhythm"] = "loaded";
+libs__loaded["ABMXML_Lib_AddRhythm"] = "loaded";
 
 
 // You can use this function to send a MusicXML file, and get back an ASCII Music XML file.

@@ -4,7 +4,7 @@
 /* jshint eqeqeq: false */
 console.log("IN ABMXML_Lib_AddSolo.js");
 
-MusicDOM.prototype.libs__loaded["ABMXML_Lib_AddSolo"] = "loaded";
+libs__loaded["ABMXML_Lib_AddSolo"] = "loaded";
 
 // You can use this function to send a MusicXML file, and get back an ASCII Music XML file.
 MusicDOM.prototype.add_solo_to_xml = function(parameters, xml_string_in)

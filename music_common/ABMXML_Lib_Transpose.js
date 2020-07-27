@@ -3,7 +3,7 @@
 /* jshint eqeqeq: false */
 console.log("IN ABMXML_Lib_Transpose.js");
 
-MusicDOM.prototype.libs__loaded["ABMXML_Lib_Transpose"] = "loaded";
+libs__loaded["ABMXML_Lib_Transpose"] = "loaded";
 
 
     // all measures

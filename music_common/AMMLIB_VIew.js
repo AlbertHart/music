@@ -3,7 +3,7 @@
 /* jshint eqeqeq: false */
 console.log("IN AMMLIB_View.js");
 
-MusicDOM.prototype.libs__loaded["AMMLIB_View"] = "loaded";
+libs__loaded["AMMLIB_View"] = "loaded";
 
 MusicDOM.prototype.view_params = {
 

@@ -29,151 +29,26 @@
     <link href="./libraries/flatlab/css/style.css" rel="stylesheet">
     <link href="./libraries/flatlab/css/style-responsive.css" rel="stylesheet" />
 
-    <link rel="stylesheet" href="musicxml_css.css" />
-    <script src="music_common/alh_sprintf.js?v=2.66"></script>
-    <script src="music_common/ABMXML_Lib_Common.js?v=2.66"></script>
+     <!-- use a CDN to load jszip -->
+     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.5.0/jszip.min.js"></script>
 
-    <script src="musicxml_process.js?v=2.66"></script>
+     <script>console.log("osmd_library/opensheetmusicdisplay.min.js?v=2.72");</script>
+     <script src="osmd_library/opensheetmusicdisplay.min.js?v=2.72"></script>
+
+
+    <link rel="stylesheet" href="musicxml_css.css" />
+    <script src="sprintf_new.js?v=2.72"></script>
+    <script src="music_common/ABMXML_Lib_Common.js?v=2.72"></script>
+
+    <script src="musicxml_process.js?v=2.72"></script>
 
     <!--  individual files for each process -->
-    <script src="music_common/ABMXML_Lib_Transpose.js?v=2.66"></script>
-    <script src="music_common/ABMXML_Lib_AddBase.js?v=2.66"></script>
-    <script src="music_common/ABMXML_Lib_TrimScore.js?v=2.66"></script>
-    <script src="music_common/ABMXML_Lib_AddRhythm.js?v=2.66"></script>
+    <script>var libs__loaded = {};</script>
+
+    <script src="music_common/AMMLIB_View.js?v=2.72"></script>
 
 
-    <!-- this uses the namespace object MLIB to access transpose functions.js -->
-    <!-- use: var MLIB = new MusicDOM();  -->
-
-
-
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'UA-152244338-2');
-    </script>
-
-    
-    <script>
-        var MLIB = new MusicDOM(); 
-
-        // declare this function locally
-        var get_self = MLIB.get_self;
-        console.log("GET_SELF: %s", get_self());
-
-        var parameters = {process_content: "view_play"};
-  
-        var xml_string_loaded;
-        
-        
-
-    var xobj;
-    var score_text;
-
-    var demonstration_scores_array = [];
-
-    var xmlhttp2;
-
-    function get_score(score_name)
-    {
-        console.log(get_self(score_name));
-        score_data = demonstration_scores_array[score_name];
-        load_xml_doc_from_url(score_data.url, "get_score_text");
-    }
-
-    function get_score_text(xml_score)
-    {
-        
-    }
-
-    function load_xml_doc_from_url(surl0, todo) 
-    {
-        var xmlhttp;
-        if (window.XMLHttpRequest) {
-            xmlhttp = new XMLHttpRequest();
-        } else {
-            // code for older browsers
-            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-        }
-        xmlhttp2 = xmlhttp;
-
-        xmlhttp.todo = todo;
-
-        xmlhttp.onreadystatechange = function() 
-        {
-
-            console.log("SCORE readyStat: %s status: %s LENGTH: %s", 
-                this.readyState, this.status, this.responseText.length);
-            xobj = this;
-            if (this.readyState == 4)
-            {
-                score_text = this.responseText;
-
-            }
-            if (this.readyState == 4 && this.status == 200) {
-                score_text = this.responseText;
-
-                console.log("TODO: %s", this.todo);
-
-                if (this.todo == "get_score_names")
-                {
-                    console.log("TEXT: %s", score_text);   
-                    let lines = score_text.split("\n");
-                    for (let iline = 0; iline < lines.length; iline++)
-                    {
-                        sline = lines[iline];
-                        sdata = sline.split(";");
-                        if (sdata[0] == "score")
-                        {
-                            score_name = sdata[1];
-                            score_url = sdata[2];
-                            
-                            demonstration_scores_array[score_name] = {name: score_name, url: score_url};
-                            console.log("NAME: %s URL: %s", score_name, score_url);
-                        }
-                    }           
-                }
-                else if (this.todo = "get_score")
-                {
-                    get_score_text(score_text);
-                }
-                else
-                {
-                    document.getElementById("demo").innerHTML = score_text;
-                }
-            }
-        };
-
-        //surl = "http://adjustmymusic.com/scores/every_time_score.xml";
-        //surl = "http://adjustmymusic.com/scores/";
-        //surl = scores.txt
-        surl = "http://adjustmymusic.com/scores/" + surl0;
-        xmlhttp.open("GET", surl, true);
-        xmlhttp.send();
-    }
-
-    load_xml_doc_from_url('scores.txt', "get_score_names");
-
-
-    </script>
-
-
-  </head>
-  
-
-
-<body>
-
-<h2>Using the XMLHttpRequest object</h2>
-
-<button type="button" onclick="load_xml_doc_from_url('scores.txt')">scores.txt</button>
-\<button type="button" onclick="get_score(0);">sget_score(0)</button>
-
-<p id="demo"></p>
-
-
-
-</body>
-</html>
+    <script src="music_common/ABMXML_Lib_View1.js?v=2.72"></script>
+    <script src="music_common/ABMXML_Lib_View2.js?v=2.72"></script>
+    <script src="music_common/ABMXML_Lib_View3.js?v=2.72"></script>
+    <script src="music_common/ABMXML_Lib_View4.js?v=2.72"></script>
