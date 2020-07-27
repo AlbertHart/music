@@ -1,8 +1,8 @@
 /* jslint esversion: 6,  maxerr: 100 */
 /* jshint eqeqeq: false */
-console.log("IN ABMXML_Lib_View3B.js");
+console.log("IN ABMXML_Lib_View3D.js");
 
-MusicDOM.prototype.libs__loaded["ABMXML_Lib_View3B"] = "loaded";
+MusicDOM.prototype.libs__loaded["ABMXML_Lib_View3D"] = "loaded";
 
 MusicDOM.prototype.view_params = {
 
@@ -33,3 +33,20 @@ MusicDOM.prototype.view_params = {
     //singleHorizontalStaffline: (paramSingleHorizontalStaffline === '1'),
 
 };
+
+//if (paramPageHeight && paramPageWidth) 
+//{
+//    MusicDOM.prototype.view_params.pageFormat = `${paramPageWidth}x${paramPageHeight}`;
+//}
+
+// You can use this function to send a MusicXML file, and get back an ASCII Music XML file.
+MusicDOM.prototype.view_xml = function(parameters, xml_string_in)
+{
+    let dom_object = this.musicxml_to_dom(xml_string_in);
+
+    this.view_musicxml_dom(parameters, dom_object);
+
+    let xml_string_return = this.dom_object_to_return_string(dom_object);
+    return(xml_string_return);
+};
+
