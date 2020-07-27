@@ -1,6 +1,24 @@
 <!DOCTYPE html>
 <html lang="en-US">
 
+    <div id='text'></div>
+
+    <script>
+        function add_text(stext)
+        {
+            console.log("ADD TEXT: %s", stext);
+            document.getElementById('text').innerHTML += "<br>" + stext;
+        }
+        function get_last_script_name()
+        {
+            var scripts = document.getElementsByTagName('script');
+            var lastScript = scripts[scripts.length-1];
+            var scriptName = lastScript.src;
+            add_text("Loaded: " + scriptName);
+            return(scriptName);
+        }
+    </script>
+
 <head>
     <meta charset="utf-8" />
     <link rel="shortcut icon" type="image/png" href="favicon.png">
@@ -32,30 +50,25 @@
      <!-- use a CDN to load jszip -->
      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.5.0/jszip.min.js"></script>
 
-     <script>console.log("osmd_library/opensheetmusicdisplay.min.js?v=2.71");</script>
-     <script src="osmd_library/opensheetmusicdisplay.min.js?v=2.71"></script>
-
-
-    <link rel="stylesheet" href="musicxml_css.css" />
-    <script src="sprintf_new.js?v=2.71"></script>
-    <script src="music_common/ABMXML_Lib_Common.js?v=2.71"></script>
-
-    <script src="musicxml_process.js?v=2.71"></script>
+     <script>console.log("LOAD osmd_library/opensheetmusicdisplay.min.js?v=2.73");</script>
+     <script src="osmd_library/opensheetmusicdisplay.min.js?v=2.73"></script>
 
     <!--  individual files for each process -->
-    <script>libs_loaded = {};</script>
+    <script>var libs_loaded = {};</script>
+    <script>console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).length);</script>
 
-    <script src="music_common/AMMLIB_View.js?v=2.71"></script>
-    <script src="music_common/ABMXML_Lib_Transpose.js?v=2.71"></script>
-    <script src="music_common/ABMXML_Lib_AddBase.js?v=2.71"></script>
-    <script src="music_common/ABMXML_Lib_TrimScore.js?v=2.71"></script>
-    <script src="music_common/ABMXML_Lib_AddRhythm.js?v=2.71"></script>
-    <script src="music_common/ABMXML_Lib_AddSolo.js?v=2.71"></script>
+    <link rel="stylesheet" href="musicxml_css.css" />
+    <script src="sprintf_new.js?v=2.73"></script>
+    <script src="music_lib/AMMLIB_Common.js?v=2.73"></script>
 
-    <script src="music_common/ABMXML_Lib_View1.js?v=2.71"></script>
-    <script src="music_common/ABMXML_Lib_View3.js?v=2.71"></script>
-    <script src="music_common/ABMXML_Lib_View2.js?v=2.71"></script>
-    <script src="music_common/ABMXML_Lib_View4.js?v=2.71"></script>
+    <script src="musicxml_process.js?v=2.73"></script>
+    
+    <script src="music_lib/AMMLIB_ViewPlay.js?v=2.71"></script>
+    <script src="music_lib/AMMLIB_Transpose.js?v=2.71"></script>
+    <script src="music_lib/AMMLIB_AddBase.js?v=2.71"></script>
+    <script src="music_lib/AMMLIB_TrimScore.js?v=2.71"></script>
+    <script src="music_lib/AMMLIB_AddRhythm.js?v=2.71"></script>
+    <script src="music_lib/AMMLIB_AddSolo.js?v=2.71"></script>
 
 
 
@@ -740,8 +753,6 @@
     <script src="./libraries/flatlab/js/jquery.js"></script>
     <script src="./libraries/flatlab/js/bootstrap.bundle.min.js"></script>
     <script class="include" type="text/javascript" src="./libraries/flatlab/js/jquery.dcjqaccordion.2.7.js"></script>
-    
-
 
     <script src="./libraries/flatlab/js/jquery.scrollTo.min.js"></script>
     <script src="./libraries/flatlab/js/slidebars.min.js"></script>
