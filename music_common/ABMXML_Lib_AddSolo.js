@@ -4,7 +4,7 @@
 /* jshint eqeqeq: false */
 console.log("IN ABMXML_Lib_AddSolo.js");
 
-libs__loaded["ABMXML_Lib_AddSolo"] = "loaded";
+libs_loaded["ABMXML_Lib_AddSolo"] = "loaded";
 console.log("libs_loaded.length: %s", libs_loaded.length);
 
 // You can use this function to send a MusicXML file, and get back an ASCII Music XML file.

@@ -3,6 +3,9 @@
 /* jshint eqeqeq: false */
 console.log("IN ABMXMLLib_COMMON.JS");
 
+libs_loaded["ABMXML_Lib_COMMON"] = "loaded";
+console.log("libs_loaded.length: %s", libs_loaded.length);
+
 // the routine which uses this needs something like:
 // var MLIB = new MusicDOM(); 
 // to declare an instance of this object

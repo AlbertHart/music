@@ -3,7 +3,7 @@
 /* jshint eqeqeq: false */
 console.log("IN ABMXML_Lib_AddBase.js");
 
-libs__loaded["ABMXML_Lib_AddBase"] = "loaded";
+libs_loaded["ABMXML_Lib_AddBase"] = "loaded";
 console.log("libs_loaded.length: %s", libs_loaded.length);
 
 

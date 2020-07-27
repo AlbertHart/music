@@ -3,7 +3,7 @@
 /* jshint eqeqeq: false */
 console.log("IN ABMXML_Lib_AddRhythm.js");
 
-libs__loaded["ABMXML_Lib_AddRhythm"] = "loaded";
+libs_loaded["ABMXML_Lib_AddRhythm"] = "loaded";
 console.log("libs_loaded.length: %s", libs_loaded.length);
 
 
