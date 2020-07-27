@@ -1,8 +1,8 @@
 /* jslint esversion: 6,  maxerr: 100 */
 /* jshint eqeqeq: false */
-console.log("IN ABMXML_Lib_View3D.js");
+console.log("IN ABMXML_Lib_View3E.js");
 
-MusicDOM.prototype.libs__loaded["ABMXML_Lib_View3D"] = "loaded";
+MusicDOM.prototype.libs__loaded["ABMXML_Lib_View3E"] = "loaded";
 
 MusicDOM.prototype.view_params = {
 
