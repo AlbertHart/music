@@ -6,7 +6,7 @@ console.log("IN AMMLIB_Lib_AddSolo.js");
 
 libs_loaded["AMMLIB_Lib_AddSolo"] = "loaded";
 console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).length);
-get_last_script_name();
+
 
 // You can use this function to send a MusicXML file, and get back an ASCII Music XML file.
 MusicDOM.prototype.add_solo_to_xml = function(parameters, xml_string_in)

@@ -7,7 +7,7 @@ console.log("IN AMMLIB_View.js");
 libs_loaded["AMMLIB_View"] = "loaded";
 
 console.log("AMMLIB_View Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).length);
-get_last_script_name();
+
 
 MusicDOM.prototype.view_params = {
 

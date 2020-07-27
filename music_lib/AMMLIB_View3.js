@@ -4,7 +4,7 @@ console.log("IN AMMLIB_Lib_View3F.js");
 
 libs_loaded["AMMLIB_Lib_View3F"] = "loaded";
 console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).length);
-get_last_script_name();
+
 
 MusicDOM.prototype.view_params = {
 

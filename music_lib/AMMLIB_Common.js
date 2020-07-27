@@ -5,7 +5,7 @@ console.log("IN AMMLIB_Lib_Common.JS");
 
 libs_loaded["AMMLIB_Lib_Common"] = "loaded";
 console.log("AMMLIB_Lib_Common Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).length);
-get_last_script_name();
+
 
 // the routine which uses this needs something like:
 // var MLIB = new MusicDOM(); 

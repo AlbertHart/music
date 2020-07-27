@@ -5,7 +5,7 @@ console.log("IN AMMLIB_Lib_Transpose.js");
 
 libs_loaded["AMMLIB_Lib_Transpose"] = "loaded";
 console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).length);
-get_last_script_name();
+
 
     // all measures
     MusicDOM.prototype.part_array = {};

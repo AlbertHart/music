@@ -5,7 +5,7 @@ console.log("IN AMMLIB_Lib_AddBase.js");
 
 libs_loaded["AMMLIB_Lib_AddBase"] = "loaded";
 console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).length);
-get_last_script_name();
+
 
 
 

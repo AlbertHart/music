@@ -5,4 +5,4 @@ console.log("IN AMMLIB_Lib_View4.js");
 
 libs_loaded["AMMLIB_Lib_View4"] = "loaded";
 console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).length);
-get_last_script_name();
+
