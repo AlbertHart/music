@@ -5,7 +5,7 @@
 console.log("IN ABMXML_Lib_AddSolo.js");
 
 libs_loaded["ABMXML_Lib_AddSolo"] = "loaded";
-console.log("libs_loaded.length: %s", libs_loaded.length);
+console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).length);
 
 // You can use this function to send a MusicXML file, and get back an ASCII Music XML file.
 MusicDOM.prototype.add_solo_to_xml = function(parameters, xml_string_in)

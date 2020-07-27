@@ -4,7 +4,7 @@
 console.log("IN ABMXML_Lib_Transpose.js");
 
 libs_loaded["ABMXML_Lib_Transpose"] = "loaded";
-console.log("libs_loaded.length: %s", libs_loaded.length);
+console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).length);
 
 
     // all measures

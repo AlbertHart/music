@@ -1,10 +1,12 @@
 
 /* jslint esversion: 6,  maxerr: 100 */
 /* jshint eqeqeq: false */
-console.log("IN ABMXMLLib_COMMON.JS");
+console.log("IN ABMXML_Lib_Common.JS");
 
-libs_loaded["ABMXML_Lib_COMMON"] = "loaded";
-console.log("COMMON libs_loaded.length: %s", libs_loaded.length);
+libs_loaded["ABMXML_Lib_Common"] = "loaded";
+console.log("ABMXML_Lib_Common Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).length);
+add_text("<br>IN ABMXML_Lib_Common\n");
+console.log("AFTER add_text");
 
 // the routine which uses this needs something like:
 // var MLIB = new MusicDOM(); 
