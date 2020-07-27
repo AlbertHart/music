@@ -4,7 +4,8 @@
 console.log("IN AMMLIB_View.js");
 
 libs_loaded["AMMLIB_View"] = "loaded";
-console.log("libs_loaded.length: %s", libs_loaded.length);
+
+console.log("AMMLIB_View libs_loaded.length: %s", libs_loaded.length);
 
 MusicDOM.prototype.view_params = {
 
