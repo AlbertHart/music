@@ -113,6 +113,15 @@
     select option {
         font-weight: normal;
     }
+    .radio_text_item {
+        width: 1em;
+        }
+        .radio_text_item:checked {
+            font-weight: 700;
+        }
+        label {
+            cursor: pointer;
+            }
 
 
 

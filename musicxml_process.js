@@ -432,8 +432,6 @@ var demonstration_scores_array;
 
         let dom_object = MLIB.musicxml_to_dom(xml_string_in);
 
-        try
-        {
 
             switch (parameters.process_content)
             {
@@ -473,12 +471,6 @@ var demonstration_scores_array;
                     console.error("UNKNOWN process_content: %s", parameters.process_content);
                     break;
             }
-        }
-        catch (err)
-        {
-            console.error("***Error while processing XML: %s", err.message) // will log the error with the error stack
-            return(false);
-        }
 
        
 

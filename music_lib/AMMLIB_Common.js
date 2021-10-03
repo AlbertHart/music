@@ -8,10 +8,10 @@ console.log("AMMLIB_Lib_Common Object.keys(libs_loaded).length: %s", Object.keys
 
 
 // the routine which uses this needs something like:
-// var MLIB = new MusicDOM(); 
+// var MLIB = new MusicDOM();
 // to declare an instance of this object
 
-function MusicDOM() 
+function MusicDOM()
 {
 
     this.show_all = false;
@@ -31,21 +31,21 @@ this.sharp_flat_from_note = {
     "E": "#",
     "E#": "#",
     "Fb": "b",
-    "F": "b", 
+    "F": "b",
     "F#": "#",
     "Gb": "b",
     "G": "#",
     "G#": "#",
-    "Ab": "b", 
+    "Ab": "b",
     "A": "#",
     "A#": "#",
     "B": "#",
     "B#": "#",
-    "Cb": "b", 
+    "Cb": "b",
 };
 
 this.note_numbers = {
-        
+
     "B#" : 1,
     "C" : 1,
     "C#" : 2,
@@ -99,7 +99,7 @@ this.octave_numbers = {
     "B" : 20,
 
     "B#" : 21
-    
+
 };
 
 
@@ -145,7 +145,7 @@ this.octave_numbers = {
 		},
 		"C9": {
 			chord: "",
-			notes: ["C", "E", "G", "Bb"], // 9th:, "D"], 
+			notes: ["C", "E", "G", "Bb"], // 9th:, "D"],
 			chord_kind: "dominant-ninth",
 			tritone: true,
 			leading: true,
@@ -254,7 +254,7 @@ this.octave_numbers = {
                 <degree-type>alter</degree-type>
             </degree>`
 		},
-        // need to mark as dominant and add supended with degree    
+        // need to mark as dominant and add supended with degree
 		"C7sus4": {
 			chord: "",
 			notes: ["C", "F", "G", "Bb"],
@@ -314,7 +314,7 @@ this.octave_numbers = {
 		},
 		"CM9": {
 			chord: "",
-			notes: ["C", "E", "G", "B"], // 9th:, "D"], 
+			notes: ["C", "E", "G", "B"], // 9th:, "D"],
 			chord_kind: "major-ninth",
 			tritone: true,
 			leading: false,
@@ -322,7 +322,7 @@ this.octave_numbers = {
 		},
 		"Cmaj9": {
 			chord: "",
-			notes: ["C", "E", "G", "B"], // 9th:, "D"], 
+			notes: ["C", "E", "G", "B"], // 9th:, "D"],
 			chord_kind: "major-ninth",
 			tritone: true,
 			leading: false,
@@ -330,7 +330,7 @@ this.octave_numbers = {
 		},
 		"Cm9": {
 			chord: "",
-			notes: ["C", "Eb", "G", "Bb"], // 9th:, "D"], 
+			notes: ["C", "Eb", "G", "Bb"], // 9th:, "D"],
 			chord_kind: "minor-ninth",
 			tritone: true,
 			leading: false,
@@ -338,28 +338,28 @@ this.octave_numbers = {
 		},
 		"C11": {
 			chord: "",
-			notes: ["C", "E", "G", "Bb"], // 9th:, "D", "F"], 
+			notes: ["C", "E", "G", "Bb"], // 9th:, "D", "F"],
 			chord_kind: "dominant-11th",
 			tritone: true,
 			leading: true
 		},
 		"CM11": {
 			chord: "",
-			notes: ["C", "E", "G", "B"], // 9th:, "D", "F"], 
+			notes: ["C", "E", "G", "B"], // 9th:, "D", "F"],
 			chord_kind: "major-11th",
 			tritone: true,
 			leading: true
 		},
 		"Cmaj11": {
 			chord: "",
-			notes: ["C", "E", "G", "B"], // 9th:, "D", "F"], 
+			notes: ["C", "E", "G", "B"], // 9th:, "D", "F"],
 			chord_kind: "major-11th",
 			tritone: true,
 			leading: true
 		},
 		"Cm11": {
 			chord: "",
-			notes: ["C", "Eb", "G", "Bb"], // 9th:, "D", "F"], 
+			notes: ["C", "Eb", "G", "Bb"], // 9th:, "D", "F"],
 			chord_kind: "minor-11th",
 			tritone: false,
 			leading: false
@@ -522,7 +522,7 @@ this.octave_numbers = {
     "German": {short: "germ"},
     "Tristan": {short: "trist"},
 };
-   
+
 
     // map alternates to main chord
     // these are ways the chord might be written
@@ -540,7 +540,7 @@ this.octave_numbers = {
     this.chord_substitutions["7+"] = "aug7";
     this.chord_substitutions["+7"] = "aug7";
     this.chord_substitutions["7aug"] = "aug7";
-    
+
     this.chord_substitutions["79aug"] = "aug9";
 
     this.chord_substitutions["9+5"] = "aug9";
@@ -551,7 +551,7 @@ this.octave_numbers = {
 
     this.chord_substitutions["9sus"] = "9sus4";
     this.chord_substitutions["7sus"] = "7sus4";
-   
+
     this.chord_substitutions["sus"] = "sus4";
 
 
@@ -590,14 +590,14 @@ this.octave_numbers = {
 
     // when to bump the octave
     this.step_number = {
-        
+
         "C" : 0,
         "D" : 1,
         "E" : 2,
         "F" : 3,
         "G" : 4,
         "A" : 5,
-        "B" : 6,      
+        "B" : 6,
     };
 
      // ## and bb do not work yet
@@ -759,13 +759,13 @@ this.octave_numbers = {
     };
 
 
-    // f♭ – c♭ – g♭ – d♭ – a♭ – e♭ – b♭ – f – c – g – d – a – e – b – f# – c# – g# – d# – a# – e# – b# 
-    
+    // f♭ – c♭ – g♭ – d♭ – a♭ – e♭ – b♭ – f – c – g – d – a – e – b – f# – c# – g# – d# – a# – e# – b#
+
     // this has to mave room for offsets of -12 to 12
     this.line_of_fifths = [
         // 0
             "Db", "Ab", "Eb", "Bb", "F", "C", "G",
-            "D", "A", "Fb", "Cb", "Gb", "Db", "Ab",      
+            "D", "A", "Fb", "Cb", "Gb", "Db", "Ab",
             "Eb", "Bb", "F", "C", "G", "D", "A",
 
             "Fb", "Cb",
@@ -777,15 +777,15 @@ this.octave_numbers = {
             "E#", "B#",
 
             "G", "D", "A", "E", "B", "F#", "C#",
-            "G#", "D#", "A#", "E#", "B#", "G", "D", 
+            "G#", "D#", "A#", "E#", "B#", "G", "D",
     ];
 
-    // generate letters for each new line_)of_fifths number
+    // generate letters for each new line_of_fifths number
     this.line_of_fifths_numbers = {
         "Gb": 23,
         "Db": 24,
         "Ab": 25,
-        "Eb": 26, 
+        "Eb": 26,
         "Bb": 27,
 		"F": 28,
 		"E#": 41,
@@ -888,6 +888,8 @@ this.octave_numbers = {
 	};
 	this.transpose_pitch = function(what, old_step, old_alter, old_octave, old_key, new_key) {
         console.log(this.get_self(what, old_step, old_alter, old_octave, old_key, new_key));
+        if (new_key == "")
+            throw("NEW KEY NOT SET");
         let old_note = old_step;
         if (old_alter == 1)
             old_note += "#";
@@ -898,18 +900,19 @@ this.octave_numbers = {
         return(transposed_note);
     };
 
-    // transpose_note(what, old_note, old_octave, old_key, new_key) 
-    this.transpose_note = function(what, old_note, old_octave, old_key, new_key) 
+    // transpose_note(what, old_note, old_octave, old_key, new_key)
+    this.transpose_note = function(what, old_note, old_octave, old_key, new_key)
     {
         console.log(this.get_self(what, old_note, old_octave, old_key, new_key));
         let parameters = this.parameters;
         let show_output = this.show_output;
+        show_output = true;
 
         if (show_output)
-            console.log("transpose_pitch: old_key: %s new_key: %s old_note: %s old_octave: %s", 
+            console.log("transpose_pitch: old_key: %s new_key: %s old_note: %s old_octave: %s",
                 old_key, new_key, old_note, old_octave);
-        
-        
+
+
         if (show_output)
             console.log("old_key: %s new_key: %s old_note: %s", old_key, new_key, old_note);
 
@@ -927,29 +930,29 @@ this.octave_numbers = {
         else    // closest
         {
             // get closest offset
-            
+
             if (Math.abs(up_offset) <= Math.abs(down_offset))
                 key_offset = up_offset;
             else
                 key_offset = down_offset;
         }
-        
+
         let new_fifths = this.line_of_fifths_numbers[new_key] - this.line_of_fifths_numbers["C"];
         if (show_output)
             console.log("old_key: %s new_key: %s key_offset: %s new_fifths: %s", old_key, new_key, key_offset, new_fifths);
 
 
         let kpos1 = this.line_of_fifths_numbers[old_key];
-        
+
         let kpos2 = this.line_of_fifths_numbers[new_key];
-        
+
         let fifths_offset = kpos2 - kpos1;
-        
+
         if (show_output)
             console.log("kpos1: %s kpos2: %s fifths_offset: %s", kpos1, kpos2, fifths_offset);
-        
-        let npos1 = this.line_of_fifths_numbers[old_note]; 
-        
+
+        let npos1 = this.line_of_fifths_numbers[old_note];
+
         let npos2 = npos1 + fifths_offset;
         let new_note = this.line_of_fifths[npos2];
         if (show_output)
@@ -981,12 +984,12 @@ this.octave_numbers = {
 
         //if (show_output)
             console.log(`transposed_note: %s %s \n` +
-                        `     old_note: %s old_octave: %s \n` + 
-                        `     new_note: %s new_octave: %s new_accidental: %s`, 
-                what, get_caller(), 
-                old_note, old_octave, 
+                        `     old_note: %s old_octave: %s \n` +
+                        `     new_note: %s new_octave: %s new_accidental: %s`,
+                what, get_caller(),
+                old_note, old_octave,
                 new_note, new_octave, new_accidental);
-                
+
         let transposed_note = {
             "new_note": new_note,
             "new_step": new_step,
@@ -1005,12 +1008,12 @@ this.octave_numbers = {
 
     this.str_out = "";
 
-    this.attributes = {divisions: 0, 
-        time: {beats: 0, beat_type: 0}, 
+    this.attributes = {divisions: 0,
+        time: {beats: 0, beat_type: 0},
         key: {fifths: 0, mode: null},
         staves: null, clef: []};
 
-    
+
 
     let quarter_divs = 256; // sibelius shows divisions and quarter notes as 256
 	this.note_duration = {
@@ -1048,8 +1051,8 @@ this.octave_numbers = {
         return sret;
     };
 
- 
-  
+
+
 
     function get_caller() {
         let error_stack2 = (new Error).stack;
@@ -1059,7 +1062,7 @@ this.octave_numbers = {
         if (caller_stack_array.length > 2)
         {
             let caller_line2 = caller_stack_array[3];
-            let ipos1 = caller_line2.indexOf("at");     
+            let ipos1 = caller_line2.indexOf("at");
             let sname = caller_line2.substr(ipos1 + 3);
             let ipos2 = sname.indexOf(" ");
             sname = sname.substr(0, ipos2);
@@ -1073,7 +1076,7 @@ this.octave_numbers = {
         return (scaller);
 
     };
-    
+
 
     this.show_dom_element = function(parent_element, what)
     {
@@ -1083,7 +1086,7 @@ this.octave_numbers = {
         let sparent;
         if (parent)
             sparent = parent.tagName;
-        else    
+        else
             sparent = "None";
         console.log("**********\nshow_dom_element: %s - %s PARENT: %s %s", parent_element.tagName, what, sparent, get_caller());
         //console.log("type: %s is_array: %s", typeof(parent_element), Array.isArray(parent_element));
@@ -1112,7 +1115,7 @@ this.octave_numbers = {
                 svalue = "VALUE from get_element_value: " + svalue;
             console.log("- %s  %s %s", sname, satt, svalue);
         }
-        
+
     };
 
     this.show_dom_element_value = function(parent_element, name, sindent)
@@ -1127,7 +1130,7 @@ this.octave_numbers = {
 
         let value = sub_element.innerHTML;
         console.log("%s- %s: %s", sindent, name, value);
- 
+
     };
 
     // const duration = +durationElem.innerHTML;
@@ -1175,7 +1178,7 @@ this.octave_numbers = {
          return(number);
      };
 
- 
+
      // let duration = +duration_elem.innerHTML;
      this.get_dom_element_value = function(parent_element, name, skip_error)
      {
@@ -1219,14 +1222,14 @@ this.octave_numbers = {
         sub_element.innerHTML = value;
     };
 
-    
+
     // this.insert_dom_value_after(pitch_elem, "step", "alter", note.transposed.new_alter);
     this.insert_dom_value_after = function(parent_element, existing_name, new_name, value)
     {
         if (this.show_output)
-            console.log("*** insert_dom_value_after: parent_element: %s new_name:  %s existing_name: %s --> %s", 
+            console.log("*** insert_dom_value_after: parent_element: %s new_name:  %s existing_name: %s --> %s",
             parent_element.tagName, new_name, existing_name, value);
-    
+
         // create new element with value
         let new_element = document.createElementNS('', new_name);
         new_element.innerHTML = value;
@@ -1241,7 +1244,7 @@ this.octave_numbers = {
     this.insert_dom_element_after = function(parent_element, existing_name, new_element)
     {
         if (this.show_output)
-            console.log("*** insert_dom_value_after: parent_element: %s existing_name: %s new_element: %s", 
+            console.log("*** insert_dom_value_after: parent_element: %s existing_name: %s new_element: %s",
             parent_element.tagName, existing_name, new_element.tagName);
 
         let existing_element = parent_element.querySelector(existing_name);
@@ -1251,7 +1254,7 @@ this.octave_numbers = {
             //this.show_dom_element(parent_element, "PARENT_ELEMENT");
             return;
         }
-    
+
         let element_to_insert = this.clone_dom_element(new_element);
         existing_element.insertAdjacentElement("afterend", element_to_insert);
         //this.show_dom_element(parent_element, "PARENT AFTER INSERT");
@@ -1260,11 +1263,11 @@ this.octave_numbers = {
     this.append_dom_element = function(parent_element, new_element)
     {
         if (this.show_output)
-            console.log("*** append_dom_element: parent_element: %s new_element:  %s ", 
+            console.log("*** append_dom_element: parent_element: %s new_element:  %s ",
                 parent_element.tagName, new_element.tagName);
-        
+
         //this.show_dom_element(new_element, "NEW ELEMENT");
-        
+
         let element_to_append = this.clone_dom_element(new_element);
         parent_element.AppendElement(element_to_append);
         //this.show_dom_element(parent_element, "PARENT AFTER APPEND");
@@ -1281,7 +1284,7 @@ this.octave_numbers = {
         }
 
         sub_element.remove();
-        
+
     };
 
     // we clone an element so changes to the copied element
@@ -1290,7 +1293,7 @@ this.octave_numbers = {
     {
         let new_element = element.cloneNode(true);
         return (new_element);
-                
+
     };
 
     this.show_object = function(object, what)
@@ -1305,7 +1308,7 @@ this.octave_numbers = {
         console.log("%s: %s %s", what, sout, get_caller());
     };
 
-   
+
 
 // parse xml string into a DOM object
 // save the header to put backi into output
@@ -1314,7 +1317,7 @@ this.musicxml_to_dom = function(xml_string_in)
     // save header data and restore it when done
     let ipos = xml_string_in.indexOf("<score");
 
-    if (ipos < 0) 
+    if (ipos < 0)
     {
         alert("<score not found in MusicXML");
         return(false);
@@ -1373,7 +1376,7 @@ this.get_self = function(sarg, sarg2, sarg3, sarg4) {
     let caller_line2 = error_stack2.split("\n")[3];
     //console.log("GET_SELF: %s", caller_line2);
 
-    // at show_game_setup (file:///C:/web/EasyHand/hh/EasyHandReplayer.js?v=2.62) 
+    // at show_game_setup (file:///C:/web/EasyHand/hh/EasyHandReplayer.js?v=2.62)
     let ipos1 = self_line2.indexOf("at ");
     let self_name = self_line2.substr(ipos1 + 3);
     let ipos2 = self_name.indexOf(" ");
@@ -1416,9 +1419,9 @@ this.get_base_url = function()
 };
 
 
-    
-    
- 
+
+
+
 
   this.add_chord_notes = function(chord_data)
   {
@@ -1426,10 +1429,10 @@ this.get_base_url = function()
 
       console.log("add_chord_notes: %s", get_caller());
       //this.show_object(chord_data, "chord_data");
-      
+
 
     let parameters = this.parameters;
-      
+
     let schord = chord_data.schord;
 
     let sroot, chord_alter, accidental, ssub;
@@ -1469,7 +1472,7 @@ this.get_base_url = function()
           accidental = "";
           ssub = schord.substr(1);
       }
-      
+
       console.log("schord: %s chord_step: %s sroot: %s chord_alter: %s accidental: %s ssub: %s",
          schord, chord_step, sroot, chord_alter, accidental, ssub);
 
@@ -1485,7 +1488,7 @@ this.get_base_url = function()
       let notes_array = c_chord.notes;
       console.log("schord: %s notes_array: %s", schord, notes_array.join("  "));
 
-      
+
 
 
       // get inversion based on bass note
@@ -1509,7 +1512,7 @@ this.get_base_url = function()
               let chord_note = notes_array[inote];
               let chord_note_number = this.note_numbers[chord_note];
               let chord_note_offset = (chord_note_number - this.note_numbers["C"] + 12) % 12;
-              console.log("chord_note: %s chord_note_number: %s bass_note_offset: %s chord_note_offset: %s", 
+              console.log("chord_note: %s chord_note_number: %s bass_note_offset: %s chord_note_offset: %s",
                   chord_note, chord_note_number, bass_note_offset, chord_note_offset);
               if (chord_note_offset >= bass_note_offset)
               {
@@ -1523,7 +1526,7 @@ this.get_base_url = function()
       }
       let chord_xml = "";
 
-      
+
       /*
               xml_score += sprintf(`<harmony color="#000000" default-y="25">
                   <root>
@@ -1531,7 +1534,7 @@ this.get_base_url = function()
                   <root-alter>%s</root-alter>
                   </root>
                   <kind>%s</kind>
-              </harmony>\n`, chord_step, chord_alter, chord_kind); 
+              </harmony>\n`, chord_step, chord_alter, chord_kind);
       */
 
 
@@ -1544,51 +1547,51 @@ this.get_base_url = function()
 
       console.log("chord_data.one_note: %s ", chord_data.one_note);
 
-      for (let  ii = 0; ii < notes_array.length; ii++) 
+      for (let  ii = 0; ii < notes_array.length; ii++)
       {
             // see it there are carried over notes
             let inote = (ii + inversion + notes_array.length) % notes_array.length;
             let note_letter = notes_array[inote];
             let note_number = this.note_numbers[note_letter];
-            console.log("ii: %s inversion: %s inote: %s note_letter: %s note_number: %s last_note_number: %s", 
+            console.log("ii: %s inversion: %s inote: %s note_letter: %s note_number: %s last_note_number: %s",
                 ii, inversion, inote, note_letter, note_number, last_note_number);
 
 
-        
+
             let half_steps_offset = note_number - last_note_number;
             if (half_steps_offset < 0)
                 half_steps_offset += 12;
             half_steps = half_steps + half_steps_offset;
-          
+
             last_note_number = note_number;
 
-          
 
 
-            console.log("ii: %s individual_notes: %s beats: %s new_chord: %s", 
+
+            console.log("ii: %s individual_notes: %s beats: %s new_chord: %s",
                 ii, parameters.individual_notes, this.attributes.time.beats,  new_chord);
 
-            console.log("ii: %s note_letter: %s half_steps: %s new last_note_number: %s half_steps: %s", 
+            console.log("ii: %s note_letter: %s half_steps: %s new last_note_number: %s half_steps: %s",
                 ii, note_letter, half_steps, last_note_number, half_steps);
 
 
 
             if (ii < chord_data.start_at - 1)
                 continue;   // skip notes alread out
-          
+
             // add first note or rest of notes
-            let chord_note_xml = this.add_note_to_chord(sroot, chord_data.octave, half_steps, chord_data.duration, new_chord); 
+            let chord_note_xml = this.add_note_to_chord(sroot, chord_data.octave, half_steps, chord_data.duration, new_chord);
             chord_xml += chord_note_xml;
             console.log("chord_note_xml: %s", chord_note_xml);
 
             new_chord = false;
 
-          
+
             if (chord_data.one_note)
                 break;  // output just one note
 
       }
-      
+
       return(chord_xml);
 
 
@@ -1648,13 +1651,13 @@ this.get_base_url = function()
       let new_note;
       if (sharp_flat == "#")
           new_note = this.note_letters_sharp[new_number];
-      else 
+      else
           new_note = this.note_letters_flat[new_number];
 
       let new_note_step = new_note.substr(0,1);
       let new_note_alter = this.get_alter(new_note);
       let new_note_accidental = this.get_accidental(new_note);
-      //console.log("add_note_to_chord: half_steps: %s new_number: %s new_note: %s new_note_step: %s new_note_alter: %s accidental: %s", 
+      //console.log("add_note_to_chord: half_steps: %s new_number: %s new_note: %s new_note_step: %s new_note_alter: %s accidental: %s",
       //    half_steps, new_number, new_note, new_note_step, new_note_alter, new_note_accidental);
 
       let stype = "quarter";
@@ -1674,8 +1677,8 @@ this.get_base_url = function()
       {
           stype = "whole";
       }
-      
-      
+
+
       let note_html = `<note default-x="26">\n`;
       if (!new_chord)
       {
@@ -1690,14 +1693,14 @@ this.get_base_url = function()
           <duration>%s</duration>
           <instrument id="P1-I1" />
           <type>%s</type>\n`, new_note_step, new_note_alter, new_octave, duration, stype);
-          
+
       //note_html += `<lyric default-y="-80" number="part1verse1" >
       //    <syllabic>single</syllabic>
       //    <text>. . . .</text>
       //</lyric>\n`;
       if (new_note_accidental !== "")
           note_html += sprintf(`<accidental>%s</accidental>\n`, new_note_accidental);
-    
+
       note_html += `</note>\n`;
       return(note_html);
 
@@ -1719,8 +1722,8 @@ this.get_base_url = function()
         }
         note_offset = (note.transposed.new_octave - clef.middle_octave) * 7 + this.step_number[note.transposed.new_step] - clef.middle_number;
         if (this.show_output)
-            console.log("get_note_offset: new_octave: %s middle_octave: %s new_step: %s step_number: %s middle_number: %s note_offset: %s", 
-            note.transposed.new_octave, clef.middle_octave, note.transposed.new_step, this.step_number[note.transposed.new_step], 
+            console.log("get_note_offset: new_octave: %s middle_octave: %s new_step: %s step_number: %s middle_number: %s note_offset: %s",
+            note.transposed.new_octave, clef.middle_octave, note.transposed.new_step, this.step_number[note.transposed.new_step],
             clef.middle_number, note_offset);
         return(note_offset);
     };
@@ -1735,7 +1738,7 @@ this.get_base_url = function()
             //console.log("New array for voice");
             measure_data.current_accidentals[voice] = [];
         }
-        
+
         if (!measure_data.current_accidentals[voice][octave])
         {
             //console.log("New array for octave");
@@ -1748,21 +1751,21 @@ this.get_base_url = function()
         }
 
         if (this.show_output)
-            console.log("get_current_accidental:  voice: %s octave: %s note_step: %s current_accidental: %s", 
+            console.log("get_current_accidental:  voice: %s octave: %s note_step: %s current_accidental: %s",
                 voice, octave, note_step, measure_data.current_accidentals[voice][octave][note_step]);
         return (measure_data.current_accidentals[voice][octave][note_step]);
     };
 
-     
+
 // for voice leading inversions
-this.get_chord_notes = function(chord, inversion_number) 
+this.get_chord_notes = function(chord, inversion_number)
 {
     console.log("GET_CHORD_NOTES(%s right: %s ninth: %s, %s)", chord.root, chord.rigfht, chord.ninth, inversion_number);
 
     let inversion_save = inversion_number;
-    console.log("GET_CHORD_NOTES inversion_save: '%s' %s ==1: %s ==\"1\": %s", 
+    console.log("GET_CHORD_NOTES inversion_save: '%s' %s ==1: %s ==\"1\": %s",
         inversion_save, typeof (inversion_save), inversion_save == 1, inversion_save == "1");
-        
+
     // apply inverson
     chord.inversion_notes_array = [];
     for (let ii = 0; ii < chord.notes_array.length; ii++) {
@@ -1783,9 +1786,9 @@ this.get_chord_notes = function(chord, inversion_number)
     for (let ii = 0; ii < chord.inversion_notes_array.length; ii++) {
          // see it there are carried over notes
         let note_letter = chord.inversion_notes_array[ii];
- 
-    
-        
+
+
+
         let is_duplicate = false;
         if (inversion_data.last_chord.inversion_notes_array)
         {
@@ -1807,12 +1810,12 @@ this.get_chord_notes = function(chord, inversion_number)
                 }
             }
         }
-        
+
         if (is_duplicate) {
         }
         else
             letters_html += note_letter + " ";
-            
+
 
     }
 
@@ -1826,9 +1829,9 @@ this.get_chord_notes = function(chord, inversion_number)
 };
 
 
-   
 
-this.get_chord_data = function(chord_in) 
+
+this.get_chord_data = function(chord_in)
 {
     let chord = {};
     chord.original = chord_in;
@@ -1836,7 +1839,7 @@ this.get_chord_data = function(chord_in)
         chord.root = chord.original.substr(0, 2);
         chord.right = chord.original.substr(2);
     }
-    else 
+    else
     {
         chord.root = chord.original.substr(0, 1);
         chord.right = chord.original.substr(1);
@@ -1858,8 +1861,8 @@ this.get_chord_data = function(chord_in)
     if (chord.right !== "")
     {
         let modifier2 = this.get_substitution(modifier1);
-        
-        
+
+
         // check for substitute chords
         if (modifier2 !== "") {
             chord.right = modifier2;
@@ -1882,17 +1885,17 @@ this.get_chord_data = function(chord_in)
     if (!chord_data)
     {
         // see if we have it with 7th instead of 9th
-        let chord_right2 = get_base_modifier(chord.right);        
+        let chord_right2 = get_base_modifier(chord.right);
         let skey = "C" + chord_right2;
         chord_data = this.c_chord_data[skey];
         if (chord_data)
             console.log("USE SKEY 2 %s", skey);
     }
-    
+
     if (!chord_data)
     {
         // find best fit
-    
+
         let keys = Object.keys(this.c_chord_data);
         for (let ii = 0; ii < keys.length; ii++) {
             let skey = keys[ii];
@@ -1913,7 +1916,7 @@ this.get_chord_data = function(chord_in)
     }
 
     chord_data0 = chord_data;
-    console.log("SKEY: %s make_all_ninths: %s chord_data.ninth_ok: %s chord.original: %s", 
+    console.log("SKEY: %s make_all_ninths: %s chord_data.ninth_ok: %s chord.original: %s",
         skey, parameters.make_all_ninths, chord_data.ninth_ok, chord.original);
     if (parameters.make_all_ninths && chord_data.ninth_ok && chord.original.indexOf("9") < 0 )
     {
@@ -1933,14 +1936,14 @@ this.get_chord_data = function(chord_in)
         console.error("CHORD NOT FOUND in c_chord_data: %s chord.right: %s", schord, chord.right);
         return;
     }
-    
+
 
     chord.modifier_key = skey;
     chord.is_tritone = chord_data.tritone;
     chord.is_leading = chord_data.leading;
     chord.kind = chord_data.chord_kind;
     chord.degree = chord_data.degree;
-    console.log("%s USE chord_data: skey: %s chord_data.notes %s is_tritone: %s", 
+    console.log("%s USE chord_data: skey: %s chord_data.notes %s is_tritone: %s",
 
         chord.original, skey, chord_data.notes.join(" "), chord.is_tritone);
 
@@ -1956,9 +1959,9 @@ this.get_chord_data = function(chord_in)
     else if (chord.right.indexOf("+9") >= 0 || chord.right.indexOf("#9") >= 0)
         chord.ninth = "#9";
     else if (chord.right.indexOf("-9") >= 0 || chord.right.indexOf("b9") >= 0)
-        chord.ninth = "b9"; 
+        chord.ninth = "b9";
     else if (chord.right.indexOf("9") >= 0 || chord.right.indexOf("11") >= 0 || chord.right.indexOf("13") >= 0)
-            chord.ninth = "9"; 
+            chord.ninth = "9";
     console.log("chord.right: %s chord.ninth: %s", chord.right, chord.ninth);
 
     // offset for chord
@@ -1974,7 +1977,7 @@ this.get_chord_data = function(chord_in)
                 snote = "D#";
             else if (chord.ninth == "b9")
                 snote = "Db";
-            else    
+            else
                 snote = "D";
             console.log("MAKE 9th: chord.ninth: %s snote: %s", chord.ninth, snote);
         }
@@ -1982,13 +1985,13 @@ this.get_chord_data = function(chord_in)
         new_note_letter = this.transpose_note("inversions", snote, "C", transpose_key);
 
         chord.notes_array.push(new_note_letter);
-        console.log("ii: %s snote: %s chord.ninth: %s new_note_letter: %s", 
+        console.log("ii: %s snote: %s chord.ninth: %s new_note_letter: %s",
             ii, snote, chord.ninth, new_note_letter);
     }
     console.log("get_chord_data: chord.notes_array: %s", chord.notes_array.join(" "));
-    
 
-    
+
+
     chord.original_right = chord.right;
     chord.original_root = chord.root;
     chord.original_base_note = chord.base_note;
@@ -2017,12 +2020,12 @@ this.get_substitution = function(modifier1)
         modifier1 = modifier1.replace(ssub, "9");
         console.log("SSUB 1: %s", modifier1);
     }
-    
+
     console.log("get_substitution modifier1: %s: chord_substitutions[modifier1]: %s", modifier1, this.chord_substitutions[modifier1]);
     // check for substitute chords
     if (this.chord_substitutions[modifier1]) {
         modifier2 = this.chord_substitutions[modifier1];
-        
+
         console.log("get_substitution: %s --> %s",
              modifier1, modifier2);
         if (ssub !== "")
@@ -2032,13 +2035,13 @@ this.get_substitution = function(modifier1)
         }
         return(modifier2);
     }
-    
+
     return("");
 };
 
 
 
-    this.get_best_inversion = function(chord) 
+    this.get_best_inversion = function(chord)
     {
         console.log(this.get_self(chord.original));
 
@@ -2063,14 +2066,14 @@ this.get_substitution = function(modifier1)
                 inversion_data.last_chord.inversion = new_inversion;
                 return(new_inversion);
             }
-            
-        }
-        
 
-        
+        }
+
+
+
         best_half_steps = 999;
         for (let inversion_number = 0; inversion_number < chord.notes_array.length; inversion_number++) {
-            
+
             total_half_steps = 0;
 
             // see it there are carried over notes
@@ -2080,11 +2083,11 @@ this.get_substitution = function(modifier1)
 
                 inversion_offset = (inote + inversion_number + chord.notes_array.length) % chord.notes_array.length;
                 snote_new = chord.notes_array[inversion_offset];
-                
+
                 offset1 = (this.note_numbers[snote_new] - this.note_numbers[snote_last] + 12) % 12;
                 offset2 = (this.note_numbers[snote_last] - this.note_numbers[snote_new] + 12) % 12;
                 half_steps = Math.min(offset1, offset2);
-                console.log("inversion_number: %s inversion_offset: %s snote_new: %s snote_last: %s offset1: %s offset2: %s HALF STEPS: %s", 
+                console.log("inversion_number: %s inversion_offset: %s snote_new: %s snote_last: %s offset1: %s offset2: %s HALF STEPS: %s",
                     inversion_number, inversion_offset, snote_new, snote_last, offset1, offset2, half_steps);
                 total_half_steps += half_steps;
 
@@ -2101,16 +2104,16 @@ this.get_substitution = function(modifier1)
                 console.log("get_best_inversion return: inversion_number from match: %s %s inversion_number: %s inote: %s", inversion_number, snote_last, inversion_number, inote);
                 return (inversion_number);
             }
-            
+
             if (total_half_steps < best_half_steps) {
                 best_half_steps = total_half_steps;
                 new_inversion = inversion_number;
                 console.log("new best_half_steps: %s new_inversion: %s", best_half_steps, new_inversion);
             }
-                
 
 
-            
+
+
         }
 
         console.log("best_half_steps: %s ", best_half_steps);
@@ -2141,7 +2144,7 @@ this.get_substitution = function(modifier1)
                 {
                     if (note_type.dot)
                         sdot = "<dot/>\n";
-                    else    
+                    else
                         sdot = "";
                     srest += sprintf(`
                         <note>
@@ -2160,7 +2163,7 @@ this.get_substitution = function(modifier1)
         }
         if (note_type.dot)
             sdot = "<dot/>\n";
-        else    
+        else
             sdot = "";
         srest += sprintf(`
             <note>
@@ -2184,10 +2187,9 @@ this.get_substitution = function(modifier1)
         return("");
     };
 
-  
+
   this.lib_Common = "loaded";
 
 
 }
 
- 

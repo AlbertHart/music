@@ -4,7 +4,7 @@
 console.log("IN AMMLIB_Lib_Transpose.js");
 
 libs_loaded["AMMLIB_Lib_Transpose"] = "loaded";
-console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).length);
+//console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).length);
 
 
     // all measures
@@ -68,7 +68,7 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
 
         let clef = {};
 
-        let measure_number = 0; // measure count 
+        let measure_number = 0; // measure count
 
         let show_debugs = false;    // to display output for only certain measures
         let measure_data = {};
@@ -79,7 +79,7 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
 
 
         let score_partwise_element = dom_object.firstElementChild; // score-partwise
-        
+
         let top_children = score_partwise_element.children;
         //console.log("score_partwise_element: %s top children: %s", score_partwise_element.tagName, top_children.length);
         for (itop = 0; itop < top_children.length; itop++)
@@ -96,7 +96,7 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
             let part_id = part_element.getAttribute("id");
             this.part_array[part_id] = {measure_data_array: []};
             let measure_data_array = this.part_array[part_id].measure_data_array;
-            
+
 
             part_children = part_element.children;
             //console.log("PART children: %s", part_children.length);
@@ -108,7 +108,7 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
                 switch(part_child.tagName)
                 {
 
-                case "measure": 
+                case "measure":
 
                     // only parse measures for now
                     if (show_output)
@@ -124,11 +124,11 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
 
                     if (!measure_data)
                     {
-                        
-                        measure_data = {measure_number: measure_number, 
+
+                        measure_data = {measure_number: measure_number,
                             note_data_array: [], chord_data_array: [], beam_data_array: [], staff_data_array: [],
                             current_accidentals: []};
-                        //console.log("measure_data_array SET measure_number: %s measure_data_array set: %s", 
+                        //console.log("measure_data_array SET measure_number: %s measure_data_array set: %s",
                         //   measure_number, measure_data_array[measure_number].measure_number);
                         measure_data_array[measure_number] = measure_data;
 
@@ -149,7 +149,7 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
                         let measure_child = measure_children[ii];
                         //console.log("measure CHILD %s: %s", ii, measure_child.tagName);
 
-                        switch (measure_child.tagName) 
+                        switch (measure_child.tagName)
                         {
                             // attrbiute changes are added to or changes in attributes - but do not clear other attributes
                             case "attributes":
@@ -169,7 +169,7 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
                                     let attribute_child = attribute_children[ii];
                                     //console.log("note CHILD %s: %s", ii, attribute_child.tagName);
 
-                                    switch (attribute_child.tagName) 
+                                    switch (attribute_child.tagName)
                                     {
                                         case "clef":
                                             break;
@@ -180,7 +180,7 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
 
                                         case "instruments":
                                                 break;
-                                        
+
                                         case "key":
                                             // ADH - test key change in the middle of a measure
                                             if (show_output)
@@ -198,15 +198,15 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
                                             let old_key_number = attributes.key.fifths + line_of_fifths_c;
                                             this.old_key = this.line_of_fifths[old_key_number];
                                             if (show_output)
-                                                console.log("attributes.key.fifths: %s old_key_number: %s old_key: %s", 
+                                                console.log("attributes.key.fifths: %s old_key_number: %s old_key: %s",
                                                     attributes.key.fifths, old_key_number, this.old_key);
-                
+
                                             this.new_key = parameters.transpose_key;
                                             let new_line_of_fifths_number = this.line_of_fifths_numbers[this.new_key] - line_of_fifths_c;
                                             if (show_output)
-                                                console.log("<fifths>%s</fifths> old_key: %s new_key: %s \n", 
+                                                console.log("<fifths>%s</fifths> old_key: %s new_key: %s \n",
                                                     new_line_of_fifths_number, this.old_key, this.new_key);
-                                                
+
                                             this.change_dom_element_value(key_element, "fifths", new_line_of_fifths_number);
                                             break;
 
@@ -216,7 +216,7 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
                                         case "staves":
                                             attributes.staves = this.get_element_value_numeric(attribute_child);
                                             break;
-                                        
+
                                         case "time":
                                             if (show_output)
                                                 console.log("CASE: %s", attribute_child.tagName);
@@ -227,7 +227,7 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
                                         default:
                                             console.error("Attribute Element not processed: %s", attribute_child.tagName);
                                             break;
-        
+
                                     }
                                 }
                                 // ADH- see if clef is parsed above
@@ -280,7 +280,7 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
 
                             case "forward":
                                 break;
-                                
+
                             case "harmony":
                                 if (show_output)
                                     console.log("CASE: %s", measure_child.tagName);
@@ -290,13 +290,13 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
 
                                 let harmony_children = harmony_element.children;
                                 console.log("harmony CHILDREN: %s", harmony_children.length);
-                                
+
                                 for (let ii = 0; ii < harmony_children.length; ii++)
                                 {
                                     let harmony_child = harmony_children[ii];
                                     //console.log("harmony CHILD %s: %s", ii, harmony_child.tagName);
 
-                                    switch (harmony_child.tagName) 
+                                    switch (harmony_child.tagName)
                                     {
                                         case "root":
                                             console.log("CASE: %s", harmony_child.tagName);
@@ -309,7 +309,7 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
                                                     <root-alter>-1</root-alter>
                                                     </root>
                                                     <bass>
-                                                    <bass-step>G</bass-step>              
+                                                    <bass-step>G</bass-step>
                                                     <root-alter>-1</root-alter>
                                                     </bass>
                                                     <kind text="ma7">major-seventh</kind>
@@ -339,7 +339,7 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
                                             else
                                             {
                                                 // insert_dom_value_after(parent_element, existing_name, new_element_ame, value)
-                                                this.insert_dom_value_after(root_element, "root-step", "root-alter", transposed_root.new_alter);    
+                                                this.insert_dom_value_after(root_element, "root-step", "root-alter", transposed_root.new_alter);
                                             }
                                             this.show_dom_element(root_element, "root_element AFTER CHANGES");
 
@@ -356,7 +356,7 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
                                                     <bass-alter>-1</bass-alter>
                                                     </bass>
                                                     <bass>
-                                                    <bass-step>G</bass-step>              
+                                                    <bass-step>G</bass-step>
                                                     <bass-alter>-1</bass-alter>
                                                     </bass>
                                                     <kind text="ma7">major-seventh</kind>
@@ -386,7 +386,7 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
                                             else
                                             {
                                                 // insert_dom_value_after(parent_element, existing_name, new_element_ame, value)
-                                                this.insert_dom_value_after(bass_element, "bass-step", "bass-alter", transposed_bass.new_alter);    
+                                                this.insert_dom_value_after(bass_element, "bass-step", "bass-alter", transposed_bass.new_alter);
                                             }
                                             break; // end of bass
                                     }
@@ -431,31 +431,31 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
                                                 pitch_element: null
                                             };
 
-                                
+
 
                                 measure_data.note_data_array[note_index] = note;
 
                                 let note_children = note_element.children;
                                 //console.log("NOTE CHILDREN: %s", note_children.length);
-                                
+
                                 for (let ii = 0; ii < note_children.length; ii++)
                                 {
                                     let note_child = note_children[ii];
                                     //console.log("note CHILD %s: %s", ii, note_child.tagName);
 
-                                    switch (note_child.tagName) 
+                                    switch (note_child.tagName)
                                     {
                                         case "accidental":
                                             // if not found, this is left as null
                                             note.accidental = this.get_element_value(note_child);
                                             break;
-                                        
+
                                         case "beam":
                                             let beam_element = note_child;
                                             // <beam number="1">end</beam>
                                             beam_number = beam_element.getAttribute("number");
                                             beam_status = this.get_element_value(beam_element);
-                                            
+
                                             note.beam_status = beam_status;
 
                                             if (beam_status == "begin")
@@ -478,10 +478,10 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
                                             note.beam_index = beam_index;
 
                                             if (show_output)
-                                                console.log("NOTE: %s BEAM beam_status: %s beam_index: %s", 
+                                                console.log("NOTE: %s BEAM beam_status: %s beam_index: %s",
                                                     note.index, beam_status, beam_index);
                                             break;
-                                                
+
                                         case "chord":
 
                                             let chord_element = note_child;
@@ -491,8 +491,8 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
                                                 console.log("CHORD: note_index: %s -1: %s", note_index, note_index-1);
                                             if (!measure_data.note_data_array[note_index - 1].chord)
                                             {
-                                                
-                                                chord_index++; 
+
+                                                chord_index++;
                                                 chord_data = {
                                                                 index: chord_index,
                                                                 first_note: note_index - 1,
@@ -523,19 +523,19 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
 
                                         case "instrument":
                                             break;
-                                                    
+
                                         case "lyric":
                                             break;
 
                                         case "notations":
-                                            break;  
+                                            break;
 
                                         case "notehead":
                                             break;
 
                                         case "pitch":
                                             note.pitch_element = note_child;
-                                    
+
                                             if (show_output)
                                                 console.log("PITCH");
 
@@ -546,7 +546,7 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
                                             note.pitch.octave = this.get_dom_element_value_numeric(note.pitch_element, "octave");
                                             // current accidental is store in note
 
-                                            note.transposed = this.transpose_pitch("note.pitch.step", note.pitch.step, note.pitch.alter, 
+                                            note.transposed = this.transpose_pitch("note.pitch.step", note.pitch.step, note.pitch.alter,
                                                 note.pitch.octave, this.old_key, this.new_key);
 
                                             if (show_output)
@@ -566,20 +566,20 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
                                                             display_step: null,
                                                             transposed: null
                                                         };
-                                                        
+
                                             note.rest.display_step = this.get_dom_element_value(rest_element, "display-step", this.SKIP_ERROR);
                                             if (note.rest.display_step)
                                             {
                                                 note.rest.display_octave = this.get_dom_element_value(rest_element, "display-octave", this.SKIP_ERROR);
-                                                note.rest.transposed = this.transpose_pitch("note.rest.display_step", note.rest.display_step, 0, 
+                                                note.rest.transposed = this.transpose_pitch("note.rest.display_step", note.rest.display_step, 0,
                                                     note.rest.display_octave, this.old_key, this.new_key);
-                                                console.log("REST: display_step: %s octave: %s transposed_step: %s octave: %s",  
+                                                console.log("REST: display_step: %s octave: %s transposed_step: %s octave: %s",
                                                     note.rest.display_step, note.rest.display_octave,
                                                     note.rest.transposed.new_step, note.rest.transposed.new_octave);
                                             }
-                                            
+
                                             break;
-                                            
+
                                         case "time-modification":
                                             break;
 
@@ -600,10 +600,10 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
                                         case "type":
                                             note.type = this.get_element_value(note_child);
                                             break;
-                                        
-                                        case "voice":                                                
+
+                                        case "voice":
                                             break;
-                                            
+
                                         default:
                                             console.error("Note Element not processed: %s", note_child.tagName);
                                             break;
@@ -635,18 +635,18 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
                                 {
                                     if (!staff_data.min_voice)
                                         staff_data.min_voice = note.voice;
-                                    else 
+                                    else
                                         staff_data.min_voice = Math.min(staff_data.min_voice, note.voice);
                                     if (!staff_data.max_voice)
                                         staff_data.max_voice = note.voice;
-                                    else 
+                                    else
                                         staff_data.max_voice = Math.max(staff_data.max_voice, note.voice);
                                 }
                                 if (show_output)
-                                    console.log("STAFF: %s VOICE: %s min_voice: %s max_voice: %s", 
+                                    console.log("STAFF: %s VOICE: %s min_voice: %s max_voice: %s",
                                         note.staff, note.voice, staff_data.min_voice, staff_data.max_voice);
 
-                                
+
                                 note_index++;
                                 break;
 
@@ -675,7 +675,7 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
                                 console.log("REST: inote: %s display_step: %s", inote, note.rest.display_step);
                             if (note.rest.display_step)
                             {
-                                console.log("Update display-step: %s display-octave: %s --> %s %s", 
+                                console.log("Update display-step: %s display-octave: %s --> %s %s",
                                     note.rest.display_step, note.rest.display_octave,
                                     note.rest.transposed.new_step, note.rest.transposed.new_octave);
                                 this.change_dom_element_value(note.rest_element, "display-octave", note.rest.transposed.new_octave);
@@ -686,9 +686,9 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
 
                         if (note.beam_index)
                         {
-    
+
                             beam_data = measure_data.beam_data_array[note.beam_index];
-                        
+
                             beam_data.last_note = note.index;
 
                             // ADH - currently this gets only the first note of a chord
@@ -698,7 +698,7 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
                             else
                                 beam_data.below_count++;
                             if (show_output)
-                                console.log("NOTE: %s beam_index: %s beam_status: %s COUNT BEAM above: %s below: %s", 
+                                console.log("NOTE: %s beam_index: %s beam_status: %s COUNT BEAM above: %s below: %s",
                                     note.index, beam_index, beam_status, beam_data.above_count, beam_data.below_count);
                         }
                     }
@@ -710,18 +710,18 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
                         let  beam_data = measure_data.beam_data_array[ibeam];
                         if (beam_data.above_count > beam_data.below_count)
                         {
-                            beam_data.beam_stem_direction = "down"; 
+                            beam_data.beam_stem_direction = "down";
                         }
                         else if (beam_data.above_count < beam_data.below_count)
                         {
-                            beam_data.beam_stem_direction = "up"; 
+                            beam_data.beam_stem_direction = "up";
                         }
                         else
                         {
-                            beam_data.beam_stem_direction = "equal";  // use previous note 
+                            beam_data.beam_stem_direction = "equal";  // use previous note
                         }
                         if (show_output)
-                            console.log("ibeam: %s USE BEAM above: %s below: %s beam_data.beam_stem_direction: %s", 
+                            console.log("ibeam: %s USE BEAM above: %s below: %s beam_data.beam_stem_direction: %s",
                                 ibeam, beam_data.above_count, beam_data.below_count, beam_data.beam_stem_direction);
                     }
 
@@ -730,7 +730,7 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
                     {
                         let  chord_data = measure_data.chord_data_array[ichord];
                         chord_data.notes = chord_data.last_note - chord_data.first_note + 1;
-                        
+
                         if (show_output)
                                 console.log("ichord: %s note_index: %s", ichord, note_index);
                         for (let note_index =  chord_data.first_note; note_index <= chord_data.last_note; note_index++)
@@ -740,7 +740,7 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
                                 console.log("note_index: %s note.chord_index: %s", note_index, note.chord_index);
                             if (!note.chord || note.chord_index != ichord)
                                 break;
-                    
+
                             note_offset = this.get_note_offset(note);
                             if (chord_data.min_offset === null)
                             {
@@ -771,15 +771,15 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
                         else
                         {
                             // we could handle "equal" differently
-                            chord_data.chord_stem_direction = "up"; 
+                            chord_data.chord_stem_direction = "up";
                         }
                         if (show_output)
-                            console.log("CHORD index: %s max: %s min: %s chord_stem_direction: %s", 
+                            console.log("CHORD index: %s max: %s min: %s chord_stem_direction: %s",
                                 note.chord_index, chord_data.max_offset, chord_data.min_offset, chord_data.chord_stem_direction);
                     }
 
                     // we need to get note_element again, pr store it in a new 'note_element_array' for each measure
-                    
+
                     // loop through notes and get stem direction
                     if (show_output)
                         console.log("\n*** loop through notes and get stem direction ***");
@@ -823,7 +823,7 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
                                     console.log("USE VOICE: %s STEM DOWN", note.voice);
                             }
                             else
-                            { 
+                            {
                                 new_stem_direction = "up";    // other voices tend to go down
                                 if (show_output)
                                     console.log("USE VOICE: %s STEM UP", note.voice);
@@ -832,32 +832,32 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
                         else if (note.beam_index)
                         {
                             // lets only combine notes in first beam for now
-                            
+
                             beam_data = measure_data.beam_data_array[note.beam_index];
                             //this.show_object(beam_data, "beam_data");
                             if (show_output)
                                 console.log("NOTE: %s IN BEAM: beam_index: %s beam_data.beam_stem_direction: %s", note.index, beam_index, beam_data.beam_stem_direction);
-                        
+
                             if (beam_data.beam_stem_direction == "equal")
                             {
                                 // set to last not direction
                                 // use stem directiomn from above
 
-                            }     
+                            }
                             else
-                            {  
+                            {
                                 new_stem_direction =  beam_data.beam_stem_direction;
                             }
                             if (show_output)
-                                console.log("NOTE: %s beam_index: s: beam_stem_direction: %s new_stem_direction: %s", 
+                                console.log("NOTE: %s beam_index: s: beam_stem_direction: %s new_stem_direction: %s",
                                     note.index, note.beam_index, beam_data.beam_stem_direction, new_stem_direction);
-                            
+
                         }
                         else if (note.chord_index !== null)
                         {
                             // chord - get highest and lowest position of notes in chord
                             if (show_output)
-                                console.log("IN CHORD: NOTE: %s chord_data_array[note.chord_index = %s]  first_chord_note: %s", 
+                                console.log("IN CHORD: NOTE: %s chord_data_array[note.chord_index = %s]  first_chord_note: %s",
                                     note.index, note.chord_index, note.first_chord_note);
                             let chord_data = measure_data.chord_data_array[note.chord_index];
 
@@ -868,15 +868,15 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
 
                             if (Math.abs(chord_data.max_offset) > Math.abs(chord_data.min_offset))
                             {
-                                new_stem_direction = "down"; 
+                                new_stem_direction = "down";
                             }
                             else
                             {
                                 // we could handle "equal" differently
-                                new_stem_direction = "up"; 
+                                new_stem_direction = "up";
                             }
                             if (show_output)
-                                console.log("CHORD index: %s max: %s min: %s new_stem_direction: %s", 
+                                console.log("CHORD index: %s max: %s min: %s new_stem_direction: %s",
                                     note.chord_index, chord_data.max_offset, chord_data.min_offset, new_stem_direction);
 
                         }
@@ -885,37 +885,37 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
                             // are we above or below the center staff line
 
                             note_offset = this.get_note_offset(note);
-                    
+
                             if (note_offset > 0)
                             {
                                 note_position = "above";
-                                new_stem_direction = "down";        
+                                new_stem_direction = "down";
                             }
                             else if (note_offset < 0)
                             {
                                 note_position = "below";
                                 new_stem_direction = "up";
                             }
-                            else 
+                            else
                             {
                                 note_position = "middle";
                                 // ADH should last_direction carry over from previous measure???
                                 if (voice_data.last_direction)
                                     new_stem_direction = voice_data.last_direction;
                                 else
-                                    new_stem_direction = "down";    
+                                    new_stem_direction = "down";
                             }
                             if (show_output)
                                 console.log("note_offset: %s note_position: %s new_stem_direction: %s", note_offset, note_position, new_stem_direction);
                         }
 
-                    
-                        
+
+
 
                         if (show_output)
                             console.log("NOTE: %s USE new_stem_direction: %s", note.index, new_stem_direction);
-                        note.new_stem_direction = new_stem_direction;    
-    
+                        note.new_stem_direction = new_stem_direction;
+
                         voice_data.last_direction = note.new_stem_direction;
 
                         // set note items into DOM elements
@@ -942,12 +942,12 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
                                 {
                                     this.change_dom_element_value(note.pitch_element, "alter", note.transposed.new_alter);
                                 }
-    
+
                             }
                             else if (note.pitch.alter != 0)
                             {
                                 // remove element if it exists already
-                                this.remove_dom_element_by_name(note.pitch_element, "alter");   
+                                this.remove_dom_element_by_name(note.pitch_element, "alter");
 
                             }
 
@@ -964,11 +964,11 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
                             //{
                             // see if it is needed (in curent key, or from previous accidentals)
                             let current_accidental = this.get_current_accidental(measure_data, note.voice, note.transposed.new_octave, note.transposed.new_step);
-                            
+
                             measure_data.current_accidentals[note.voice][note.transposed.new_octave][note.transposed.new_step] = new_accidental;
-                            
+
                             if (show_output)
-                                console.log("note.accidental: %s new_accidental: %s current_accidental: %s", 
+                                console.log("note.accidental: %s new_accidental: %s current_accidental: %s",
                                     note.accidental, new_accidental, current_accidental);
 
                             // what accidental to we want to put out
@@ -978,9 +978,9 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
                             }
                             else if (new_accidental == "")
                             {
-                                accidental_to_use = "natural";               
+                                accidental_to_use = "natural";
                             }
-                            else 
+                            else
                             {
                                 accidental_to_use = new_accidental;
                             }
@@ -996,7 +996,7 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
                                 //this.show_dom_element(note_element, "NOTE before accidental insert");
                                 console.log("note.dot: %s", note.dot);
                                 if (note.dot)
-                                {   
+                                {
                                     // insert_dom_value_after(parent_element, existing_name, new_element_ame, value)
                                     this.insert_dom_value_after(note_element, "dot", "accidental", accidental_to_use);
                                 }
@@ -1005,7 +1005,7 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
                                     // insert_dom_value_after(parent_element, existing_name, new_element_ame, value)
                                     this.insert_dom_value_after(note_element, "type", "accidental", accidental_to_use);
                                 }
-                                
+
                                 //this.show_dom_element(note_element, "NOTE after accidental insert");
                                 //throw("INSERT ACCIDENTAL");
                             }
@@ -1022,7 +1022,7 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
                                 // remove element if it exists already
                                 //console.log("*** REMOVE ACCIDENTAL ***");
                                 //this.show_dom_element(note_element);
-                                this.remove_dom_element_by_name(note_element, "accidental");   
+                                this.remove_dom_element_by_name(note_element, "accidental");
                                 //this.show_dom_element(note_element, "NOTE ELEMENT AFTER");
                             //throw("REMOVE ACCIDENTAL");
                             }
@@ -1030,18 +1030,18 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
                             if (show_output)
                                 this.show_dom_element(note_element, "NOTE ELEMENT AFTER");
                         }
-                    
+
                     }
 
                     //throw("end of measure");
-                    
+
                     // end of measure
 
                     break;
 
-                    
 
-                default: 
+
+                default:
                     console.log("part_child element note in switch: %s", part_child.tagName)
 
                 }   // end of switch(part_child.tagName)
@@ -1073,8 +1073,7 @@ console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).leng
 
     }
 
-    
 
 
 
-  
+

@@ -4,7 +4,7 @@
 console.log("IN AMMLIB_Lib_AddRhythm.js");
 
 libs_loaded["AMMLIB_Lib_AddRhythm"] = "loaded";
-console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).length);
+//console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).length);
 
 
 // You can use this function to send a MusicXML file, and get back an ASCII Music XML file.
@@ -23,7 +23,7 @@ MusicDOM.prototype.add_rhythm_to_musicxml_dom = function(parameters, dom_object)
     this.parameters = parameters;  // save in prototype
     this.show_output = parameters.show_output;
     let show_output = this.show_output;
-    
+
     bass_format = parameters.bass_format;
     if (bass_format.substr(0, 6) == "radio_")
     {
@@ -31,8 +31,8 @@ MusicDOM.prototype.add_rhythm_to_musicxml_dom = function(parameters, dom_object)
         bass_format = bass_format.substr(6);    // rempve radio_
     }
 
-   this.attributes = {divisions: 0, 
-       time: {beats: 0, beat_type: 0}, 
+   this.attributes = {divisions: 0,
+       time: {beats: 0, beat_type: 0},
        key: {fifths: 0, mode: null},
        staves: null, clef: []};
    attributes = this.attributes;   // use from var
@@ -69,7 +69,7 @@ MusicDOM.prototype.add_rhythm_to_musicxml_dom = function(parameters, dom_object)
 
     */
 
-  
+
     // we want to add to first part and first staff
     let part_found = false;
     let part_element1;
@@ -77,7 +77,7 @@ MusicDOM.prototype.add_rhythm_to_musicxml_dom = function(parameters, dom_object)
 
 
    // get part-list and part from score-partwise
-   for (let iscore_partwise = 0; iscore_partwise < score_partwise_children.length; iscore_partwise++) 
+   for (let iscore_partwise = 0; iscore_partwise < score_partwise_children.length; iscore_partwise++)
    {
        score_partwise_child = score_partwise_children[iscore_partwise];
        console.log("  iscore_partwise: %s score_partwise_child: %s", iscore_partwise, score_partwise_child.tagName);
@@ -110,7 +110,7 @@ MusicDOM.prototype.add_rhythm_to_musicxml_dom = function(parameters, dom_object)
                part_element1 = score_partwise_child;
 
                part_found = true;
-    
+
                break;
        }
        if (part_found)
@@ -150,7 +150,7 @@ for (let im = 0; im < part_element1_children.length; im++)
         {
             measure_child = measure_element_children[ic];
 
-            // some children get copied 
+            // some children get copied
             // some get replaced
             console.log("ic: %s %s", ic, measure_child.tagName);
 
@@ -166,7 +166,7 @@ for (let im = 0; im < part_element1_children.length; im++)
                         let attribute_child = attribute_children[ii];
                         console.log("attribute_child %s: %s", ii, attribute_child.tagName);
 
-                        switch (attribute_child.tagName) 
+                        switch (attribute_child.tagName)
                         {
                             case "divisions":
                                 attributes.divisions = this.get_element_value_numeric(attribute_child);
@@ -174,7 +174,7 @@ for (let im = 0; im < part_element1_children.length; im++)
                         }
                     }
                     break;
-                        
+
 
                 case "note":
                     if (show_output)
@@ -186,13 +186,13 @@ for (let im = 0; im < part_element1_children.length; im++)
                     console.log("NOTE CHILDREN: %s", note_children.length);
 
                     note = {voice: null, duration: 0};
-                    
+
                     for (let ii = 0; ii < note_children.length; ii++)
                     {
                         let note_child = note_children[ii];
                         //console.log("note CHILD %s: %s", ii, note_child.tagName);
 
-                        switch (note_child.tagName) 
+                        switch (note_child.tagName)
                         {
                             case "duration":
                                 note.duration = this.get_element_value_numeric(note_child);
@@ -211,9 +211,9 @@ for (let im = 0; im < part_element1_children.length; im++)
                     break;
 
                 case "harmony":
-                    
+
                     break;
-        
+
                 // check for backup
                 case "backup":
                     //end_of_notes = true;
@@ -223,19 +223,19 @@ for (let im = 0; im < part_element1_children.length; im++)
                     console.error("Measure element not processed: %s", measure_child.tagName);
                     if (show_output)
                         console.log("DEFAULT: %s", measure_child.tagName);
-                    
+
                     break;
             }
             if (end_of_notes)
             {
-                break;   
+                break;
             }
         }
         console.log("measure_duration: %s", measure_duration)
 
         // add backup and new notes
 
-       
+
 
         let eighth_note_duration = this.attributes.divisions / 2;
         let new_notes = measure_duration / eighth_note_duration;
@@ -247,7 +247,7 @@ for (let im = 0; im < part_element1_children.length; im++)
             </backup>`, measure_duration);
 
         measure_element.innerHTML += sbackup + "\n";
-   
+
 
         for (let inote = 0; inote < new_notes; inote++)
         {
@@ -274,16 +274,16 @@ for (let im = 0; im < part_element1_children.length; im++)
                 </lyric>
                 </note>\n`, eighth_note_duration, lyric);
 
-                
+
                 measure_element.innerHTML += snote + "\n";
-                
-            
+
+
         }
 
         if (measure_number == 1)
             console.log("measure_element.innerHTML: \n%s", measure_element.innerHTML);
 
-        
+
 
     } // end of measures
 

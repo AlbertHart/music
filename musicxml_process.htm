@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 <html lang="en-US">
+<!-- 
+development version in /Users/alhart/Dropbox/_VC_Production/dev_music
+Githib folder is: /Users/alhart/Dropbox/GitHub/alh/music/
+-->
 
     <div id='text'></div>
 
@@ -27,13 +31,13 @@
     <title>Adjust My Music</title>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-152244338-2"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-152244338-4"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'UA-152244338-2');
+  gtag('config', 'UA-152244338-4');
 </script>
 
     <!-- Bootstrap core CSS -->
@@ -55,7 +59,8 @@
 
     <!--  individual files for each process -->
     <script>var libs_loaded = {};</script>
-    <script>console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).length);</script>
+    <script>
+    	//console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).length);</script>
 
     <link rel="stylesheet" href="musicxml_css.css" />
     <script src="sprintf_new.js?v=2.73"></script>
@@ -78,15 +83,9 @@
 
 
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
 
-        gtag('config', 'UA-152244338-2');
-    </script>
 
     
-    <script>
         var MLIB = new MusicDOM(); 
 
         // declare this function locally
@@ -411,6 +410,14 @@
     class="parameters" onchange="get_parameter_change(this);"></td></tr>
 <tr><td>Last Measure: (0 for all)</td><td><input type=number id=last_solo_measure style="width: 4em;" 
     class="parameters" onchange="get_parameter_change(this);"></td></tr>
+    <h3>Select Keys to Add</h3>
+    <!--RADIO Images-->
+    <input type="radio" class="radio_text_item parameters" value="" name="solo_keys" id="single_solo" checked
+        onchange="get_parameter_change(this);">
+        <label for="single_solo"> Add Single Solo </label>
+    <input type="radio" class="radio_text_item parameters" value="" name="solo_keys" id="12 key solo"
+        onchange="get_parameter_change(this);">
+    <label  for="12 key solo"> Add all 12 keys </label>
 
 
 </div><!-- END CONTENT -->

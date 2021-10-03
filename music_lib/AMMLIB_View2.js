@@ -4,13 +4,13 @@
 console.log("IN AMMLIB_Lib_View2.js");
 
 libs_loaded["AMMLIB_Lib_View2"] = "loaded";
-console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).length);
+//console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).length);
 
 
 
 MusicDOM.prototype.view_params = {
 
-   
+
     zoom: 1.0,
 
     backendType: "canvas",
@@ -28,17 +28,17 @@ MusicDOM.prototype.view_params = {
     pageBackgroundColor: undefined,
     singleHorizontalStaffline: false,
 
-    //pageFormat: MusicDOM.prototype.view_params.paramPageFormat ? 
+    //pageFormat: MusicDOM.prototype.view_params.paramPageFormat ?
     //    MusicDOM.prototype.view_params.paramPageFormat : "Endless",
 
     //pageBackgroundColor:  MusicDOM.prototype.view_params.paramPageBackgroundColor ?
     //     "#" +  MusicDOM.prototype.view_params.paramPageBackgroundColor : undefined, // vexflow format, see OSMDOptions. can't use # in parameters.
-        
+
     //singleHorizontalStaffline: (paramSingleHorizontalStaffline === '1'),
 
 };
 
-//if (paramPageHeight && paramPageWidth) 
+//if (paramPageHeight && paramPageWidth)
 //{
 //    MusicDOM.prototype.view_params.pageFormat = `${paramPageWidth}x${paramPageHeight}`;
 //}
@@ -117,7 +117,7 @@ MusicDOM.prototype.view_musicxml_dom = function(parameters, dom_object)
 
         let osmd_object = this.osmd_object;
         osmd_object.setLogLevel('info'); // set this to 'debug' if you want to see more detailed control flow information in console
-       
+
 
         osmd_object.load(xml_string_in).then(
             function () {
@@ -160,7 +160,7 @@ MusicDOM.prototype.view_musicxml_dom = function(parameters, dom_object)
     }
 }
 
-    
+
 
 
 

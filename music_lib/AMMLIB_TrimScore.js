@@ -4,7 +4,7 @@
 console.log("IN AMMLIB_Lib_TrimScore.js");
 
 libs_loaded["AMMLIB_Lib_TrimScore"] = "loaded";
-console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).length);
+//console.log("Object.keys(libs_loaded).length: %s", Object.keys(libs_loaded).length);
 
 
 // You can use this function to send a MusicXML file, and get back an ASCII Music XML file.
@@ -29,10 +29,10 @@ MusicDOM.prototype.do_trim_score_musicxml_dom = function(parameters, dom_object)
         let score_partwise_children = score_partwise_element.children;
         console.log("score_partwise_element: %s top children: %s", score_partwise_element.tagName, score_partwise_children.length);
 
-       
+
 
         // get part-list and part from score-partwise
-        for (let iscore_partwise = 0; iscore_partwise < score_partwise_children.length; iscore_partwise++) 
+        for (let iscore_partwise = 0; iscore_partwise < score_partwise_children.length; iscore_partwise++)
         {
             score_partwise_child = score_partwise_children[iscore_partwise];
             console.log("  iscore_partwise: %s score_partwise_child: %s", iscore_partwise, score_partwise_child.tagName);
@@ -40,7 +40,7 @@ MusicDOM.prototype.do_trim_score_musicxml_dom = function(parameters, dom_object)
             // looking for 'part-list' and 'part'
             switch (score_partwise_child.tagName) {
 
-                case "part-list":                   
+                case "part-list":
                     part_list_element = score_partwise_child;
 
                     let part_list_children = part_list_element.children;
@@ -71,10 +71,10 @@ MusicDOM.prototype.do_trim_score_musicxml_dom = function(parameters, dom_object)
                     console.log("part_id: %s", part_id);
 
                     new_measure_number = parameters.first_trim_measure;
-                
 
 
-            // read measures and attributes from part element 
+
+            // read measures and attributes from part element
             let part_element_children = part_element.children;
             console.log("part_element_children: length: %s", part_element_children.length);
 
@@ -87,14 +87,14 @@ MusicDOM.prototype.do_trim_score_musicxml_dom = function(parameters, dom_object)
                 let measure_number = measure_element.getAttribute("number");
                 console.log("%s part_element_child: '%s': %s", im, measure_element.tagName, measure_number);
 
-                
+
                 if (measure_number == 1 && parameters.first_trim_measure > 1)
                 {
                     // we need to keep attributes from the first measure, but not the notes
                     console.log("SAVE FIRST MEASURE: %s", measure_number);
                     first_measure_element = measure_element
                 }
-                
+
                 if (measure_number > 1 && measure_number < parameters.first_trim_measure)
                 {
                     console.log("PUSH FOR DELETE: %s", measure_number);
@@ -152,7 +152,7 @@ MusicDOM.prototype.do_trim_score_musicxml_dom = function(parameters, dom_object)
                         console.log("IC: %s/%s", ic, measure_element_children.length);
                         let measure_child = measure_element_children[ic];
 
-                        // some children get copied 
+                        // some children get copied
                         // some get replaced
                         console.log("ic: %s MEASURE CHILD %s", ic, measure_child.tagName);
 
@@ -188,7 +188,7 @@ MusicDOM.prototype.do_trim_score_musicxml_dom = function(parameters, dom_object)
                                 case "note":
                                     note_element = measure_child;
                                     note_count++;
-                                    console.log("NOTE_COUNT: %s first_note: %s duration: %s", 
+                                    console.log("NOTE_COUNT: %s first_note: %s duration: %s",
                                         note_count, parameters.first_note, this.get_dom_element_value_numeric(note_element, "duration"));
                                     if (parameters.first_note > 0 && note_count < parameters.first_note)
                                     {
@@ -223,7 +223,7 @@ MusicDOM.prototype.do_trim_score_musicxml_dom = function(parameters, dom_object)
                                         first_measure_element.appendChild(this.clone_dom_element(note_element));
                                     }
                                     break;
-                                
+
                                 case "harmony":
                                     console.log("APPEND HARMONY TO FIRST MEASURE");
                                     first_measure_element.appendChild(this.clone_dom_element(measure_child));
@@ -262,12 +262,12 @@ MusicDOM.prototype.do_trim_score_musicxml_dom = function(parameters, dom_object)
                     continue;
                 }
 
-                
+
 
                 // for other measures - just change the measure number
                 console.log("Change measure number: %s --> %s", measure_number, new_measure_number);
                 measure_element.setAttribute("number", new_measure_number);
-                
+
                 new_measure_number++;
             } // end of measures loop
 
@@ -280,11 +280,11 @@ MusicDOM.prototype.do_trim_score_musicxml_dom = function(parameters, dom_object)
 
         } // end of part child loop
 
-        
+
 
     } // end of parts loop
 
-    
+
 
     let xml_string_return = this.dom_object_to_return_string(dom_object);
 
